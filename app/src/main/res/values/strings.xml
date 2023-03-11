@@ -1,0 +1,10 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="app_name">Seedle</string>
+    <string name="tag_line">"Seed of Tomorrow"</string>
+    <string name="getstarted">Get Started</string>
+    <string name="email_hint">  Email</string>
+    <string name="password_hint">  Password  (min 6 characters)</string>
+    <string name="Login_String">Sign In</string>
+    <string name="no_account">Do not have an account?</string>
+    <string name="Register">Sign Up</string>
+</resources>
