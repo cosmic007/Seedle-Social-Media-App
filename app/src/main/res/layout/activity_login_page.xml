@@ -57,7 +57,7 @@
         android:inputType="textPassword"
         android:maxLength="20"
         android:textColor="@color/white"
-        android:hint="@string/password_hint"
+        android:hint="Password"
         android:textColorHint="@color/white"
         android:layout_below="@id/loginPage_email"
         android:layout_marginRight="30dp"
