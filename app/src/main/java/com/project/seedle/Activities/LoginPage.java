@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.project.seedle.R;
 
@@ -44,6 +45,7 @@ public class LoginPage extends AppCompatActivity {
         }
         catch(Exception e)
         {
+            Toast.makeText(this,"LoginPage"+e.getMessage(),Toast.LENGTH_SHORT).show();
 
         }
     }
