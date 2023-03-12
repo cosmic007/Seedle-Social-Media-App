@@ -62,7 +62,7 @@
         android:outlineAmbientShadowColor="@color/design_default_color_primary"
         />
 
-    <EditText
+    <TextView
         android:id="@+id/Resgisterpage_dob"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -73,9 +73,9 @@
         android:drawableLeft="@drawable/dob"
         android:drawablePadding="5dp"
         android:gravity="center|left"
+        android:textSize="17dp"
         android:hapticFeedbackEnabled="true"
         android:hint="Date of Birth"
-        android:inputType="date"
         android:outlineAmbientShadowColor="@color/design_default_color_primary"
         android:outlineSpotShadowColor="@color/design_default_color_primary"
         android:padding="10dp"
