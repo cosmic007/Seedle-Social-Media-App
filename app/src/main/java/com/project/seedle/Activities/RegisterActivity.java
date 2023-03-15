@@ -1,5 +1,6 @@
 package com.project.seedle.Activities;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -18,7 +19,14 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.circularreveal.CircularRevealLinearLayout;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.project.seedle.R;
 
 import java.util.Calendar;
@@ -39,6 +47,14 @@ public class RegisterActivity extends AppCompatActivity {
 
     private Uri profileimageURL;
     private static int REQUEST_CODE=1;
+
+    private String finalpassword;
+
+    //Firebase Variables
+    private FirebaseFirestore objectFirebaseFirestore;
+    private FirebaseAuth objectFirebaseAuth;
+    private StorageReference objectStorageReference;
+
     private DatePickerDialog.OnDateSetListener objectOnDateSetListener;
 
 
@@ -49,6 +65,72 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         attachJavatoXmlObjects();
+
+        objectFirebaseFirestore= FirebaseFirestore.getInstance();
+        objectFirebaseAuth= FirebaseAuth.getInstance();
+        objectStorageReference= FirebaseStorage.getInstance().getReference("ImageFolder");
+
+    }
+
+    private void createUserAccount(){
+        try
+        {
+            if (objectFirebaseAuth.getCurrentUser()!=null)
+            {
+                objectFirebaseAuth.signOut();
+
+            }
+            else if(objectFirebaseAuth.getCurrentUser()!=null && userName.getText().toString().isEmpty()
+            && !userEmail.getText().toString().isEmpty() && !userPassword.getText().toString().isEmpty()) {
+                if (userPassword.getText().toString().equals(userConfirmPassword.getText().toString()))
+                {
+                    finalpassword=userPassword.getText().toString();
+                    objectFirebaseAuth.createUserWithEmailAndPassword(
+                            userEmail.getText().toString(),finalpassword
+                    ).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+                        @Override
+                        public void onSuccess(AuthResult authResult) {
+
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(RegisterActivity.this,"Failed to create user:"+e.getMessage(),Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+                else
+                {
+                    Toast.makeText(this,"Password did not match",Toast.LENGTH_SHORT).show();
+                }
+            }
+
+        }
+        catch(Exception e)
+        {
+            Toast.makeText(this,"RegisterPage:"+e.getMessage(),Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void uploadUserDataToFirebase()
+    {
+        try
+        {
+            if(profileimageURL!=null)
+            {
+                String imageName=userName.getText().toString()+"."+getExtension(profileimageURL);
+
+            }
+            else
+            {
+                Toast.makeText(this,"Please Choose a Profile Image",Toast.LENGTH_SHORT).show();
+            }
+        }
+        catch(Exception e)
+        {
+            Toast.makeText(this,"RegisterPage:"+e.getMessage(),Toast.LENGTH_SHORT).show();
+        }
+
     }
 
 
