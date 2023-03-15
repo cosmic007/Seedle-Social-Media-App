@@ -326,20 +326,14 @@ public class RegisterActivity extends AppCompatActivity {
             Toast.makeText(this,"RegisterPage:"+e.getMessage(),Toast.LENGTH_SHORT).show();
         }
     }
-    private void openMobileGallery(){
-        try {
-
-            Intent galleryIntent= new Intent(Intent.ACTION_GET_CONTENT);
-            galleryIntent.setDataAndType(MediaStore.Images.Media.INTERNAL_CONTENT_URI,"image/");
-
-            startActivityForResult(galleryIntent,REQUEST_CODE);
+    private void openMobileGallery() {
 
 
-        }
-        catch (Exception e)
-        {
-            Toast.makeText(this,"RegisterPage:"+e.getMessage(),Toast.LENGTH_SHORT).show();
-        }
+        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+
+
+        startActivityForResult(intent, REQUEST_CODE);
+
     }
 
     @Override
