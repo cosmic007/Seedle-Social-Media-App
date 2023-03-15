@@ -67,7 +67,7 @@ public class RegisterActivity extends AppCompatActivity {
     private FirebaseAuth objectFirebaseAuth;
     private StorageReference objectStorageReference;
 
-    private DatePickerDialog.OnDateSetListener objectOnDateSetListener;
+    private DatePickerDialog datePickerDialog;
 
 
 
@@ -249,6 +249,7 @@ public class RegisterActivity extends AppCompatActivity {
             userDob.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+
                     chooseDOB();
                 }
             });
@@ -282,24 +283,34 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
 
+
+
     private void chooseDOB()
     {
 
-        Calendar ObjectCalendar=Calendar.getInstance();
-        int year= ObjectCalendar.get(Calendar.YEAR);
-        int month=ObjectCalendar.get(Calendar.MONTH);
-        int day=ObjectCalendar.get(Calendar.DAY_OF_MONTH);
+        try
+        {
+            final Calendar calendar = Calendar.getInstance();
+            int year = calendar.get(Calendar.YEAR);
+            int month = calendar.get(Calendar.MONTH);
+            int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
 
-        DatePickerDialog ObjectDatePickerDialog= new DatePickerDialog(this,android.R.style.Theme_Holo_Light_Dialog_MinWidth, objectOnDateSetListener,year,month,day);
-        ObjectDatePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        ObjectDatePickerDialog.show();
-        objectOnDateSetListener= new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                month++;
-                userDob.setText(dayOfMonth+"-"+month+"-"+year);
-            }
-        };
+            datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+                @Override
+                public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                    // Do something when the user selects a date
+                    // For example, update a text view with the selected date
+                    String selectedDate = dayOfMonth + "/" + (month + 1) + "/" + year;
+                    userDob.setText(selectedDate);
+                }
+            }, year, month, dayOfMonth);
+
+            datePickerDialog.show();
+
+        }
+        catch (Exception e){
+            Toast.makeText(this,"RegisterPage:"+e.getMessage(),Toast.LENGTH_SHORT).show();
+        }
 
     }
 
@@ -319,7 +330,7 @@ public class RegisterActivity extends AppCompatActivity {
         try {
 
             Intent galleryIntent= new Intent(Intent.ACTION_GET_CONTENT);
-            galleryIntent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,"image/");
+            galleryIntent.setDataAndType(MediaStore.Images.Media.INTERNAL_CONTENT_URI,"image/");
 
             startActivityForResult(galleryIntent,REQUEST_CODE);
 

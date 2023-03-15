@@ -74,13 +74,9 @@
         android:drawablePadding="5dp"
         android:gravity="center|left"
         android:textSize="17dp"
-        android:hapticFeedbackEnabled="true"
-        android:hint="Date of Birth"
-        android:outlineAmbientShadowColor="@color/design_default_color_primary"
-        android:outlineSpotShadowColor="@color/design_default_color_primary"
-        android:padding="10dp"
+        android:text="Date of Birth"
         android:textColor="@color/white"
-        android:textColorHint="@color/white" />
+        android:padding="10dp" />
 
     <EditText
         android:layout_width="match_parent"
