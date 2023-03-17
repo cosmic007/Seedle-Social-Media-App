@@ -5,6 +5,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.graphics.Color;
@@ -60,7 +61,9 @@ public class RegisterActivity extends AppCompatActivity {
     private static int REQUEST_CODE=1;
 
     private String finalpassword;
+
     private int radioID;
+    private Dialog objectDialog;
 
     //Firebase Variables
     private FirebaseFirestore objectFirebaseFirestore;
@@ -75,6 +78,10 @@ public class RegisterActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        objectDialog= new Dialog(this);
+        objectDialog.setContentView(R.layout.please_wait_dialogue);
+
         setContentView(R.layout.activity_register);
         attachJavatoXmlObjects();
 
@@ -107,7 +114,7 @@ public class RegisterActivity extends AppCompatActivity {
                     && !userPassword.getText().toString().isEmpty()) {
                 if (userPassword.getText().toString().equals(userConfirmPassword.getText().toString()))
                 {
-                    Toast.makeText(this,"Registering the user",Toast.LENGTH_SHORT).show();
+                    objectDialog.show();
                     finalpassword=userPassword.getText().toString();
                     objectFirebaseAuth.createUserWithEmailAndPassword(
                             userEmail.getText().toString(),finalpassword
@@ -121,6 +128,7 @@ public class RegisterActivity extends AppCompatActivity {
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
+                            objectDialog.dismiss();
                             Toast.makeText(RegisterActivity.this,"Failed to create user:"+e.getMessage(),Toast.LENGTH_SHORT).show();
                         }
                     });
@@ -138,6 +146,7 @@ public class RegisterActivity extends AppCompatActivity {
         }
         catch(Exception e)
         {
+            objectDialog.dismiss();
             Toast.makeText(this,"RegisterPage:"+e.getMessage(),Toast.LENGTH_SHORT).show();
         }
     }
@@ -151,6 +160,7 @@ public class RegisterActivity extends AppCompatActivity {
                 String imageName=userName.getText().toString()+"."+getExtension(profileimageURL);
                 final StorageReference imageRef=objectStorageReference.child(imageName);
 
+
                 Toast.makeText(this,"Uploading user profile picture",Toast.LENGTH_SHORT).show();
                 UploadTask objectUploadTask = imageRef.putFile(profileimageURL);
                 objectUploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
@@ -158,8 +168,11 @@ public class RegisterActivity extends AppCompatActivity {
                     public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
                         if (!task.isSuccessful())
                         {
+                            objectDialog.dismiss();
+                            Toast.makeText(RegisterActivity.this,task.getException().toString(),Toast.LENGTH_SHORT).show();
                             throw task.getException();
                         }
+
                         return imageRef.getDownloadUrl();
                     }
                 }).addOnCompleteListener(new OnCompleteListener<Uri>() {
@@ -190,6 +203,7 @@ public class RegisterActivity extends AppCompatActivity {
                                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override
                                         public void onSuccess(Void aVoid) {
+                                            objectDialog.dismiss();
                                             Toast.makeText(RegisterActivity.this,"User is registered",Toast.LENGTH_SHORT).show();
                                             if(objectFirebaseAuth.getCurrentUser()!=null)
                                             {
@@ -200,6 +214,7 @@ public class RegisterActivity extends AppCompatActivity {
                                     }).addOnFailureListener(new OnFailureListener() {
                                         @Override
                                         public void onFailure(@NonNull Exception e) {
+                                            objectDialog.dismiss();
                                             Toast.makeText(RegisterActivity.this,"Failed to create user and upload data:"+e.getMessage(),Toast.LENGTH_SHORT).show();
 
                                         }
