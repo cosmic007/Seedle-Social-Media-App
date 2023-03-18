@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/toolBar"
             android:layout_alignParentTop="true"
-            android:background="@color/purple_700"
+            android:background="@color/white"
             android:minHeight="?attr/actionBarSize"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
             />
@@ -40,7 +40,7 @@
             android:layout_marginBottom="70dp"
             android:src="@drawable/icon_addstatus"
             app:fabCustomSize="40dp"
-            android:backgroundTint="@color/white"
+            android:backgroundTint="@color/purple_200"
             app:fabSize="normal"
             />
         <com.google.android.material.bottomnavigation.BottomNavigationView

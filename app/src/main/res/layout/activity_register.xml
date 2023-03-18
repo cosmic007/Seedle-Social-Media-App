@@ -148,7 +148,7 @@
 
     <Button
         android:layout_width="168dp"
-        android:layout_height="40dp"
+        android:layout_height="50dp"
         android:id="@+id/RegisterPage_RegisterBtn"
         android:layout_below="@id/RegisterPage_Radiogroup"
         android:layout_centerInParent="true"

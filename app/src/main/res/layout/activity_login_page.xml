@@ -68,17 +68,17 @@
         android:outlineSpotShadowColor="@color/design_default_color_primary"
         android:outlineAmbientShadowColor="@color/design_default_color_primary"
         />
+
     <Button
-        android:layout_width="168dp"
-        android:layout_height="40dp"
         android:id="@+id/loginPage_loginbtn"
+        android:layout_width="168dp"
+        android:layout_height="50dp"
         android:layout_below="@id/LoginPage_password"
         android:layout_centerInParent="true"
+        android:layout_marginTop="20dp"
         android:background="@drawable/round_btnbg"
         android:text="@string/Login_String"
-        android:layout_marginTop="20dp"
-        android:textAllCaps="false"
-        />
+        android:textAllCaps="false" />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -90,16 +90,16 @@
         android:layout_marginTop="50dp"
         android:textStyle="bold"
         />
+
     <Button
-        android:layout_width="168dp"
-        android:layout_height="40dp"
         android:id="@+id/LoginPage_RegBtn"
-        android:layout_centerInParent="true"
-        android:background="@drawable/round_btnbg"
+        android:layout_width="168dp"
+        android:layout_height="50dp"
         android:layout_below="@id/LoginPage_noAcc"
+        android:layout_centerInParent="true"
         android:layout_marginTop="20dp"
+        android:background="@drawable/round_btnbg"
         android:text="@string/Register"
-        android:textAllCaps="false"
-        />
+        android:textAllCaps="false" />
 
 </RelativeLayout>
