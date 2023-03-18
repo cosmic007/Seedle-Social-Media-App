@@ -7,4 +7,7 @@
     <string name="Login_String">Sign In</string>
     <string name="no_account">Do not have an account?</string>
     <string name="Register">Sign Up</string>
+    <string name="text_thoughts">Text Thoughts</string>
+    <string name="image_thoughts">Image Thoughts</string>
+    <string name="fav_thoughts">Favorite Thoughts</string>
 </resources>

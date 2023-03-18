@@ -27,19 +27,34 @@
             android:layout_below="@id/toolBar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_above="@+id/bottom_nav_viewbar"
             />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/maincontentPage_addStatusFloatingButton"
-            android:layout_width="41dp"
-            android:layout_height="43dp"
+            android:id="@+id/maincontentPage_addStatusButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"
             android:layout_marginRight="20dp"
             android:layout_marginBottom="70dp"
-            app:fabSize="normal" />
-
-
+            android:src="@drawable/icon_addstatus"
+            app:fabCustomSize="40dp"
+            android:backgroundTint="@color/white"
+            app:fabSize="normal"
+            />
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            app:itemIconSize="25dp"
+            android:id="@+id/bottom_nav_viewbar"
+            app:itemBackground="@color/white"
+            app:itemIconTint="@drawable/selector_bottombar_item"
+            app:itemTextColor="@drawable/selector_bottombar_item"
+            android:elevation="0dp"
+            android:layout_alignParentBottom="true"
+            app:menu="@menu/bottom_nav_menu"
+            />
 
 
 

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:title="@string/text_thoughts"
+        android:id="@+id/item_textThoughts"
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/icon_text_thoughts"
+
+        />
+    <item
+        android:title="@string/image_thoughts"
+        android:id="@+id/item_imageThoughts"
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/icon_image_thoughts"
+
+        />
+    <item
+        android:title="@string/fav_thoughts"
+        android:id="@+id/item_fav_thoughts"
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/icon_fav_thoughts"
+
+        />
+
+
+
+</menu>
