@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="140dp"
+    android:background="@color/black">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/userprofile"
+        android:scaleType="centerCrop"
+        android:alpha=".4"
+        android:id="@+id/header_profilePicbg"
+        />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:id="@+id/header_profilepic"
+        android:layout_marginTop="40dp"
+        android:layout_marginLeft="15dp"
+        android:src="@drawable/userprofile"
+        android:scaleType="centerCrop"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/header_username"
+        android:textSize="18sp"
+        android:text="@string/user_name_header"
+        android:layout_toRightOf="@id/header_profilepic"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="55dp"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/header_userEmail"
+        android:text="@string/user_email_header"
+        android:textSize="13sp"
+        android:layout_below="@id/header_username"
+        android:layout_toRightOf="@id/header_profilepic"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:layout_marginLeft="10dp"
+        />
+
+
+
+
+
+
+</RelativeLayout>

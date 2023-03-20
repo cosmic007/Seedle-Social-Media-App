@@ -10,4 +10,6 @@
     <string name="text_thoughts">Text Thoughts</string>
     <string name="image_thoughts">Image Thoughts</string>
     <string name="fav_thoughts">Favorite Thoughts</string>
+    <string name="user_name_header">USER NAME</string>
+    <string name="user_email_header">userEmail@gmail.com</string>
 </resources>

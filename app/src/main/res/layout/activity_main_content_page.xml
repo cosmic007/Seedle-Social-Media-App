@@ -60,9 +60,19 @@
 
 
 
-
-
-
     </RelativeLayout>
-
+    <com.google.android.material.navigation.NavigationView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:id="@+id/navigationView"
+        android:fitsSystemWindows="true"
+        android:background="@color/white"
+        android:layout_gravity="start"
+        app:itemHorizontalPadding="5dp"
+        app:itemTextColor="@color/black"
+        app:itemIconTint="@color/purple_700"
+        app:headerLayout="@layout/drawer_header"
+        app:menu="@menu/menu_items"
+        android:theme="@style/NavigationViewStyle"
+        />
 </androidx.drawerlayout.widget.DrawerLayout>
