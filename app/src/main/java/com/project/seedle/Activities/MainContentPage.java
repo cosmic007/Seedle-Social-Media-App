@@ -15,20 +15,35 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.project.seedle.Fragments.Favorites;
+import com.project.seedle.Fragments.ImageThoughts;
+import com.project.seedle.Fragments.TextThoughts;
 import com.project.seedle.R;
+
+import java.security.PrivilegedAction;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MainContentPage extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+
+    //Fragment Objects
+
+    private TextThoughts objectTextThoughts;
+    private ImageThoughts objectImageThoughts;
+    private Favorites objectFavorites;
+
 
     private Toolbar objectToolBar;
     private NavigationView objectNavigationView;
@@ -41,6 +56,7 @@ public class MainContentPage extends AppCompatActivity implements NavigationView
 
     private FirebaseAuth objectFirebaseAuth;
     private FirebaseFirestore objectFirebaseFirestore;
+    private BottomNavigationView objectBottomNavigationView;
 
     private DocumentReference objectDocumentReference;
     private String currentUserEmail;
@@ -49,6 +65,15 @@ public class MainContentPage extends AppCompatActivity implements NavigationView
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_content_page);
+
+        objectFirebaseAuth= FirebaseAuth.getInstance();
+        objectFirebaseFirestore= FirebaseFirestore.getInstance();
+
+        objectTextThoughts =new TextThoughts();
+        objectImageThoughts = new ImageThoughts();
+        objectFavorites = new Favorites();
+
+        changeFragments(objectTextThoughts);
 
         objectToolBar=findViewById(R.id.toolBar);
         objectNavigationView=findViewById(R.id.navigationView);
@@ -60,20 +85,65 @@ public class MainContentPage extends AppCompatActivity implements NavigationView
         header_username=headerXMLFile.findViewById(R.id.header_username);
         header_userEmail=headerXMLFile.findViewById(R.id.header_userEmail);
         header_progressBar=headerXMLFile.findViewById(R.id.header_progressBar);
+        objectBottomNavigationView= findViewById(R.id.bottom_nav_viewbar);
 
         setUpDrawerMenu();
         getCurrentUserDetails();
         objectNavigationView.setNavigationItemSelectedListener(this);
 
+        objectBottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                try{
+                    switch (item.getItemId())
+                    {
+                        case R.id.item_textThoughts:
+                            changeFragments(objectTextThoughts);
+                            return true;
+                        case R.id.item_imageThoughts:
+                            changeFragments(objectImageThoughts);
+                            return true;
+                        case R.id.item_fav_thoughts:
+                            changeFragments(objectFavorites);
+                            return true;
+                        default:
+                            return false;
+
+                    }
+
+                }
+                catch (Exception e)
+                {
+                    Toast.makeText(MainContentPage.this,"MainContentPage:"+e.getMessage(),Toast.LENGTH_SHORT).show();
+                }
+                return false;
+            }
+        });
 
 
+
+    }
+
+
+    private void changeFragments(Fragment objectFragment)
+    {
+        try
+        {
+            FragmentTransaction objectFragmentTransaction =getSupportFragmentManager().beginTransaction();
+            objectFragmentTransaction.replace(R.id.container,objectFragment);
+            objectFragmentTransaction.commit();
+
+        }
+        catch (Exception e)
+        {
+            Toast.makeText(this,"MainContentPage:"+e.getMessage(),Toast.LENGTH_SHORT).show();
+        }
     }
     private void getCurrentUserDetails()
     {
         try
         {
-            objectFirebaseAuth= FirebaseAuth.getInstance();
-            objectFirebaseFirestore= FirebaseFirestore.getInstance();
+
             currentUserEmail=getCurrentLoggedInUser();
             if(currentUserEmail.equals("No user is logged in"))
             {
