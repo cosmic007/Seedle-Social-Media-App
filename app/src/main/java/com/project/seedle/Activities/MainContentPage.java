@@ -72,6 +72,8 @@ public class MainContentPage extends AppCompatActivity implements NavigationView
     {
         try
         {
+            objectFirebaseAuth= FirebaseAuth.getInstance();
+            objectFirebaseFirestore= FirebaseFirestore.getInstance();
             currentUserEmail=getCurrentLoggedInUser();
             if(currentUserEmail.equals("No user is logged in"))
             {
@@ -181,6 +183,25 @@ public class MainContentPage extends AppCompatActivity implements NavigationView
             switch (item.getItemId())
             {
                 case R.id.item_profile:
+                    Toast.makeText(this,"Profile is Clicked",Toast.LENGTH_SHORT).show();
+                    return true;
+                case R.id.item_notifications:
+                    Toast.makeText(this,"Notifications is Clicked",Toast.LENGTH_SHORT).show();
+                    return true;
+                case R.id.item_settings:
+                    Toast.makeText(this,"Settings is Clicked",Toast.LENGTH_SHORT).show();
+                    return true;
+                case R.id.item_favorites:
+                    Toast.makeText(this,"Favorite is Clicked",Toast.LENGTH_SHORT).show();
+                    return true;
+                case R.id.item_textstatus:
+                    Toast.makeText(this,"TextStatus is Clicked",Toast.LENGTH_SHORT).show();
+                    return true;
+                case  R.id.item_signout:
+                    signOutUser();
+                    return true;
+                default:
+                    return false;
             }
 
         }
@@ -191,5 +212,24 @@ public class MainContentPage extends AppCompatActivity implements NavigationView
 
 
         return false;
+    }
+    private void signOutUser()
+    {
+
+        try{
+            if(objectFirebaseAuth!=null)
+            {
+                objectFirebaseAuth.signOut();
+                Toast.makeText(this,"You have successfully been logged out",Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(this,LoginPage.class));
+                closeDrawer();
+                finish();
+            }
+
+        }
+        catch(Exception e)
+        {
+            Toast.makeText(this,"MainContentPage:"+e.getMessage(),Toast.LENGTH_SHORT).show();
+        }
     }
 }
