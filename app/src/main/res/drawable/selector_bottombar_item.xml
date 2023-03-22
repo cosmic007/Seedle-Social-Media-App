@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:color="@color/purple_700"
+        android:color="#808080"
         android:state_enabled="false"
         />
     <item
-        android:color="@color/purple_200"
+        android:color="@color/black"
         android:state_checked="true"
         />
     <item
-        android:color="@color/purple_500"
+        android:color="#808080"
         />
 
 

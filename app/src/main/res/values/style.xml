@@ -4,9 +4,6 @@
         <item name="android:textSize">30sp</item>
         <item name="android:listPreferredItemPaddingLeft">40dp</item>
         <item name="android:listPreferredItemHeightSmall">45dp</item>
-
-
-
     </style>
 
 

@@ -21,7 +21,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         attachJavaObjectToXML();
-        startAnimation();
         tologinbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -35,24 +34,12 @@ public class MainActivity extends AppCompatActivity {
     {
         try
         {
-            background=findViewById(R.id.bgimage);
             tologinbtn=findViewById(R.id.movebtn);
 
         }
         catch (Exception e)
         {
             Toast.makeText(this,"MainAction"+e.getMessage(), Toast.LENGTH_SHORT).show();
-        }
-    }
-    private void startAnimation()
-    {
-        try
-        {
-            background.animate().scaleX(2).scaleY(2).setDuration(30000).start();
-        }
-        catch( Exception e)
-        {
-            Toast.makeText(this,"MainActivity"+e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
     private void LoginPage()

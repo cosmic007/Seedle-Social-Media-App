@@ -42,7 +42,7 @@
             android:layout_marginBottom="70dp"
             android:src="@drawable/icon_addstatus"
             app:fabCustomSize="40dp"
-            android:backgroundTint="@color/purple_200"
+            android:backgroundTint="@color/black"
             app:fabSize="normal"
             />
         <com.google.android.material.bottomnavigation.BottomNavigationView
@@ -72,7 +72,7 @@
         android:layout_gravity="start"
         app:itemHorizontalPadding="5dp"
         app:itemTextColor="@color/black"
-        app:itemIconTint="@color/purple_700"
+        app:itemIconTint="@color/black"
         app:headerLayout="@layout/drawer_header"
         app:menu="@menu/menu_items"
         android:theme="@style/NavigationViewStyle"

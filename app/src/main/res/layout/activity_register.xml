@@ -5,158 +5,194 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/RegisterPage"
-    android:background="@drawable/bgimage"
+
     tools:context=".Activities.RegisterActivity">
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/Registerpage_userprofile"
-        android:layout_width="132dp"
-        android:layout_height="121dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerInParent="true"
-        android:layout_marginTop="95dp"
-        android:padding="2dp"
-        android:scaleType="centerCrop"
-        android:src="@drawable/userprofile" />
-    <EditText
-        android:id="@+id/Resgisterpage_username"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_below="@id/Registerpage_userprofile"
-        android:hint="Username"
-        android:maxLength="35"
-        android:textColor="@color/white"
-        android:textColorHint="@color/white"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
-        android:drawableLeft="@drawable/user"
-        android:drawablePadding="5dp"
-        android:gravity="center|left"
-        android:padding="10dp"
-        android:hapticFeedbackEnabled="true"
-        android:outlineSpotShadowColor="@color/design_default_color_primary"
-        android:outlineAmbientShadowColor="@color/design_default_color_primary"
-        />
+        android:layout_height="match_parent">
 
-    <EditText
-        android:id="@+id/Resgisterpage_emailid"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:layout_below="@id/Resgisterpage_username"
-        android:hint="Mail ID"
-        android:inputType="textEmailAddress"
-        android:maxLength="35"
-        android:textColor="@color/white"
-        android:textColorHint="@color/white"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
-        android:drawableLeft="@drawable/email"
-        android:drawablePadding="5dp"
-        android:gravity="center|left"
-        android:padding="10dp"
-        android:hapticFeedbackEnabled="true"
-        android:outlineSpotShadowColor="@color/design_default_color_primary"
-        android:outlineAmbientShadowColor="@color/design_default_color_primary"
-        />
 
-    <TextView
-        android:id="@+id/Resgisterpage_dob"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/Resgisterpage_emailid"
-        android:layout_marginLeft="30dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginRight="30dp"
-        android:drawableLeft="@drawable/dob"
-        android:drawablePadding="5dp"
-        android:gravity="center|left"
-        android:textSize="17dp"
-        android:text="Date of Birth"
-        android:textColor="@color/white"
-        android:padding="10dp" />
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/Registerpage_userprofile"
+            android:layout_width="132dp"
+            android:layout_height="121dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="95dp"
+            android:padding="2dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/userprofile" />
+        <EditText
+            android:id="@+id/Resgisterpage_username"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_below="@id/Registerpage_userprofile"
+            android:hint="Username"
+            android:maxLength="35"
+            android:textColor="@color/black"
+            android:drawableTint="@color/black"
+            android:textColorHint="@color/black"
+            android:drawablePadding="10dp"
+            android:elevation="10dp"
+            android:paddingStart="8dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:drawableLeft="@drawable/user"
+            android:background="@drawable/edit_bg2"
+            android:gravity="center|left"
+            android:padding="10dp"
+            android:hapticFeedbackEnabled="true"
+            android:outlineSpotShadowColor="@color/design_default_color_primary"
+            android:outlineAmbientShadowColor="@color/design_default_color_primary"
+            />
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/Registerpage_password"
-        android:drawableLeft="@drawable/key"
-        android:drawablePadding="5dp"
-        android:inputType="textPassword"
-        android:maxLength="20"
-        android:textColor="@color/white"
-        android:hint="@string/password_hint"
-        android:textColorHint="@color/white"
-        android:layout_below="@id/Resgisterpage_dob"
-        android:layout_marginRight="30dp"
-        android:layout_marginLeft="30dp"
-        android:padding="10dp"
-        android:layout_marginTop="5dp"
-        android:hapticFeedbackEnabled="true"
-        android:outlineSpotShadowColor="@color/design_default_color_primary"
-        android:outlineAmbientShadowColor="@color/design_default_color_primary"
-        />
+        <EditText
+            android:id="@+id/Resgisterpage_emailid"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="13dp"
+            android:layout_below="@id/Resgisterpage_username"
+            android:hint="Mail ID"
+            android:inputType="textEmailAddress"
+            android:background="@drawable/edit_bg2"
+            android:elevation="10dp"
+            android:paddingStart="8dp"
+            android:drawableTint="@color/black"
+            android:maxLength="35"
+            android:textColor="@color/black"
+            android:textColorHint="@color/black"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:drawableLeft="@drawable/email"
+            android:drawablePadding="10dp"
+            android:gravity="center|left"
+            android:padding="10dp"
+            android:hapticFeedbackEnabled="true"
+            android:outlineSpotShadowColor="@color/design_default_color_primary"
+            android:outlineAmbientShadowColor="@color/design_default_color_primary"
+            />
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/Registerpage_confirm_password"
-        android:drawableLeft="@drawable/key"
-        android:drawablePadding="5dp"
-        android:inputType="textPassword"
-        android:maxLength="20"
-        android:textColor="@color/white"
-        android:hint="Confrim password"
-        android:textColorHint="@color/white"
-        android:layout_below="@id/Registerpage_password"
-        android:layout_marginRight="30dp"
-        android:layout_marginLeft="30dp"
-        android:padding="10dp"
-        android:layout_marginTop="5dp"
-        android:hapticFeedbackEnabled="true"
-        android:outlineSpotShadowColor="@color/design_default_color_primary"
-        android:outlineAmbientShadowColor="@color/design_default_color_primary"
-        />
-    <RadioGroup
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/RegisterPage_Radiogroup"
-        android:orientation="horizontal"
-        android:layout_below="@id/Registerpage_confirm_password"
-        android:layout_marginTop="3dp"
-        android:layout_centerInParent="true">
+        <TextView
+            android:id="@+id/Resgisterpage_dob"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/Resgisterpage_emailid"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="13dp"
+            android:layout_marginRight="30dp"
+            android:drawableLeft="@drawable/dob"
+            android:background="@drawable/edit_bg2"
+            android:elevation="10dp"
+            android:drawablePadding="10dp"
+            android:paddingStart="8dp"
+            android:gravity="center|left"
+            android:textSize="17dp"
+            android:text="Date of Birth"
+            android:drawableTint="@color/black"
+            android:textColor="@color/black"
+            android:padding="10dp" />
 
-        <RadioButton
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/Registerpage_password"
+            android:drawableLeft="@drawable/key"
+            android:drawablePadding="10dp"
+            android:drawableTint="@color/black"
+            android:background="@drawable/edit_bg2"
+            android:elevation="10dp"
+            android:paddingStart="8dp"
+            android:inputType="textPassword"
+            android:maxLength="20"
+            android:textColor="@color/black"
+            android:hint="@string/password_hint"
+            android:textColorHint="@color/black"
+            android:layout_below="@id/Resgisterpage_dob"
+            android:layout_marginRight="30dp"
+            android:layout_marginLeft="30dp"
+            android:padding="10dp"
+            android:layout_marginTop="13dp"
+            android:hapticFeedbackEnabled="true"
+            android:outlineSpotShadowColor="@color/design_default_color_primary"
+            android:outlineAmbientShadowColor="@color/design_default_color_primary"
+            />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/Registerpage_confirm_password"
+            android:drawableLeft="@drawable/key"
+            android:drawablePadding="10dp"
+            android:background="@drawable/edit_bg2"
+            android:elevation="10dp"
+            android:paddingStart="8dp"
+            android:drawableTint="@color/black"
+            android:inputType="textPassword"
+            android:maxLength="20"
+            android:textColor="@color/black"
+            android:hint="Confrim password"
+            android:textColorHint="@color/black"
+            android:layout_below="@id/Registerpage_password"
+            android:layout_marginRight="30dp"
+            android:layout_marginLeft="30dp"
+            android:padding="10dp"
+            android:layout_marginTop="13dp"
+            android:hapticFeedbackEnabled="true"
+            android:outlineSpotShadowColor="@color/design_default_color_primary"
+            android:outlineAmbientShadowColor="@color/design_default_color_primary"
+            />
+        <RadioGroup
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/male_radio"
-            android:text="Male"
-            android:textColor="@color/white"
-            android:checked="true"
-            />
-        <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/female_radio"
-            android:text="Female"
-            android:textColor="@color/white"
-            android:checked="true"
-            />
-    </RadioGroup>
+            android:id="@+id/RegisterPage_Radiogroup"
+            android:orientation="horizontal"
+            android:layout_below="@id/Registerpage_confirm_password"
+            android:layout_marginTop="30dp"
+            android:layout_centerInParent="true">
 
-    <Button
-        android:layout_width="168dp"
-        android:layout_height="50dp"
-        android:id="@+id/RegisterPage_RegisterBtn"
-        android:layout_below="@id/RegisterPage_Radiogroup"
-        android:layout_centerInParent="true"
-        android:text="Register"
-        android:background="@drawable/round_btnbg"
-        android:layout_marginTop="20dp"
-        android:textAllCaps="false"
-        />
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/male_radio"
+                android:text="Male"
+                android:textColor="@color/black"
+                android:buttonTint="@color/black"
+                android:checked="true"
+                android:paddingLeft="2dp"
+                />
+
+            <RadioButton
+                android:id="@+id/female_radio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:buttonTint="@color/black"
+                android:checked="true"
+                android:layout_marginLeft="15dp"
+                android:paddingLeft="2dp"
+                android:text="Female"
+                android:textColor="@color/black" />
+        </RadioGroup>
+
+        <Button
+            android:id="@+id/RegisterPage_RegisterBtn"
+            android:layout_width="168dp"
+            android:layout_height="50dp"
+            android:layout_below="@id/RegisterPage_Radiogroup"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="50dp"
+            android:background="@drawable/round_btnbg"
+            android:text="Register"
+            android:textAllCaps="false"
+            android:textColor="@color/white" />
+
+    </RelativeLayout>
+
+</ScrollView>
 
 
 

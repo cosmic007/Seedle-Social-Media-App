@@ -22,12 +22,12 @@ import com.project.seedle.R;
 
 public class LoginPage extends AppCompatActivity {
 
-    private Button loginpagetoReg,login;
+    private Button login;
 
     private RelativeLayout objectRelativeLayout;
     private ImageView loginpageLogo;
     private EditText loginPageEmail,loginpagePassword;
-    private TextView loginPageTagline;
+    private TextView loginPageTagline,loginpagetoReg;
     private Dialog objectDialog;
 
     //Firebase Variable
