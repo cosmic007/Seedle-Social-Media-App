@@ -22,6 +22,7 @@ import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
@@ -47,6 +48,8 @@ public class MainContentPage extends AppCompatActivity implements NavigationView
 
     private Toolbar objectToolBar;
     private NavigationView objectNavigationView;
+
+    private FloatingActionButton objectFloatingActionButton;
 
     private DrawerLayout objectDrawerLayout;
     private ImageView header_backgroundProfile;
@@ -74,6 +77,8 @@ public class MainContentPage extends AppCompatActivity implements NavigationView
         objectFavorites = new Favorites();
 
         changeFragments(objectTextThoughts);
+
+        objectFloatingActionButton=findViewById(R.id.maincontentPage_addStatusButton);
 
         objectToolBar=findViewById(R.id.toolBar);
         objectNavigationView=findViewById(R.id.navigationView);
@@ -117,6 +122,13 @@ public class MainContentPage extends AppCompatActivity implements NavigationView
                     Toast.makeText(MainContentPage.this,"MainContentPage:"+e.getMessage(),Toast.LENGTH_SHORT).show();
                 }
                 return false;
+            }
+        });
+
+        objectFloatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainContentPage.this,AddThoughtPage.class));
             }
         });
 
