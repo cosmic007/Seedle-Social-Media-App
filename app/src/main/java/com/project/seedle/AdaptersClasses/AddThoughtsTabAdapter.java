@@ -1,0 +1,37 @@
+package com.project.seedle.AdaptersClasses;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentStatePagerAdapter;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class AddThoughtsTabAdapter extends FragmentStatePagerAdapter {
+
+    private final List<Fragment> objectListFragments=new ArrayList<>();
+    private final List<String> objectListFragmentNames=new ArrayList<>();
+
+    public AddThoughtsTabAdapter(@NonNull FragmentManager fm) {
+        super(fm);
+    }
+    public void addFragment(Fragment objectFragment,String titleFragment)
+    {
+        objectListFragments.add(objectFragment);
+        objectListFragmentNames.add(titleFragment);
+
+
+    }
+
+    @NonNull
+    @Override
+    public Fragment getItem(int position) {
+        return objectListFragments.get(position);
+    }
+
+    @Override
+    public int getCount() {
+        return objectListFragmentNames.size();
+    }
+}
