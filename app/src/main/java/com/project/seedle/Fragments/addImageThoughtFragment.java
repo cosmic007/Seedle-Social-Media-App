@@ -1,66 +1,101 @@
 package com.project.seedle.Fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.project.seedle.Activities.MainContentPage;
 import com.project.seedle.R;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link addImageThoughtFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class addImageThoughtFragment extends Fragment {
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
 
     public addImageThoughtFragment() {
         // Required empty public constructor
     }
+    //Java Object for XML Objects
+    private ImageView statusImageView;
+    private EditText statusET;
+    private TextView publishStatus,goBackBtn,choosePictureBtn;
+    private ProgressBar objectProgressBar;
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment addImageThoughtFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static addImageThoughtFragment newInstance(String param1, String param2) {
-        addImageThoughtFragment fragment = new addImageThoughtFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
+
+    //Class Variables
+    private View objectView;
+    private int PreCode=1000;
+
+
+
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_add_image_thought, container, false);
+        objectView=inflater.inflate(R.layout.fragment_add_image_thought, container, false);
+        ConnectJavaViewToXMLView();
+        return objectView;
     }
+
+
+    private void openMobileGallery()
+    {
+        try {
+            Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+
+
+            startActivityForResult(intent,PreCode);
+
+        }
+        catch (Exception e)
+        {
+            Toast.makeText(getContext(), "ImageThought:"+e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
+
+
+    private void ConnectJavaViewToXMLView()
+    {
+        try {
+            statusImageView=objectView.findViewById(R.id.Frag_addImageThoughtIV);
+            statusET=objectView.findViewById(R.id.Frag_addImageThoughtET);
+            publishStatus=objectView.findViewById(R.id.FragImageTHoughts_PublishImageBtn);
+            goBackBtn=objectView.findViewById(R.id.FragImageTHoughts_BackBtn);
+            choosePictureBtn=objectView.findViewById(R.id.Frag_addImageThoughtBtn);
+            objectProgressBar=objectView.findViewById(R.id.Frag_addImageThought_ProgressBar);
+
+            goBackBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startActivity(new Intent(getContext(), MainContentPage.class));
+                    getActivity().finish();
+                }
+            });
+
+        }
+        catch (Exception e)
+        {
+            Toast.makeText(getContext(), "ImageThought:"+e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+
+
+
+
+
 }

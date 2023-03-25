@@ -20,7 +20,7 @@
 
 
         <ImageView
-            android:id="@+id/Frag_addImageThought"
+            android:id="@+id/Frag_addImageThoughtIV"
             android:layout_width="350dp"
             android:layout_height="360dp"
             android:layout_alignParentStart="true"
@@ -35,6 +35,7 @@
         <EditText
             android:layout_width="400dp"
             android:layout_height="50dp"
+            android:id="@+id/Frag_addImageThoughtET"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
@@ -81,7 +82,8 @@
         <TextView
             android:layout_width="200dp"
             android:layout_height="50dp"
-            android:layout_below="@id/Frag_addImageThought"
+            android:id="@+id/Frag_addImageThoughtBtn"
+            android:layout_below="@id/Frag_addImageThoughtIV"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
@@ -127,5 +129,15 @@
     </RelativeLayout>
 
 </ScrollView>
+    <ProgressBar
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:indeterminateTint="@color/white"
+        android:id="@+id/Frag_addImageThought_ProgressBar"
+        android:layout_centerInParent="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="255dp"
+        android:visibility="invisible"/>
+
 
 </RelativeLayout>
