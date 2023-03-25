@@ -7,8 +7,8 @@
     tools:context=".Fragments.addTextThoughtFragment">
 
     <ScrollView
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+android:layout_width="match_parent"
+android:layout_height="match_parent">
 
 
     <RelativeLayout
@@ -17,16 +17,17 @@
 
 
         <TextView
+            android:id="@+id/textviewtitle"
             android:layout_width="200dp"
             android:layout_height="50dp"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
-            android:layout_marginStart="100dp"
-            android:layout_marginTop="24dp"
-            android:layout_marginEnd="111dp"
+            android:layout_marginStart="114dp"
+            android:layout_marginTop="26dp"
+            android:layout_marginEnd="97dp"
             android:gravity="center"
-            android:text="Text Thoughts"
+            android:text="Publish Thoughts"
             android:textColor="@color/black"
             android:textSize="15sp"
             android:textStyle="bold" />
@@ -45,20 +46,13 @@
             android:paddingLeft="8dp"
             android:paddingTop="8dp"
             android:paddingBottom="8dp"
+
             android:maxLength="200"
             android:layout_marginTop="100dp"
 
         />
 
 
-        <ImageView
-            android:layout_width="147dp"
-            android:layout_height="94dp"
-
-
-
-            android:scaleType="centerCrop"
-            android:src="@drawable/logo_black" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -75,7 +69,7 @@
                 android:layout_centerInParent="true"
                 android:drawableTop="@drawable/upload_statusdrawable"
                 android:padding="15dp"
-                android:text="Upload Status"
+                android:text="Upload Thought"
                 android:textAllCaps="false"
                 android:textColor="@color/black"
                 android:textSize="9sp" />
@@ -89,7 +83,7 @@
                 android:layout_toRightOf="@id/FragAddTextTHoughts_PostBtn"
                 android:drawableTop="@drawable/rewritestatusdrawable"
                 android:padding="20dp"
-                android:text="Rewrite Status"
+                android:text="Rewrite Thought"
                 android:textAllCaps="false"
                 android:textColor="@color/black"
                 android:textSize="9sp" />
@@ -109,7 +103,23 @@
                 android:textSize="9sp" />
 
 
+
+
         </RelativeLayout>
+
+        <ImageView
+            android:layout_width="147dp"
+            android:layout_height="94dp"
+
+
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="64dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="200dp"
+
+            android:src="@drawable/logo_black" />
 
 
     </RelativeLayout>

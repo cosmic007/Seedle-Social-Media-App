@@ -1,14 +1,127 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/fragmentAddImageThought"
+    android:background="@color/black"
     tools:context=".Fragments.addImageThoughtFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="800dp">
 
-</FrameLayout>
+
+        <ImageView
+            android:id="@+id/Frag_addImageThought"
+            android:layout_width="350dp"
+            android:layout_height="360dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="108dp"
+            android:layout_marginEnd="30dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/insertimagedrawable" />
+
+        <EditText
+            android:layout_width="400dp"
+            android:layout_height="50dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="41dp"
+            android:layout_marginTop="568dp"
+            android:layout_marginEnd="41dp"
+            android:background="@drawable/edit_bg2"
+            android:elevation="10dp"
+            android:gravity="center"
+            android:hint="@string/imagestatus_hint"
+            android:maxLength="100"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/FragImageTHoughts_BackBtn"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="650dp"
+            android:layout_marginEnd="224dp"
+            android:gravity="center"
+            android:text="Back"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/FragImageTHoughts_PublishImageBtn"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="224dp"
+            android:layout_marginTop="650dp"
+            android:layout_marginEnd="50dp"
+            android:gravity="center"
+            android:text="Publish"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:layout_below="@id/Frag_addImageThought"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="55dp"
+            android:layout_marginTop="498dp"
+            android:layout_marginEnd="57dp"
+            android:background="@drawable/editbg3"
+            android:elevation="10dp"
+            android:gravity="center"
+            android:text="Click to select your picture"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="110dp"
+            android:layout_marginTop="37dp"
+            android:layout_marginEnd="101dp"
+            android:gravity="center"
+            android:text="Publish Image"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:layout_width="121dp"
+            android:layout_height="98dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="79dp"
+            android:layout_marginTop="14dp"
+            android:layout_marginEnd="210dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/logo_white" />
+
+
+    </RelativeLayout>
+
+</ScrollView>
+
+</RelativeLayout>
