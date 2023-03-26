@@ -9,12 +9,16 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.project.seedle.Activities.LoginPage;
+import com.project.seedle.Activities.MainContentPage;
 
 public class MainActivity extends AppCompatActivity {
 
     ImageView background;
     Button tologinbtn;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
                 LoginPage();
             }
         });
+
 
 
     }
