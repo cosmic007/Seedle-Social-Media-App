@@ -1,11 +1,14 @@
 package com.project.seedle.Fragments;
 
+import static android.content.ContentValues.TAG;
+
 import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,10 +17,10 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -32,6 +35,9 @@ import java.util.Map;
 
 
 public class addTextThoughtFragment extends Fragment {
+
+    public String User_Name;
+
     
     
     
@@ -48,7 +54,8 @@ public class addTextThoughtFragment extends Fragment {
 
     //class variable
     
-    private String profileURL,currentUsername;
+    private String profileURL;
+    public String EMAIL;
     private View objectView;
     private Date currentDate;
     private SimpleDateFormat objectSimpleDateFormat;
@@ -63,6 +70,7 @@ public class addTextThoughtFragment extends Fragment {
     private FirebaseAuth objectFirebaseAuth;
     private FirebaseFirestore objectFirebaseFirestore;
     private DocumentReference objectDocumentReference;
+
             
 
 
@@ -74,6 +82,34 @@ public class addTextThoughtFragment extends Fragment {
 
         objectView=inflater.inflate(R.layout.fragment_add_text_thought, container, false);
         ConnectJavaViewToXMLView();
+
+
+        objectFirebaseAuth=FirebaseAuth.getInstance();
+        objectFirebaseFirestore=FirebaseFirestore.getInstance();
+        EMAIL=objectFirebaseAuth.getCurrentUser().getEmail();
+
+
+
+
+        CollectionReference collectionRef = objectFirebaseFirestore.collection("UserProfileData");
+        DocumentReference documentRef = collectionRef.document(EMAIL);
+
+        documentRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                if (documentSnapshot.exists()) {
+                    String UserName = documentSnapshot.getString("username");
+                    User_Name = UserName;
+                } else {
+                    Log.d(TAG, "No such document");
+                }
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.e(TAG, "Error getting document", e);
+            }
+        });
 
         publishStatusBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -103,6 +139,8 @@ public class addTextThoughtFragment extends Fragment {
 
 
 
+
+
     
     private void publishStatus()
     {
@@ -110,30 +148,21 @@ public class addTextThoughtFragment extends Fragment {
             if(!statusET.getText().toString().isEmpty()) {
 
                 final String currentLoggedInUser = objectFirebaseAuth.getCurrentUser().getEmail();
-                objectDocumentReference=objectFirebaseFirestore.collection("UserProfileData").document(currentLoggedInUser);
-                objectDocumentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                    @Override
-                    public void onSuccess(DocumentSnapshot documentSnapshot) {
-                        currentUsername=documentSnapshot.getString("username");
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(getContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
-                    }
-                });
                 Map<String, Object> statusData = new HashMap<>();
+
+
+                String name=User_Name;
+
 
                 statusData.put("currentdatetime", getCurrentDate());
                 statusData.put("useremail", currentLoggedInUser);
-                statusData.put("username",currentUsername);
+                statusData.put("username",name);
                 statusData.put("profileurl", profileURL);
                 statusData.put("status", statusET.getText().toString());
                 statusData.put("noofhaha", 0);
                 statusData.put("nooflove", 0);
                 statusData.put("nofsad", 0);
                 statusData.put("noofcomments", 0);
-
                 statusData.put("currentflag", "none");
                 objectFirebaseFirestore.collection("TextStatus")
                         .document(String.valueOf(System.currentTimeMillis()))

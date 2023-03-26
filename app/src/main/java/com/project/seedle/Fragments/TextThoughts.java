@@ -45,8 +45,7 @@ public class TextThoughts extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         parent=inflater.inflate(R.layout.fragment_text_thoughts, container, false);
-        objectRecyclerView=parent.findViewById(R.id.textStatus_RL);
-
+        objectRecyclerView=parent.findViewById(R.id.textStatus_RV);
         objectFirebaseFirestore=FirebaseFirestore.getInstance();
         addStatusToRV();
 

@@ -1,9 +1,13 @@
 package com.project.seedle.ModelClassess;
 
+
+
+
+
 public class Model_TextStatus {
 
-    private String username,currentdatetime,status,profileurl;
-    private int nooflove,noofhaha,noofsad,noofcomments;
+    private String username, currentdatetime, status, profileurl;
+    private int nooflove, noofhaha, noofsad, noofcomments;
 
     public Model_TextStatus() {
     }
@@ -83,3 +87,4 @@ public class Model_TextStatus {
         this.noofcomments = noofcomments;
     }
 }
+
