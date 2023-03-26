@@ -20,10 +20,37 @@
             android:layout_height="wrap_content"
             android:id="@+id/toolBar"
             android:layout_alignParentTop="true"
-            android:background="@color/white"
+            android:background="#EDE7E7"
             android:minHeight="?attr/actionBarSize"
+
             app:popupTheme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
             />
+        <TextView
+            android:layout_width="70dp"
+            android:layout_height="40dp"
+            android:id="@+id/title"
+            android:text="Feed"
+            android:textSize="25sp"
+            android:layout_marginLeft="65dp"
+            android:textAlignment="center"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/black"
+            android:textStyle="bold"/>
+        <ImageView
+            android:layout_width="121dp"
+            android:layout_height="70dp"
+            android:src="@drawable/logo_black"
+            android:scaleType="centerCrop"
+            android:layout_marginTop="-8dp"
+            android:layout_toLeftOf="@id/title"
+            android:layout_marginRight="-110dp"
+            android:layout_centerHorizontal="true"
+            />
+
+
+
+
 
         <include layout="@layout/frame_for_fragments"
             android:layout_below="@id/toolBar"
@@ -51,7 +78,7 @@
             android:layout_height="50dp"
             app:itemIconSize="25dp"
             android:id="@+id/bottom_nav_viewbar"
-            app:itemBackground="@color/white"
+            android:background="#EDE7E7"
             app:itemIconTint="@drawable/selector_bottombar_item"
             app:itemTextColor="@drawable/selector_bottombar_item"
             android:elevation="0dp"
@@ -69,7 +96,7 @@
         android:layout_height="match_parent"
         android:id="@+id/navigationView"
         android:fitsSystemWindows="true"
-        android:background="@color/white"
+        android:background="#EDE7E7"
         android:layout_gravity="start"
         app:itemHorizontalPadding="12dp"
         app:itemIconPadding="13dp"
