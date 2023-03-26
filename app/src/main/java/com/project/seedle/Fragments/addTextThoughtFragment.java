@@ -14,6 +14,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -47,7 +48,7 @@ public class addTextThoughtFragment extends Fragment {
 
     //class variable
     
-    private String profileURL;
+    private String profileURL,currentUsername;
     private View objectView;
     private Date currentDate;
     private SimpleDateFormat objectSimpleDateFormat;
@@ -97,19 +98,35 @@ public class addTextThoughtFragment extends Fragment {
 
         return objectView;
     }
+
+
+
+
+
     
     private void publishStatus()
     {
         try {
             if(!statusET.getText().toString().isEmpty()) {
 
-
                 final String currentLoggedInUser = objectFirebaseAuth.getCurrentUser().getEmail();
+                objectDocumentReference=objectFirebaseFirestore.collection("UserProfileData").document(currentLoggedInUser);
+                objectDocumentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        currentUsername=documentSnapshot.getString("username");
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(getContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
+                    }
+                });
                 Map<String, Object> statusData = new HashMap<>();
 
                 statusData.put("currentdatetime", getCurrentDate());
                 statusData.put("useremail", currentLoggedInUser);
-
+                statusData.put("username",currentUsername);
                 statusData.put("profileurl", profileURL);
                 statusData.put("status", statusET.getText().toString());
                 statusData.put("noofhaha", 0);
