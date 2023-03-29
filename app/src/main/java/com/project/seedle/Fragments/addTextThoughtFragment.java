@@ -38,6 +38,7 @@ public class addTextThoughtFragment extends Fragment {
 
     public String User_Name;
     public long count;
+    public int flag=1;
 
     
     
@@ -187,6 +188,7 @@ public class addTextThoughtFragment extends Fragment {
                 statusData.put("currentdatetime", getCurrentDate());
                 String COUNT= String.valueOf(count);
                 statusData.put("postno",COUNT);
+                statusData.put("flag",flag);
                 statusData.put("useremail", currentLoggedInUser);
                 statusData.put("username",name);
                 statusData.put("profileurl", profileURL);

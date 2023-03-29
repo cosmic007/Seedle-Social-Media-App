@@ -85,7 +85,7 @@ public class TextThoughts extends Fragment {
         try
         {
             Query objectQuery=objectFirebaseFirestore.collection("TextStatus")
-                    .orderBy("postno",Query.Direction.DESCENDING);
+                    .orderBy("flag",Query.Direction.DESCENDING);
 
             FirestoreRecyclerOptions<Model_TextStatus> options
                     =new FirestoreRecyclerOptions.Builder<Model_TextStatus>()
