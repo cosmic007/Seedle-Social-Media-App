@@ -37,6 +37,7 @@ import java.util.Map;
 public class addTextThoughtFragment extends Fragment {
 
     public String User_Name;
+    public long count;
 
     
     
@@ -87,6 +88,35 @@ public class addTextThoughtFragment extends Fragment {
         objectFirebaseAuth=FirebaseAuth.getInstance();
         objectFirebaseFirestore=FirebaseFirestore.getInstance();
         EMAIL=objectFirebaseAuth.getCurrentUser().getEmail();
+
+
+        CollectionReference cRef = objectFirebaseFirestore.collection("Count");
+        DocumentReference dRef = cRef.document("Countdata");
+
+        dRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                if (documentSnapshot.exists()) {
+                     String Count =documentSnapshot.getString("nooftextstatus");
+                     count= Long.parseLong(Count);
+                     count=count+1;
+                     String update_count= String.valueOf(count);
+                    Map<String, Object> objectMap = new HashMap<>();
+                    objectMap.put("nooftextstatus", update_count);
+                    objectFirebaseFirestore.collection("Count")
+                            .document("Countdata").update(objectMap);
+
+
+                } else {
+                    Log.d(TAG, "No such document");
+                }
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.e(TAG, "Error getting document", e);
+            }
+        });
 
 
 
@@ -155,6 +185,8 @@ public class addTextThoughtFragment extends Fragment {
 
 
                 statusData.put("currentdatetime", getCurrentDate());
+                String COUNT= String.valueOf(count);
+                statusData.put("postno",COUNT);
                 statusData.put("useremail", currentLoggedInUser);
                 statusData.put("username",name);
                 statusData.put("profileurl", profileURL);
