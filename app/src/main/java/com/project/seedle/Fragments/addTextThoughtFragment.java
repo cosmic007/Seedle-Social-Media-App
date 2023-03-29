@@ -99,10 +99,10 @@ public class addTextThoughtFragment extends Fragment {
                 if (documentSnapshot.exists()) {
                      String Count =documentSnapshot.getString("nooftextstatus");
                      count= Long.parseLong(Count);
-                     count++;
-                     String updatecount= String.valueOf(count);
+                     count=count+1;
+                     String update_count= String.valueOf(count);
                     Map<String, Object> objectMap = new HashMap<>();
-                    objectMap.put("nooftextstatus", updatecount);
+                    objectMap.put("nooftextstatus", update_count);
                     objectFirebaseFirestore.collection("Count")
                             .document("Countdata").update(objectMap);
 

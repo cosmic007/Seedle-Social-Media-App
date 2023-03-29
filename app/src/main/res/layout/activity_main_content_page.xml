@@ -29,7 +29,7 @@
             android:layout_width="70dp"
             android:layout_height="40dp"
             android:id="@+id/title"
-            android:text="Feed"
+            android:text="Seedle"
             android:textSize="25sp"
             android:layout_marginLeft="65dp"
             android:textAlignment="center"
