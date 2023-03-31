@@ -15,9 +15,13 @@
         android:theme="@style/Theme.Seedle"
         tools:targetApi="31">
         <activity
-            android:name=".Activities.AddThoughtPage"
+            android:name=".Activities.TextCommentPage"
             android:exported="true"
             android:screenOrientation="portrait"/>
+        <activity
+            android:name=".Activities.AddThoughtPage"
+            android:exported="true"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".Activities.MainContentPage"
             android:exported="true"

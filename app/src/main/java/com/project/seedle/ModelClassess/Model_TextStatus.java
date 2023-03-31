@@ -7,19 +7,19 @@ package com.project.seedle.ModelClassess;
 public class Model_TextStatus {
 
     private String username, currentdatetime, status, profileurl;
-    private int nooflove, noofhaha, noofsad, noofcomments;
+    private int nooflove, noofhaha, nofsad, noofcomments;
 
     public Model_TextStatus() {
     }
 
-    public Model_TextStatus(String username, String currentdatetime, String status, String profileurl, int nooflove, int noofhaha, int noofsad, int noofcomments) {
+    public Model_TextStatus(String username, String currentdatetime, String status, String profileurl, int nooflove, int noofhaha, int nofsad, int noofcomments) {
         this.username = username;
         this.currentdatetime = currentdatetime;
         this.status = status;
         this.profileurl = profileurl;
         this.nooflove = nooflove;
         this.noofhaha = noofhaha;
-        this.noofsad = noofsad;
+        this.nofsad = nofsad;
         this.noofcomments = noofcomments;
     }
 
@@ -71,12 +71,12 @@ public class Model_TextStatus {
         this.noofhaha = noofhaha;
     }
 
-    public int getNoofsad() {
-        return noofsad;
+    public int getNofsad() {
+        return nofsad;
     }
 
-    public void setNoofsad(int noofsad) {
-        this.noofsad = noofsad;
+    public void setNofsad(int nofsad) {
+        this.nofsad = nofsad;
     }
 
     public int getNoofcomments() {

@@ -22,7 +22,6 @@
             android:layout_alignParentTop="true"
             android:background="#EDE7E7"
             android:minHeight="?attr/actionBarSize"
-
             app:popupTheme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
             />
         <TextView
