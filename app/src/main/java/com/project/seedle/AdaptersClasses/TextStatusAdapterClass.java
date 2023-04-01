@@ -348,9 +348,9 @@ public class TextStatusAdapterClass extends FirestoreRecyclerAdapter<Model_TextS
     public class TextStatusViewHolder extends RecyclerView.ViewHolder
     {
         ImageView profileIV;
-        ImageView heartIV,hahaIV,sadIV,deleteIV,commentIV,favoriteIV;
+        ImageView heartIV,hahaIV,sadIV,deleteIV,favoriteIV;
 
-        TextView usernameTV,dateTimeTV,userStatusTV,heartCountTV,hahaCountTV,sadCountTV,commentCountTV;
+        TextView usernameTV,dateTimeTV,userStatusTV,heartCountTV,hahaCountTV,sadCountTV,commentCountTV,commentIV;
 
         public TextStatusViewHolder(@NonNull View itemView) {
             super(itemView);

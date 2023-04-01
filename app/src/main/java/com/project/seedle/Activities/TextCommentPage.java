@@ -2,14 +2,17 @@ package com.project.seedle.Activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.graphics.ColorSpace;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -17,6 +20,10 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.project.seedle.AdaptersClasses.TextCommentAdapter;
+import com.project.seedle.ModelClassess.Model_Comment;
 import com.project.seedle.R;
 
 import java.text.SimpleDateFormat;
@@ -44,6 +51,7 @@ public class TextCommentPage extends AppCompatActivity {
     int noofcomments;
     private String currentLoggedinUser;
     private String currentLoggedinUsername;
+    private TextCommentAdapter objectGetTextCommentAdapter;
 
     //Firebase Variables
     private FirebaseFirestore objectFirebaseFirestore;
@@ -66,6 +74,8 @@ public class TextCommentPage extends AppCompatActivity {
             AttachJavaObjectsToXML();
             objectBundle =getIntent().getExtras();
             documentID=objectBundle.getString("documentId");
+            getCommentIntoRV();
+
             SendCommentBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -98,6 +108,70 @@ public class TextCommentPage extends AppCompatActivity {
         }
     }
 
+    private void getCommentIntoRV()
+    {
+        try {
+
+            Query objectQuery = objectFirebaseFirestore.collection("TextStatus")
+                    .document(documentID).collection("Comments")
+                    .orderBy("flag",Query.Direction.DESCENDING);
+
+            FirestoreRecyclerOptions<Model_Comment> objectOptions =
+                    new FirestoreRecyclerOptions.Builder<Model_Comment>()
+                            .setQuery(objectQuery,Model_Comment.class).build();
+
+            objectGetTextCommentAdapter = new TextCommentAdapter(objectOptions);
+            objectRecyclerView.setAdapter(objectGetTextCommentAdapter);
+            objectRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+
+
+
+        }
+        catch (Exception e)
+        {
+            Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+
+
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        try {
+
+            objectGetTextCommentAdapter.startListening();
+
+        }
+        catch (Exception e)
+        {
+            Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        try {
+
+            objectGetTextCommentAdapter.stopListening();
+
+        }
+        catch (Exception e)
+        {
+            Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+    }
+
     private void addcomment()
     {
         try {
@@ -121,6 +195,7 @@ public class TextCommentPage extends AppCompatActivity {
                                 objectMap.put("comment",commentET.getText().toString());
                                 objectMap.put("profilepicurl",profileUrl);
                                 objectMap.put("currentdatetime",getCurrentDate());
+                                objectMap.put("flag",1);
                                 objectFirebaseFirestore.collection("TextStatus")
                                         .document(documentID).collection("Comments")
                                         .add(objectMap)
@@ -128,6 +203,27 @@ public class TextCommentPage extends AppCompatActivity {
                                             @Override
                                             public void onSuccess(DocumentReference documentReference) {
                                                 Toast.makeText(TextCommentPage.this, "Comment Added", Toast.LENGTH_SHORT).show();
+                                                commentET.setText("");
+                                                objectCollectionReference=objectFirebaseFirestore.collection("TextStatus")
+                                                        .document(documentID)
+                                                        .collection("Comments");
+                                                objectCollectionReference.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                                                    @Override
+                                                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+
+                                                        int commentCount=queryDocumentSnapshots.size();
+
+                                                    objectDocumentReference=objectFirebaseFirestore.collection("TextStatus")
+                                                            .document(documentID);
+                                                    objectDocumentReference.update("noofcomments",commentCount);
+
+                                                    }
+                                                }).addOnFailureListener(new OnFailureListener() {
+                                                    @Override
+                                                    public void onFailure(@NonNull Exception e) {
+
+                                                    }
+                                                });
                                             }
                                         }).addOnFailureListener(new OnFailureListener() {
                                             @Override
