@@ -7,9 +7,9 @@
     <string name="Login_String">Sign In</string>
     <string name="no_account">Do not have an account?</string>
     <string name="Register">Sign Up</string>
-    <string name="text_thoughts">Text Thoughts</string>
+    <string name="text_thoughts">Thoughts</string>
     <string name="image_thoughts">Image Thoughts</string>
-    <string name="fav_thoughts">Favorite Thoughts</string>
+    <string name="fav_thoughts">Favorite</string>
     <string name="user_name_header">USER NAME</string>
     <string name="user_email_header">userEmail@gmail.com</string>
     <string name="open">Open</string>

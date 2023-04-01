@@ -6,7 +6,7 @@ package com.project.seedle.ModelClassess;
 
 public class Model_TextStatus {
 
-    private String username, currentdatetime, status, profileurl;
+    private String username, currentdatetime, status, profileurl, useremail;
     private int nooflove, noofhaha, nofsad, noofcomments;
 
     public Model_TextStatus() {
@@ -22,6 +22,7 @@ public class Model_TextStatus {
         this.nofsad = nofsad;
         this.noofcomments = noofcomments;
     }
+
 
     public String getUsername() {
         return username;

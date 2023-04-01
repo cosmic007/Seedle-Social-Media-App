@@ -11,10 +11,10 @@
 
         />
     <item
-        android:title="@string/image_thoughts"
+        android:title="Home"
         android:id="@+id/item_imageThoughts"
         app:showAsAction="ifRoom"
-        android:icon="@drawable/icon_image_thoughts"
+        android:icon="@drawable/ic_home"
 
         />
     <item

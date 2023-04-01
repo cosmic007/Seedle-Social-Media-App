@@ -1,6 +1,9 @@
 package com.project.seedle.AdaptersClasses;
+import static android.content.ContentValues.TAG;
+
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,8 +19,10 @@ import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -29,7 +34,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 
+
 public class TextStatusAdapterClass extends FirestoreRecyclerAdapter<Model_TextStatus,TextStatusAdapterClass.TextStatusViewHolder> {
+
+
+    public String url;
 
 
     public TextStatusAdapterClass(@NonNull FirestoreRecyclerOptions<Model_TextStatus> options) {
@@ -50,6 +59,30 @@ public class TextStatusAdapterClass extends FirestoreRecyclerAdapter<Model_TextS
         String linkOfProfileImage= model_textStatus.getProfileurl();
         Glide.with(textStatusViewHolder.profileIV.getContext())
                 .load(linkOfProfileImage).into(textStatusViewHolder.profileIV);
+
+        FirebaseFirestore objectFirebaseFirestore = FirebaseFirestore.getInstance();
+        FirebaseAuth objectFirebaseAuth = FirebaseAuth.getInstance();
+        String EMAIL= objectFirebaseAuth.getCurrentUser().getEmail();
+
+        CollectionReference collectionRef = objectFirebaseFirestore.collection("UserProfileData");
+        DocumentReference documentRef = collectionRef.document(EMAIL);
+
+        documentRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                if (documentSnapshot.exists()) {
+                    String Userprofile = documentSnapshot.getString("profileimageurl");
+                    url = Userprofile;
+                } else {
+                    Log.d(TAG, "No such document");
+                }
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.e(TAG, "Error getting document", e);
+            }
+        });
         textStatusViewHolder.heartIV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -331,6 +364,36 @@ public class TextStatusAdapterClass extends FirestoreRecyclerAdapter<Model_TextS
                 objectIntent.putExtra("documentId",documentID);
 
                 objectContext.startActivity(objectIntent);
+            }
+        });
+        textStatusViewHolder.deleteIV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseAuth objectFirebaseAuth=FirebaseAuth.getInstance();
+                if(url.equals(model_textStatus.getProfileurl()))
+                {
+                    FirebaseFirestore objectFirebaseFirestore = FirebaseFirestore.getInstance();
+                    objectFirebaseFirestore.collection("TextStatus")
+                            .document(getSnapshots().getSnapshot(textStatusViewHolder.getAdapterPosition()).getId())
+                            .delete()
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void unused) {
+                                    Toast.makeText(textStatusViewHolder.deleteIV.getContext(), "Deleted", Toast.LENGTH_SHORT).show();
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Toast.makeText(textStatusViewHolder.deleteIV.getContext(), "Failed to delete", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+
+
+                }
+                else
+                {
+                    Toast.makeText(textStatusViewHolder.deleteIV.getContext(), "You have no rights to delete this status", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
