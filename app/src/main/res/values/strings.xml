@@ -16,8 +16,8 @@
     <string name="close">Close</string>
 
 
-    <string name="textstatus_hint">Enter your thoughts (maximum 200 characters)</string>
-    <string name="imagestatus_hint">Enter your thoughts (maximum 100 characters)</string>
+    <string name="textstatus_hint">Enter your thoughts (maximum 500 characters)</string>
+    <string name="imagestatus_hint">Enter your thoughts (maximum 500 characters)</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="comment_hint">Enter your comment:</string>
 </resources>
