@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white">
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/model_addcomment_profile"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="15dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/userprofile" />
+
+    <RelativeLayout
+        android:layout_width="370dp"
+        android:layout_alignParentRight="true"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/model_addcomment_profile"
+        android:layout_marginStart="3dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="3dp"
+        android:elevation="10dp"
+        android:layout_marginBottom="3dp"
+        android:background="@drawable/edit_bg2">
+        
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:id="@+id/model_addcomment_userName"
+            android:paddingLeft="10dp"
+            android:paddingTop="5dp"
+            android:layout_marginTop="2dp"
+            android:textStyle="bold"
+            android:text="Abhijith V A"
+            android:textColor="@color/black"
+            android:textSize="12sp"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="13dp"
+            android:layout_marginTop="-4dp"
+            android:text="00:00:00 00 Jan 2019"
+            android:id="@+id/model_addcomment_currentDateTime"
+            android:textSize="8.5sp"
+            android:paddingLeft="10dp"
+            android:layout_below="@id/model_addcomment_userName"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/model_addcomment_comment"
+            android:layout_below="@id/model_addcomment_currentDateTime"
+            android:text="this is an example"
+            android:textSize="13sp"
+            android:layout_marginBottom="5dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:textColor="@color/black"
+            android:maxLines="6"
+            android:maxLength="200"
+            />
+            
+
+
+
+
+    </RelativeLayout>
+
+
+</RelativeLayout>
