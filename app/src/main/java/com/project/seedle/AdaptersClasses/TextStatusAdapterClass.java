@@ -67,6 +67,8 @@ public class TextStatusAdapterClass extends FirestoreRecyclerAdapter<Model_TextS
         CollectionReference collectionRef = objectFirebaseFirestore.collection("UserProfileData");
         DocumentReference documentRef = collectionRef.document(EMAIL);
 
+
+
         documentRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
@@ -83,6 +85,10 @@ public class TextStatusAdapterClass extends FirestoreRecyclerAdapter<Model_TextS
                 Log.e(TAG, "Error getting document", e);
             }
         });
+
+
+
+
         textStatusViewHolder.heartIV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -372,6 +378,7 @@ public class TextStatusAdapterClass extends FirestoreRecyclerAdapter<Model_TextS
                 FirebaseAuth objectFirebaseAuth=FirebaseAuth.getInstance();
                 if(url.equals(model_textStatus.getProfileurl()))
                 {
+
                     FirebaseFirestore objectFirebaseFirestore = FirebaseFirestore.getInstance();
                     objectFirebaseFirestore.collection("TextStatus")
                             .document(getSnapshots().getSnapshot(textStatusViewHolder.getAdapterPosition()).getId())
