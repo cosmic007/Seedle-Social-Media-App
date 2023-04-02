@@ -5,22 +5,23 @@
     <item
         android:title="@string/text_thoughts"
         android:id="@+id/item_textThoughts"
-        app:showAsAction="ifRoom"
         android:icon="@drawable/icon_text_thoughts"
-
 
         />
     <item
         android:title="Home"
         android:id="@+id/item_imageThoughts"
-        app:showAsAction="ifRoom"
         android:icon="@drawable/ic_home"
 
         />
     <item
+        android:title="Community"
+        android:id="@+id/community"
+        android:icon="@drawable/icon_community"
+        />
+    <item
         android:title="@string/fav_thoughts"
         android:id="@+id/item_fav_thoughts"
-        app:showAsAction="ifRoom"
         android:icon="@drawable/icon_fav_thoughts"
 
         />

@@ -28,6 +28,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.project.seedle.Fragments.Community;
 import com.project.seedle.Fragments.Favorites;
 import com.project.seedle.Fragments.ImageThoughts;
 import com.project.seedle.Fragments.TextThoughts;
@@ -44,6 +45,7 @@ public class MainContentPage extends AppCompatActivity implements NavigationView
     private TextThoughts objectTextThoughts;
     private ImageThoughts objectImageThoughts;
     private Favorites objectFavorites;
+    private Community objectCommunity;
 
 
     private Toolbar objectToolBar;
@@ -75,6 +77,7 @@ public class MainContentPage extends AppCompatActivity implements NavigationView
         objectTextThoughts =new TextThoughts();
         objectImageThoughts = new ImageThoughts();
         objectFavorites = new Favorites();
+        objectCommunity = new Community();
 
         changeFragments(objectTextThoughts);
 
@@ -110,6 +113,9 @@ public class MainContentPage extends AppCompatActivity implements NavigationView
                             return true;
                         case R.id.item_fav_thoughts:
                             changeFragments(objectFavorites);
+                            return true;
+                        case R.id.community:
+                            changeFragments(objectCommunity);
                             return true;
                         default:
                             return false;
