@@ -87,6 +87,66 @@ public class TextStatusAdapterClass extends FirestoreRecyclerAdapter<Model_TextS
         });
 
 
+        textStatusViewHolder.favoriteIV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String documentID=getSnapshots().getSnapshot(textStatusViewHolder.getAdapterPosition()).getId();
+                FirebaseFirestore objectFirebaseFirestore = FirebaseFirestore .getInstance();
+                DocumentReference objectDocumentReference = objectFirebaseFirestore.collection("TextStatus").document(documentID);
+                objectDocumentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        String userEmail =documentSnapshot.getString("useremail");
+                        String status = documentSnapshot.getString("status");
+                        String profileUrl=documentSnapshot.getString("profileurl");
+                        String statusDate =documentSnapshot.getString("currentdatetime");
+                        Map<String, Object> objectMap = new HashMap<>();
+                        objectMap.put("useremail",userEmail);
+                        objectMap.put("status",status);
+                        objectMap.put("profileurl",profileUrl);
+                        objectMap.put("currentdatetime",statusDate);
+                        FirebaseAuth objectFirebaseAuth =FirebaseAuth.getInstance();
+
+                        if(objectFirebaseAuth!=null)
+                        {
+                            String currentLoggedInUser=objectFirebaseAuth.getCurrentUser().getEmail();
+                            objectFirebaseFirestore.collection("UserFavorite").document(currentLoggedInUser)
+                                    .collection("FavoriteTextStatus")
+                                    .document(documentID).set(objectMap)
+                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void unused) {
+
+                                            Toast.makeText(textStatusViewHolder.favoriteIV.getContext(), "Added to favorites", Toast.LENGTH_SHORT).show();
+
+
+
+                                        }
+                                    }).addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            Toast.makeText(textStatusViewHolder.favoriteIV.getContext(), "Failed to add into favorites", Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
+
+
+                        }
+                        else {
+                            Toast.makeText(textStatusViewHolder.favoriteIV.getContext(),"User not online", Toast.LENGTH_SHORT).show();
+                        }
+
+
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                    }
+                });
+            }
+        });
+
+
 
 
         textStatusViewHolder.heartIV.setOnClickListener(new View.OnClickListener() {

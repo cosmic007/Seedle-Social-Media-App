@@ -32,7 +32,7 @@
             android:layout_height="40dp"
             android:src="@drawable/userprofile"
             android:layout_marginTop="8dp"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="12dp"
             android:scaleType="centerCrop"
             android:id="@+id/model_textStatus_profileIV"
             />
@@ -79,7 +79,6 @@
             android:layout_marginBottom="11dp"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:justificationMode="inter_word"
             android:text="This is an example"
             android:textColor="@color/black"
             android:textSize="13.5sp" />
@@ -91,9 +90,9 @@
 
         <LinearLayout
             android:id="@+id/model_textStatus_LinearLayout"
-            android:layout_width="220dp"
+            android:layout_width="match_parent"
             android:layout_height="30dp"
-            android:layout_marginTop="-4.5dp"
+            android:layout_marginTop="-3dp"
             android:layout_alignParentRight="true"
             android:layout_marginRight="13dp"
             android:orientation="horizontal">
@@ -106,7 +105,7 @@
                 android:id="@+id/model_textStatus_heartIV"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:layout_marginLeft="10dp"
+                android:layout_marginLeft="16dp"
                 android:layout_marginTop="10dp"
                 android:scaleType="centerCrop"
                 android:src="@drawable/heart"
@@ -172,7 +171,7 @@
                 android:id="@+id/model_textStatus_commentCountTV"
                 android:layout_width="50dp"
                 android:layout_height="30dp"
-                android:layout_marginLeft="-25dp"
+                android:layout_marginLeft="55dp"
                 android:layout_marginTop="5dp"
                 android:gravity="center"
                 android:text="0"
