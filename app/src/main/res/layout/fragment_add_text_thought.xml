@@ -32,20 +32,20 @@ android:layout_height="match_parent">
             android:textStyle="bold" />
 
         <EditText
-            android:layout_width="370dp"
+            android:layout_width="360dp"
             android:layout_height="wrap_content"
+            android:minHeight="50dp"
             android:layout_centerHorizontal="true"
             android:id="@+id/FragAddTextThoughtET"
             android:textColor="@color/black"
-            android:background="@drawable/edit_bg2"
-            android:elevation="10dp"
+            android:background="@drawable/edit_bg"
             android:hint="@string/textstatus_hint"
             android:textSize="12sp"
-            android:gravity="top|left"
-            android:paddingLeft="8dp"
+            android:justificationMode="inter_word"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
             android:paddingTop="8dp"
             android:paddingBottom="8dp"
-            android:maxLength="500"
             android:layout_marginTop="100dp"
 
         />
