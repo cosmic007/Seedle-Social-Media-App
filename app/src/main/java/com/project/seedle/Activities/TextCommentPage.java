@@ -42,6 +42,7 @@ public class TextCommentPage extends AppCompatActivity {
 
 
     //Class Variables
+    public int flag = 1;
     private Bundle objectBundle;
     private String documentID;
 
@@ -114,7 +115,7 @@ public class TextCommentPage extends AppCompatActivity {
 
             Query objectQuery = objectFirebaseFirestore.collection("TextStatus")
                     .document(documentID).collection("Comments")
-                    .orderBy("flag",Query.Direction.DESCENDING);
+                    .orderBy("currentdatetime",Query.Direction.ASCENDING);
 
             FirestoreRecyclerOptions<Model_Comment> objectOptions =
                     new FirestoreRecyclerOptions.Builder<Model_Comment>()
@@ -186,6 +187,7 @@ public class TextCommentPage extends AppCompatActivity {
                             @Override
                             public void onSuccess(DocumentSnapshot documentSnapshot) {
 
+
                                 String profileUrl=documentSnapshot.getString("profileimageurl");
                                 currentLoggedinUsername=documentSnapshot.getString("username");
 
@@ -195,7 +197,7 @@ public class TextCommentPage extends AppCompatActivity {
                                 objectMap.put("comment",commentET.getText().toString());
                                 objectMap.put("profilepicurl",profileUrl);
                                 objectMap.put("currentdatetime",getCurrentDate());
-                                objectMap.put("flag",1);
+                                objectMap.put("flag",flag);
                                 objectFirebaseFirestore.collection("TextStatus")
                                         .document(documentID).collection("Comments")
                                         .add(objectMap)
