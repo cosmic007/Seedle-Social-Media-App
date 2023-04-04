@@ -15,7 +15,7 @@
 
         />
     <item
-        android:title="Community"
+        android:title="Chat"
         android:id="@+id/community"
         android:icon="@drawable/icon_community"
         />

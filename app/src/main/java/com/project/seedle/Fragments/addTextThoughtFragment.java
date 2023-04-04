@@ -312,7 +312,7 @@ public class addTextThoughtFragment extends Fragment {
     {
         try {
             currentDate= Calendar.getInstance().getTime();
-            objectSimpleDateFormat=new SimpleDateFormat("hh:mm a  yyyy-MM-dd", Locale.getDefault());
+            objectSimpleDateFormat=new SimpleDateFormat("hh:mm a  dd-MM-yyyy", Locale.getDefault());
             return objectSimpleDateFormat.format(currentDate);
 
 

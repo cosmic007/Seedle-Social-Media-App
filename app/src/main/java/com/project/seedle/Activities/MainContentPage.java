@@ -1,6 +1,8 @@
 package com.project.seedle.Activities;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -317,6 +319,10 @@ public class MainContentPage extends AppCompatActivity implements NavigationView
             {
                 objectFirebaseAuth.signOut();
                 Toast.makeText(this,"You have successfully been logged out",Toast.LENGTH_SHORT).show();
+                SharedPreferences sharedPref = getSharedPreferences("myPrefs", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPref.edit();
+                editor.putBoolean("loggedIn", false);
+                editor.apply();
                 startActivity(new Intent(this,LoginPage.class));
                 closeDrawer();
                 finish();

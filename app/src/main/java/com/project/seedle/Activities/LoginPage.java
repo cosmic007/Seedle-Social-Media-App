@@ -4,7 +4,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -84,6 +86,10 @@ public class LoginPage extends AppCompatActivity {
                                 public void onSuccess(AuthResult authResult) {
                                     objectDialog.dismiss();
                                     Toast.makeText(LoginPage.this,"Welcome "+loginPageEmail.getText().toString(),Toast.LENGTH_SHORT).show();
+                                    SharedPreferences sharedPref = getSharedPreferences("myPrefs", Context.MODE_PRIVATE);
+                                    SharedPreferences.Editor editor = sharedPref.edit();
+                                    editor.putBoolean("loggedIn", true);
+                                    editor.apply();
                                     startActivity(new Intent(LoginPage.this,MainContentPage.class));
                                 }
                             }).addOnFailureListener(new OnFailureListener() {

@@ -24,7 +24,7 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
-            android:layout_marginStart="17dp"
+            android:layout_marginStart="9dp"
             android:layout_marginTop="-82dp"
             android:layout_marginEnd="7dp"
             android:src="@drawable/logo_black" />
@@ -35,7 +35,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/loginPagelogo"
             android:layout_centerInParent="true"
-            android:layout_marginTop="-195dp"
+            android:layout_marginTop="-215dp"
             android:text="Seedle"
             android:textColor="@color/black"
             android:textSize="40dp"

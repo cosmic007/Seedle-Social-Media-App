@@ -60,7 +60,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
         long datetime = message.getTimestamp();
 
 
-        SimpleDateFormat formatter = new SimpleDateFormat("hh:mm a  yyyy-MM-dd", Locale.getDefault());
+        SimpleDateFormat formatter = new SimpleDateFormat("hh:mm a  dd-MM-yyyy", Locale.getDefault());
         String dateString = formatter.format(new Date(datetime));
 
 

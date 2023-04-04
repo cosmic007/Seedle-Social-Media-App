@@ -38,11 +38,11 @@
             android:name=".Activities.LoginPage"
             android:exported="true"
             android:windowSoftInputMode="adjustResize"
+            android:theme="@style/LoginPageTheme"
             android:screenOrientation="portrait" />
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:windowSoftInputMode="adjustResize"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

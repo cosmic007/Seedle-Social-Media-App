@@ -100,7 +100,7 @@ public class TextCommentPage extends AppCompatActivity {
         try{
 
             currentDate= Calendar.getInstance().getTime();
-            objectSimpleDateFormat = new SimpleDateFormat("hh:mm a  yyyy-MM-dd hh:mm", Locale.getDefault());
+            objectSimpleDateFormat = new SimpleDateFormat("hh:mm a  dd-MM-yyyy", Locale.getDefault());
             return objectSimpleDateFormat.format(currentDate);
 
 
