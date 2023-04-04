@@ -25,6 +25,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -52,6 +53,7 @@ public class addImageThoughtFragment extends Fragment {
     private EditText statusET;
     private TextView publishStatus,goBackBtn,choosePictureBtn;
     private ProgressBar objectProgressBar;
+
 
 
 
@@ -104,6 +106,8 @@ public class addImageThoughtFragment extends Fragment {
 
         return objectView;
     }
+
+
 
 
     private  void publishStatus()

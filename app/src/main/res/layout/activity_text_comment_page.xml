@@ -4,63 +4,52 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingTop="10dp"
-    android:paddingRight="10dp"
-    android:paddingLeft="10dp"
-    android:paddingBottom="10dp"
     tools:context=".Activities.TextCommentPage">
-<ScrollView
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
-    <RelativeLayout
+
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/textstatus_commentRV"
         android:layout_width="match_parent"
-        android:layout_height="600dp">
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/textstatus_commentRV"
-            android:layout_width="match_parent"
-            android:layout_height="550dp"
-            />
-
-
-        \
-
-        <EditText
-            android:id="@+id/textstatus_commentET"
+        android:layout_height="670dp"
+        android:background="@android:color/white"
+        android:padding="8dp"
+        android:scrollbars="vertical"
+        android:scrollbarThumbVertical="@android:color/darker_gray"
+        android:scrollbarSize="8dp"
+        android:clipToPadding="false"
+        />
+        <RelativeLayout
+            android:id="@+id/chat_input_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/textstatus_commentRV"
-            android:layout_alignBottom="@+id/textstatus_commentRV"
-            android:layout_marginBottom="-50dp"
-            android:background="@drawable/et_border"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
-            android:hint="@string/comment_hint"
-            android:maxLength="100"
-            android:paddingLeft="8dp"
-            android:paddingTop="5dp"
-            android:paddingRight="8dp"
-            android:paddingBottom="5dp"
-
-            android:textColor="@color/black"
-            android:textSize="14sp" />
-
-        <Button
-            android:id="@+id/textStatus_commentSendBtn"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_below="@id/textstatus_commentRV"
-            android:layout_alignParentRight="true"
-            android:layout_centerInParent="true"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="10dp"
-            android:background="@drawable/comment_send_btn" />
+            android:layout_alignParentBottom="true"
+            android:background="#D1CCCC"
+            android:padding="8dp">
 
 
 
-    </RelativeLayout>
-</ScrollView>
+            <EditText
+                android:id="@+id/textstatus_commentET"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:hint="Enter Comment..."
+                android:padding="8dp"
+                android:textColor="@android:color/black"/>
+
+            <ImageButton
+                android:id="@+id/textStatus_commentSendBtn"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+
+                android:layout_alignParentRight="true"
+                android:layout_centerInParent="true"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/comment_send_btn" />
+        </RelativeLayout>
+
 
 
 

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/item_message_container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="55dp"
+    android:layout_marginStart="4dp"
+    android:layout_marginTop="5dp"
+    android:layout_marginEnd="4dp"
+    android:orientation="horizontal"
+    android:background="@color/white"
+    android:paddingTop="4dp">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/image_view_profile"
+        android:layout_width="40dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginLeft="10dp"
+        android:layout_height="40dp"
+        android:background="@drawable/userprofile"
+        android:contentDescription="@null"
+        android:scaleType="centerCrop" />
+
+
+
+    <TextView
+        android:id="@+id/text_view_user_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:textStyle="bold"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@id/image_view_profile"
+        android:text="User Name"
+        android:textColor="#6A6868"
+        android:textSize="13sp" />
+    <TextView
+        android:id="@+id/text_view_message_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+
+        android:layout_toRightOf="@id/text_view_user_name"
+        android:layout_marginTop="6.2dp"
+        android:layout_marginRight="10dp"
+        android:text="00:00"
+        android:textSize="10sp" />
+
+    <TextView
+        android:id="@+id/text_view_message_content"
+        android:layout_width="350dp"
+        android:layout_toRightOf="@id/image_view_profile"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/text_view_user_name"
+
+        android:layout_marginTop="2dp"
+        android:layout_marginLeft="10dp"
+        android:text="Message Content"
+        android:textColor="@android:color/black"
+        android:textSize="14sp" />
+
+
+
+
+</RelativeLayout>

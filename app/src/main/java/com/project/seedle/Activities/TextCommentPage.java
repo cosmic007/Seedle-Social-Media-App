@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,13 +32,14 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 public class TextCommentPage extends AppCompatActivity {
     //XML Variables
 
     private RecyclerView objectRecyclerView;
-    private TextView SendCommentBtn;
+    private ImageButton SendCommentBtn;
 
     private EditText commentET;
 
@@ -98,7 +100,7 @@ public class TextCommentPage extends AppCompatActivity {
         try{
 
             currentDate= Calendar.getInstance().getTime();
-            objectSimpleDateFormat = new SimpleDateFormat("hh:mm:ss dd-MMM-yyyy");
+            objectSimpleDateFormat = new SimpleDateFormat("hh:mm a  yyyy-MM-dd hh:mm", Locale.getDefault());
             return objectSimpleDateFormat.format(currentDate);
 
 
