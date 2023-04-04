@@ -4,14 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activities.TextCommentPage">
+    android:windowSoftInputMode="adjustResize"
+    tools:context=".Activities.TextCommentPage"
+    >
 
 
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/textstatus_commentRV"
         android:layout_width="match_parent"
-        android:layout_height="670dp"
+        android:layout_height="match_parent"
+        android:layout_above="@id/chat_input_layout"
         android:background="@android:color/white"
         android:padding="8dp"
         android:scrollbars="vertical"
