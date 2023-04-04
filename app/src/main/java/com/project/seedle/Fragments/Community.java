@@ -2,31 +2,32 @@ package com.project.seedle.Fragments;
 
 import static android.content.ContentValues.TAG;
 
-import android.content.Context;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+import androidx.collection.ArraySet;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 
-import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -37,13 +38,14 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.auth.User;
+import com.project.seedle.Activities.MainContentPage;
 import com.project.seedle.AdaptersClasses.ChatAdapter;
 import com.project.seedle.ModelClassess.ChatMessage;
 import com.project.seedle.R;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -54,6 +56,9 @@ public class Community extends Fragment {
     private SimpleDateFormat objectSimpleDateFormat;
 
     private FloatingActionButton fab;
+
+
+
 
 
 
@@ -76,10 +81,41 @@ public class Community extends Fragment {
 
     }
 
+    private void showNotification(String message, String username) {
+
+        // Create a notification builder
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(requireContext(), "my_channel_id")
+                .setSmallIcon(R.mipmap.seedle_app_logo)
+                .setContentTitle(username)
+                .setContentText(message)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setAutoCancel(true);
+
+
+        // Show the notification
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(requireContext());
+        notificationManager.notify(0, builder.build());
+    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel channel = new NotificationChannel("my_channel_id", "Global Chat", NotificationManager.IMPORTANCE_DEFAULT);
+            NotificationManager notificationManager = requireActivity().getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
+
+
+
+
+
+
+
+
+
 
 
         String currentloggedinuser = objectFirebaseAuth.getCurrentUser().getEmail();
@@ -106,6 +142,8 @@ public class Community extends Fragment {
                 Log.e(TAG, "Error getting document", e);
             }
         });
+
+
 
 
 
@@ -172,6 +210,8 @@ public class Community extends Fragment {
 
                 // Clear the message text field
                 msg.setText("");
+
+
             }
         });
         List<ChatMessage> chatMessagesList = new ArrayList<>();
@@ -189,18 +229,56 @@ public class Community extends Fragment {
                 for (DataSnapshot messageSnapshot : dataSnapshot.getChildren()) {
                     // Retrieve the chat message object
                     ChatMessage message = messageSnapshot.getValue(ChatMessage.class);
-
                     // Add the chat message to your local data list or adapter
                     chatMessagesList.add(message);
 
+
+
                 }
+
                 chatAdapter.notifyDataSetChanged();
                 recyclerView.scrollToPosition(chatAdapter.getItemCount() - 1);
+
+
+
+
+
             }
 
             @Override
             public void onCancelled(DatabaseError error) {
                 // Failed to read value
+                Log.w(TAG, "Failed to read value.", error.toException());
+            }
+        });
+
+
+        chatRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                chatMessagesList.clear();
+                ChatMessage latestMessage = null;
+                for (DataSnapshot messageSnapshot : dataSnapshot.getChildren()) {
+                    ChatMessage message = messageSnapshot.getValue(ChatMessage.class);
+                    chatMessagesList.add(message);
+                    if (latestMessage == null || message.getTimestamp() > latestMessage.getTimestamp()) {
+                        latestMessage = message;
+                    }
+                }
+
+                if (latestMessage != null) {
+                    String senderName = latestMessage.getSenderName();
+                    String messageText = latestMessage.getMessageText();
+                    if (!senderName.equals(User_Name)) {
+                        showNotification(messageText, senderName);
+                    }
+                }
+
+                chatAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
                 Log.w(TAG, "Failed to read value.", error.toException());
             }
         });
@@ -213,11 +291,6 @@ public class Community extends Fragment {
 
 
     }
-
-
-
-
-
 
 
 
