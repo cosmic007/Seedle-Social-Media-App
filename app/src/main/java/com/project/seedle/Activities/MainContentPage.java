@@ -1,5 +1,6 @@
 package com.project.seedle.Activities;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -15,6 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
@@ -37,6 +39,7 @@ import com.project.seedle.Fragments.Community;
 import com.project.seedle.Fragments.Favorites;
 import com.project.seedle.Fragments.ImageThoughts;
 import com.project.seedle.Fragments.TextThoughts;
+import com.project.seedle.MyForegroundService;
 import com.project.seedle.R;
 
 import java.security.PrivilegedAction;
@@ -69,17 +72,21 @@ public class MainContentPage extends AppCompatActivity implements NavigationView
     private BottomNavigationView objectBottomNavigationView;
 
     private DocumentReference objectDocumentReference;
+
+
     private String currentUserEmail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
+
+        Intent serviceIntent = new Intent(this, MyForegroundService.class);
+        startService(serviceIntent);
+
         setContentView(R.layout.activity_main_content_page);
 
-
-        FirebaseApp.initializeApp(this);
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("chat_messages");
 
         objectFirebaseAuth= FirebaseAuth.getInstance();
         objectFirebaseFirestore= FirebaseFirestore.getInstance();
@@ -110,21 +117,22 @@ public class MainContentPage extends AppCompatActivity implements NavigationView
         objectNavigationView.setNavigationItemSelectedListener(this);
 
         objectBottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 try{
                     switch (item.getItemId())
                     {
-                        case R.id.item_textThoughts:
+                        case Constants.item_textThoughts:
                             changeFragments(objectTextThoughts);
                             return true;
-                        case R.id.item_imageThoughts:
+                        case Constants.itemImageThoughts:
                             changeFragments(objectImageThoughts);
                             return true;
-                        case R.id.item_fav_thoughts:
+                        case Constants.item_fav_thoughts:
                             changeFragments(objectFavorites);
                             return true;
-                        case R.id.community:
+                        case Constants.community:
                             changeFragments(objectCommunity);
                             return true;
                         default:

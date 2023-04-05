@@ -5,6 +5,7 @@ import static android.content.ContentValues.TAG;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -58,6 +59,17 @@ public class Community extends Fragment {
     private FloatingActionButton fab;
 
 
+    private Context mContext;
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        mContext = context;
+    }
+
+
+
+
 
 
 
@@ -84,7 +96,7 @@ public class Community extends Fragment {
     private void showNotification(String message, String username) {
 
         // Create a notification builder
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(requireContext(), "my_channel_id")
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(mContext, "my_channel_id")
                 .setSmallIcon(R.mipmap.seedle_app_logo)
                 .setContentTitle(username)
                 .setContentText(message)
@@ -93,7 +105,7 @@ public class Community extends Fragment {
 
 
         // Show the notification
-        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(requireContext());
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(mContext);
         notificationManager.notify(0, builder.build());
     }
 
