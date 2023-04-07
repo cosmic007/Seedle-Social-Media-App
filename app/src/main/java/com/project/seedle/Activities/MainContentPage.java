@@ -55,11 +55,12 @@ public class MainContentPage extends AppCompatActivity implements NavigationView
     private Favorites objectFavorites;
     private Community objectCommunity;
 
+    private AddThoughtPage objectAddThoughtPage;
+
 
     private Toolbar objectToolBar;
     private NavigationView objectNavigationView;
 
-    private FloatingActionButton objectFloatingActionButton;
 
     private DrawerLayout objectDrawerLayout;
     private ImageView header_backgroundProfile;
@@ -95,10 +96,11 @@ public class MainContentPage extends AppCompatActivity implements NavigationView
         objectImageThoughts = new ImageThoughts();
         objectFavorites = new Favorites();
         objectCommunity = new Community();
+        objectAddThoughtPage = new AddThoughtPage();
 
-        changeFragments(objectTextThoughts);
 
-        objectFloatingActionButton=findViewById(R.id.maincontentPage_addStatusButton);
+        changeFragments(objectImageThoughts);
+
 
         objectToolBar=findViewById(R.id.toolBar);
         objectNavigationView=findViewById(R.id.navigationView);
@@ -123,17 +125,20 @@ public class MainContentPage extends AppCompatActivity implements NavigationView
                 try{
                     switch (item.getItemId())
                     {
-                        case Constants.item_textThoughts:
-                            changeFragments(objectTextThoughts);
-                            return true;
                         case Constants.itemImageThoughts:
                             changeFragments(objectImageThoughts);
+                            return true;
+                        case Constants.item_textThoughts:
+                            changeFragments(objectTextThoughts);
                             return true;
                         case Constants.item_fav_thoughts:
                             changeFragments(objectFavorites);
                             return true;
                         case Constants.community:
                             changeFragments(objectCommunity);
+                            return true;
+                        case Constants.item_add_post:
+                            startActivity(new Intent(MainContentPage.this,AddThoughtPage.class));
                             return true;
                         default:
                             return false;
@@ -149,12 +154,7 @@ public class MainContentPage extends AppCompatActivity implements NavigationView
             }
         });
 
-        objectFloatingActionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MainContentPage.this,AddThoughtPage.class));
-            }
-        });
+
 
 
 

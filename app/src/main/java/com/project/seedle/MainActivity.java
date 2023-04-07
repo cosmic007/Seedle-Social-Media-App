@@ -55,12 +55,10 @@ public class MainActivity extends AppCompatActivity {
         protected void onPostExecute(Boolean loggedIn) {
             SharedPreferences sharedPref = mContext.getSharedPreferences("myPrefs", Context.MODE_PRIVATE);
             if (!isFirstLaunch) {
-
                 AnimationSet animationSet = new AnimationSet(true);
 
                 TranslateAnimation translateAnimation = new TranslateAnimation(0, 0, 100, 0);
                 translateAnimation.setDuration(1000);
-
 
                 AlphaAnimation alphaAnimation = new AlphaAnimation(0.0f, 1.0f);
                 alphaAnimation.setDuration(1000);
@@ -68,31 +66,21 @@ public class MainActivity extends AppCompatActivity {
                 animationSet.addAnimation(translateAnimation);
                 animationSet.addAnimation(alphaAnimation);
 
-
                 logo.setVisibility(View.VISIBLE);
                 logo.startAnimation(animationSet);
-
-
-
-            }
-            else if (!loggedIn) {
-
+            } else if (!loggedIn) {
                 tologinbtn.setVisibility(View.GONE);
                 Intent intent = new Intent(MainActivity.this, LoginPage.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
                 finish();
-            }
-            else {
+            } else {
                 tologinbtn.setVisibility(View.GONE);
                 Intent intent = new Intent(MainActivity.this, MainContentPage.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
                 finish();
             }
-
-
-
-
-
         }
     }
 
@@ -117,7 +105,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                LoginPage();
+                Intent intent = new Intent(MainActivity.this, LoginPage.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+                finish();
                 SharedPreferences sharedPref = getSharedPreferences("myPrefs", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPref.edit();
                 editor.putBoolean("firstlaunch", true);
@@ -142,6 +133,9 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+
+
+
     private void attachJavaObjectToXML()
     {
         try
@@ -157,17 +151,7 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this,"MainAction"+e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
-    private void LoginPage()
-    {
-        try{
-            startActivity(new Intent(this, LoginPage.class));
 
-        }
-        catch (Exception e)
-        {
-            Toast.makeText(this,"MainActivity"+e.getMessage(),Toast.LENGTH_SHORT).show();
-        }
-    }
 
 
 }

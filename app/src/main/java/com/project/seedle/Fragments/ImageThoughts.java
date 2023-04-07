@@ -3,64 +3,69 @@ package com.project.seedle.Fragments;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.project.seedle.AdaptersClasses.ImageStatusAdapterClass;
+import com.project.seedle.ModelClassess.Model_ImageStatus;
 import com.project.seedle.R;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link ImageThoughts#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class ImageThoughts extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private View parent;
+    private RecyclerView objectRecyclerView;
+    private ImageStatusAdapterClass objectImageStatusAdapterClass;
+    private FirebaseFirestore objectFirebaseFirestore;
 
     public ImageThoughts() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ImageThoughts.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static ImageThoughts newInstance(String param1, String param2) {
-        ImageThoughts fragment = new ImageThoughts();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_image_thoughts, container, false);
+
+        parent = inflater.inflate(R.layout.fragment_image_thoughts, container, false);
+        objectRecyclerView = parent.findViewById(R.id.imageStatus_RV);
+        objectFirebaseFirestore = FirebaseFirestore.getInstance();
+
+        // Querying Firestore to get data
+        Query objectQuery = objectFirebaseFirestore.collection("ImageStatus")
+                .orderBy("flag", Query.Direction.DESCENDING);
+
+        FirestoreRecyclerOptions<Model_ImageStatus> objectOptions
+                =new FirestoreRecyclerOptions.Builder<Model_ImageStatus>()
+                .setQuery(objectQuery, Model_ImageStatus.class).build();
+
+        // Initializing the adapter for RecyclerView
+        objectImageStatusAdapterClass = new ImageStatusAdapterClass(objectOptions, getActivity());
+
+        // Setting the adapter for RecyclerView
+
+        objectRecyclerView.setAdapter(objectImageStatusAdapterClass);
+        objectRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        return parent;
+    }
+
+    // Method to start listening to the FirestoreRecyclerAdapter
+    @Override
+    public void onStart() {
+        super.onStart();
+        objectImageStatusAdapterClass.startListening();
+    }
+
+    // Method to stop listening to the FirestoreRecyclerAdapter
+    @Override
+    public void onStop() {
+        super.onStop();
+        objectImageStatusAdapterClass.stopListening();
     }
 }

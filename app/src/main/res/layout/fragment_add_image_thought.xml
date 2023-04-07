@@ -16,39 +16,41 @@
     >
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="800dp">
+        android:layout_height="match_parent">
 
 
         <ImageView
             android:id="@+id/Frag_addImageThoughtIV"
-            android:layout_width="350dp"
-            android:layout_height="360dp"
+            android:layout_width="match_parent"
+            android:layout_height="350dp"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
-            android:layout_marginStart="30dp"
-            android:layout_marginTop="108dp"
-            android:layout_marginEnd="30dp"
+
+            android:layout_marginStart="1dp"
+
+            android:layout_marginTop="136dp"
+            android:layout_marginEnd="-1dp"
             android:scaleType="centerCrop"
             android:src="@drawable/insertimagedrawable" />
 
         <EditText
             android:id="@+id/Frag_addImageThoughtET"
-            android:layout_width="400dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/Frag_addImageThoughtBtn"
+            android:layout_below="@+id/Frag_addImageThoughtIV"
+
             android:layout_alignParentStart="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginStart="41dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="41dp"
-            android:background="@drawable/edit_bg2"
-            android:elevation="10dp"
+            android:layout_marginStart="2dp"
+            android:layout_marginTop="80dp"
+            android:background="@color/white"
             android:hint="@string/imagestatus_hint"
-            android:maxLength="500"
-            android:paddingLeft="15dp"
+            android:minHeight="50dp"
+            android:paddingLeft="60dp"
             android:paddingRight="15dp"
-            android:textSize="12sp" />
+            android:textColor="@color/black"
+            android:textColorHint="@color/black"
+            android:textSize="15sp" />
 
         <TextView
             android:id="@+id/FragImageTHoughts_BackBtn"
@@ -80,24 +82,16 @@
             android:textColor="@color/white"
             android:textStyle="bold" />
 
-        <TextView
-            android:layout_width="200dp"
-            android:layout_height="50dp"
+        <ImageView
             android:id="@+id/Frag_addImageThoughtBtn"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_below="@id/Frag_addImageThoughtIV"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginStart="55dp"
-            android:layout_marginTop="498dp"
-            android:layout_marginEnd="57dp"
-            android:background="@drawable/editbg3"
-            android:elevation="10dp"
-            android:gravity="center"
-            android:text="Click to select your picture"
-            android:textColor="@color/white"
-            android:textSize="14sp"
-            android:textStyle="bold" />
+            android:layout_marginStart="9dp"
+            android:layout_marginTop="569dp"
+            android:src="@drawable/addpic" />
 
         <TextView
             android:layout_width="200dp"
@@ -130,15 +124,16 @@
     </RelativeLayout>
 
 </ScrollView>
+
     <ProgressBar
+        android:id="@+id/Frag_addImageThought_ProgressBar"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:indeterminateTint="@color/black"
-        android:id="@+id/Frag_addImageThought_ProgressBar"
-        android:layout_centerInParent="true"
         android:layout_alignParentTop="true"
+        android:layout_centerInParent="true"
         android:layout_marginTop="255dp"
-        android:visibility="invisible"/>
+        android:indeterminateTint="@color/black"
+        android:visibility="invisible" />
 
 
 </RelativeLayout>

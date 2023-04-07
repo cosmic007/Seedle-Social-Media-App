@@ -1,5 +1,7 @@
 package com.project.seedle.Fragments;
 
+import static android.content.ContentValues.TAG;
+
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
@@ -10,6 +12,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +30,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -40,19 +44,24 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 
 public class addImageThoughtFragment extends Fragment {
 
+    public int flag=1;
+
     public addImageThoughtFragment() {
         // Required empty public constructor
     }
     //Java Object for XML Objects
-    private ImageView statusImageView;
+    private ImageView statusImageView,choosePictureBtn;
     private EditText statusET;
-    private TextView publishStatus,goBackBtn,choosePictureBtn;
+    private TextView publishStatus,goBackBtn;
     private ProgressBar objectProgressBar;
+
+    public String User_Name,EMAIL;
 
 
 
@@ -87,12 +96,38 @@ public class addImageThoughtFragment extends Fragment {
         objectView=inflater.inflate(R.layout.fragment_add_image_thought, container, false);
         ConnectJavaViewToXMLView();
 
+        objectFirebaseFirestore=FirebaseFirestore.getInstance();
+
         objectStorageReference= FirebaseStorage.getInstance().getReference("ImageStatusFolder");
         choosePictureBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 openMobileGallery();
 
+            }
+        });
+
+        FirebaseAuth object = FirebaseAuth.getInstance();
+        EMAIL = object.getCurrentUser().getEmail();
+
+
+        CollectionReference collectionRef = objectFirebaseFirestore.collection("UserProfileData");
+        DocumentReference documentRef = collectionRef.document(EMAIL);
+
+        documentRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                if (documentSnapshot.exists()) {
+                    String UserName = documentSnapshot.getString("username");
+                    User_Name = UserName;
+                } else {
+                    Log.d(TAG, "No such document");
+                }
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.e(TAG, "Error getting document", e);
             }
         });
 
@@ -160,6 +195,7 @@ public class addImageThoughtFragment extends Fragment {
 
                         }
                     }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+
                         @Override
                         public void onComplete(@NonNull Task<Uri> task) {
                             if(task.isSuccessful())
@@ -167,11 +203,12 @@ public class addImageThoughtFragment extends Fragment {
                                 Map<String,Object> statusMap=new HashMap<>();
                                 statusMap.put("currentdatetime", getCurrentDate());
                                 statusMap.put("useremail", currentLoggedInUserEmail);
-
+                                statusMap.put("username", User_Name);
                                 statusMap.put("profileurl", getCurrentLoggedInUserProfileUrl);
                                 statusMap.put("status", statusET.getText().toString());
                                 statusMap.put("noofhaha", 0);
                                 statusMap.put("nooflove", 0);
+                                statusMap.put("flag",flag);
                                 statusMap.put("nofsad", 0);
                                 statusMap.put("noofcomments", 0);
 
@@ -271,7 +308,7 @@ public class addImageThoughtFragment extends Fragment {
     {
         try {
             currentDate= Calendar.getInstance().getTime();
-            objectSimpleDateFormat=new SimpleDateFormat("HH:mm:ss dd-MMM-yyyy");
+            objectSimpleDateFormat=new SimpleDateFormat("hh:mm a  dd-MM-yyyy", Locale.getDefault());
             return objectSimpleDateFormat.format(currentDate);
 
 

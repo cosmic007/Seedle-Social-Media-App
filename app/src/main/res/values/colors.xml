@@ -9,4 +9,8 @@
     <color name="white">#FFFFFFFF</color>
     <color name="navTextColor">#000000</color>
     <color name="grey">#000000</color>
+    <color name="color_1">#FFB6C1</color>
+    <color name="color_2">#7B68EE</color>
+    <color name="color_3">#00FFFF</color>
+
 </resources>

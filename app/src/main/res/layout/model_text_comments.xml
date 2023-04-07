@@ -32,7 +32,7 @@
             android:layout_height="25dp"
             android:id="@+id/model_addcomment_userName"
             android:paddingLeft="10dp"
-            android:paddingTop="3dp"
+            android:paddingTop="5dp"
             android:layout_marginTop="-1dp"
             android:textStyle="bold"
             android:text="Abhijith V A"
