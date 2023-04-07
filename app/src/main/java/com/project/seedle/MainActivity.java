@@ -69,13 +69,11 @@ public class MainActivity extends AppCompatActivity {
                 logo.setVisibility(View.VISIBLE);
                 logo.startAnimation(animationSet);
             } else if (!loggedIn) {
-                tologinbtn.setVisibility(View.GONE);
                 Intent intent = new Intent(MainActivity.this, LoginPage.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
                 finish();
             } else {
-                tologinbtn.setVisibility(View.GONE);
                 Intent intent = new Intent(MainActivity.this, MainContentPage.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
@@ -106,7 +104,6 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 Intent intent = new Intent(MainActivity.this, LoginPage.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
                 finish();
                 SharedPreferences sharedPref = getSharedPreferences("myPrefs", Context.MODE_PRIVATE);

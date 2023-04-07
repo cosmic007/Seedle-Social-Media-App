@@ -32,10 +32,10 @@ public class SplashScreen extends AppCompatActivity {
         AnimationSet animationSet = new AnimationSet(true);
 
         TranslateAnimation translateAnimation = new TranslateAnimation(0, 0, 100, 0);
-        translateAnimation.setDuration(2500);
+        translateAnimation.setDuration(1000);
 
         AlphaAnimation alphaAnimation = new AlphaAnimation(0.0f, 1.0f);
-        alphaAnimation.setDuration(2500);
+        alphaAnimation.setDuration(1000);
 
         animationSet.addAnimation(translateAnimation);
         animationSet.addAnimation(alphaAnimation);

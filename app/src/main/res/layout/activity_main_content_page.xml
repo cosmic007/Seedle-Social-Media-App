@@ -63,7 +63,7 @@
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottom_nav_viewbar"
             android:layout_width="match_parent"
-            android:layout_height="56dp"
+            android:layout_height="55dp"
             android:layout_alignParentBottom="true"
             android:background="#EDE7E7"
             android:elevation="10dp"
