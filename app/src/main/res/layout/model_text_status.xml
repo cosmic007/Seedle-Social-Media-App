@@ -6,12 +6,9 @@
     android:paddingLeft="10dp"
     android:paddingRight="10dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-
-    android:id="@+id/model_textStatusRL"
-
-    >
+    android:id="@+id/model_textStatusRL">
     <RelativeLayout
-        android:layout_width="378dp"
+        android:layout_width="375dp"
         android:layout_centerHorizontal="true"
         android:layout_height="wrap_content"
         android:id="@+id/model_textstatusinnerRL"
