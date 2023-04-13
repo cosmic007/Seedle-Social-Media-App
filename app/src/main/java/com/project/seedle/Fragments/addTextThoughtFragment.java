@@ -97,7 +97,7 @@ public class addTextThoughtFragment extends Fragment {
         objectFirebaseFirestore=FirebaseFirestore.getInstance();
         EMAIL=objectFirebaseAuth.getCurrentUser().getEmail();
 
-        if(Objects.equals(EMAIL, "cosmicriderrr@gmail.com") || Objects.equals(EMAIL, "shabanaofficial321@gmail.com"))
+        if(Objects.equals(EMAIL, "cosmicriderrr@gmail.com") || Objects.equals(EMAIL, "shabanaofficial321@gmail.com") || Objects.equals(EMAIL, "sairaseira187@gmail.com"))
         {
 
             isVerified = "verified";

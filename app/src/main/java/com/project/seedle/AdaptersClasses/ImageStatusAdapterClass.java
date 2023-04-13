@@ -14,8 +14,18 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.project.seedle.ModelClassess.Model_ImageStatus;
+import com.project.seedle.ModelClassess.Model_TextStatus;
 import com.project.seedle.R;
+
+import java.util.Objects;
 
 public class ImageStatusAdapterClass extends FirestoreRecyclerAdapter<Model_ImageStatus, ImageStatusAdapterClass.ImageStatusViewHolderClass> {
 
@@ -47,8 +57,48 @@ public class ImageStatusAdapterClass extends FirestoreRecyclerAdapter<Model_Imag
             Glide.with(context).load(linkofimageStatus)
                     .into(imageStatusViewHolderClass.imageStatus);
             imageStatusViewHolderClass.objectProgressBar.setVisibility(View.INVISIBLE);
-        } catch (IndexOutOfBoundsException e) {
-            // catch the exception and do nothing
+
+            FirebaseFirestore objectFirebaseFirestore =FirebaseFirestore.getInstance();
+
+
+            for (int j = 0; j < getItemCount(); j++) {
+                Model_ImageStatus item = getItem(j);
+
+                FirebaseAuth objFirebaseAuth = FirebaseAuth.getInstance();
+
+                final String userEmail = objFirebaseAuth.getCurrentUser().getEmail();
+                String documentID = getSnapshots().getSnapshot(imageStatusViewHolderClass.getAdapterPosition()).getId();
+
+
+                final DocumentReference objectDocumentReferecnce = objectFirebaseFirestore.collection("ImageStatus")
+                        .document(documentID);
+                objectDocumentReferecnce.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.getResult().exists()) {
+                            String VERIFY = task.getResult().getString("verified");
+                            if (Objects.equals(VERIFY, "verified")) {
+                                imageStatusViewHolderClass.verified.setVisibility(View.VISIBLE);
+                                imageStatusViewHolderClass.devtv.setVisibility(View.INVISIBLE);
+                            } else {
+                                imageStatusViewHolderClass.verified.setVisibility(View.INVISIBLE);
+                                imageStatusViewHolderClass.devtv.setVisibility(View.INVISIBLE);
+                            }
+
+                        }
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+
+                    }
+                });
+            }
+
+        }
+        catch(IndexOutOfBoundsException e){
+                // catch the exception and do nothing
         }
     }
 
@@ -80,8 +130,8 @@ public class ImageStatusAdapterClass extends FirestoreRecyclerAdapter<Model_Imag
     }
 
     public static class ImageStatusViewHolderClass extends RecyclerView.ViewHolder {
-        ImageView imageStatus;
-        TextView userName, StatusDesc, statusDate, heartCount, commentCount;
+        ImageView imageStatus,verified;
+        TextView userName, StatusDesc, statusDate, heartCount, commentCount, devtv;
         ImageView favoriteIV, deleteIV, profileImageIV, HeartIV;
         ProgressBar objectProgressBar;
 
@@ -90,6 +140,9 @@ public class ImageStatusAdapterClass extends FirestoreRecyclerAdapter<Model_Imag
 
         public ImageStatusViewHolderClass(@NonNull View itemView) {
             super(itemView);
+
+            verified = itemView.findViewById(R.id.verified);
+            devtv = itemView.findViewById(R.id.admin);
 
             imageStatus = itemView.findViewById(R.id.idIVPost);
             favoriteIV = itemView.findViewById(R.id.idIVfavorite);

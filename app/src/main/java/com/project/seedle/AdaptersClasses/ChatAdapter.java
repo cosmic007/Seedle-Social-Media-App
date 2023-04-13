@@ -28,10 +28,14 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
 public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder> {
 
     private List<ChatMessage> chatMessagesList;
+
+    public String EMAIL;
+    public String User_Name;
 
     public ChatAdapter(List<ChatMessage> chatMessagesList) {
         this.chatMessagesList = chatMessagesList;
@@ -42,6 +46,30 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
         // Inflate the chat item view layout
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.model_chat_item, parent, false);
+
+        FirebaseAuth objectFirebaseAuth= FirebaseAuth.getInstance();
+        EMAIL =objectFirebaseAuth.getCurrentUser().getEmail();
+        FirebaseFirestore objectFirebaseFirestore = FirebaseFirestore.getInstance();
+
+        CollectionReference collectionRef = objectFirebaseFirestore.collection("UserProfileData");
+        DocumentReference documentRef = collectionRef.document(EMAIL);
+
+        documentRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                if (documentSnapshot.exists()) {
+                    String UserName = documentSnapshot.getString("username");
+                    User_Name = UserName;
+                } else {
+                    Log.d(TAG, "No such document");
+                }
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.e(TAG, "Error getting document", e);
+            }
+        });
 
 
         return new ChatViewHolder(itemView);
@@ -55,6 +83,20 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
         // Set the message text and other properties on the view holder
         holder.textViewMessage.setText(message.getMessageText());
         holder.textViewSender.setText(message.getSenderName());
+
+        String Sender = message.getSenderName();
+        if(Objects.equals(Sender, "Abhijith V A") || Objects.equals(Sender, "shabzy") || Objects.equals(Sender, "Saira Hussain"))
+        {
+            holder.verified.setVisibility(View.VISIBLE);
+            holder.devTV.setVisibility(View.VISIBLE);
+        }
+        else
+        {
+            holder.verified.setVisibility(View.INVISIBLE);
+            holder.devTV.setVisibility(View.INVISIBLE);
+        }
+
+
 
 
         long datetime = message.getTimestamp();
@@ -85,9 +127,9 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
 
         public TextView textViewMessage;
         public TextView textViewSender;
-        public TextView textViewTime;
+        public TextView textViewTime,devTV;
 
-        public ImageView profilepic;
+        public ImageView profilepic,verified;
 
         public ChatViewHolder(View itemView) {
             super(itemView);
@@ -97,6 +139,9 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
             textViewSender = itemView.findViewById(R.id.text_view_user_name);
             textViewTime = itemView.findViewById(R.id.text_view_message_time);
             profilepic = itemView.findViewById(R.id.image_view_profile);
+            verified = itemView.findViewById(R.id.verified);
+            devTV =itemView.findViewById(R.id.admin);
+
         }
     }
 }

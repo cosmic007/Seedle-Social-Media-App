@@ -46,6 +46,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 
 
 public class addImageThoughtFragment extends Fragment {
@@ -58,10 +59,13 @@ public class addImageThoughtFragment extends Fragment {
     //Java Object for XML Objects
     private ImageView statusImageView,choosePictureBtn;
     private EditText statusET;
+
+    public String isVerified;
     private TextView publishStatus,goBackBtn;
     private ProgressBar objectProgressBar;
 
     public String User_Name,EMAIL;
+    public String eMail;
 
 
 
@@ -99,6 +103,20 @@ public class addImageThoughtFragment extends Fragment {
         objectFirebaseFirestore=FirebaseFirestore.getInstance();
 
         objectStorageReference= FirebaseStorage.getInstance().getReference("ImageStatusFolder");
+
+        objectFirebaseAuth=FirebaseAuth.getInstance();
+        eMail=objectFirebaseAuth.getCurrentUser().getEmail();
+
+        if(Objects.equals(eMail, "cosmicriderrr@gmail.com") || Objects.equals(eMail, "shabanaofficial321@gmail.com") || Objects.equals(eMail, "sairaseira187@gmail.com"))
+        {
+
+            isVerified = "verified";
+
+
+        }
+        else {
+            isVerified = "notverified";
+        }
         choosePictureBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -211,7 +229,7 @@ public class addImageThoughtFragment extends Fragment {
                                 statusMap.put("flag",flag);
                                 statusMap.put("nofsad", 0);
                                 statusMap.put("noofcomments", 0);
-
+                                statusMap.put("verified",isVerified);
                                 statusMap.put("currentflag", "none");
                                 statusMap.put("statusimageurl",task.getResult().toString());
                                 objectFirebaseFirestore.collection("ImageStatus")

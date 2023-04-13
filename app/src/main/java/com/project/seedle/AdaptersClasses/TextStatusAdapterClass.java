@@ -601,7 +601,7 @@ public class TextStatusAdapterClass extends FirestoreRecyclerAdapter<Model_TextS
     }
     private int getRandomColor() {
         Random random = new Random();
-        float minSaturation = 0.5f; // adjust as needed
+        float minSaturation = 1f;
         float[] hsv = new float[3];
         int color;
 
