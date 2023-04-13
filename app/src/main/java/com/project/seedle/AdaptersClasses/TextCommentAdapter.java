@@ -12,11 +12,26 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.project.seedle.Activities.TextCommentPage;
 import com.project.seedle.ModelClassess.Model_Comment;
+import com.project.seedle.ModelClassess.Model_TextStatus;
 import com.project.seedle.R;
 
+import java.util.Objects;
+
 public class TextCommentAdapter extends FirestoreRecyclerAdapter<Model_Comment,TextCommentAdapter.GetTextCommentViewHolder> {
+    String DOCUMENTID;
 
 
     public TextCommentAdapter(@NonNull FirestoreRecyclerOptions<Model_Comment> options) {
@@ -32,6 +47,68 @@ public class TextCommentAdapter extends FirestoreRecyclerAdapter<Model_Comment,T
 
         Glide.with(getTextCommentViewHolder.userProfileIV.getContext())
                 .load(profileImageUri).into(getTextCommentViewHolder.userProfileIV);
+
+        for (int j = 0; j < getItemCount(); j++) {
+            Model_Comment item = getItem(j);
+
+            FirebaseAuth objFirebaseAuth = FirebaseAuth.getInstance();
+            FirebaseFirestore objectFirebaseFirestore = FirebaseFirestore.getInstance();
+
+            final String userEmail = objFirebaseAuth.getCurrentUser().getEmail();
+            String documentID = getSnapshots().getSnapshot(getTextCommentViewHolder.getAdapterPosition()).getId();
+
+
+
+
+            CollectionReference commentsCollectionRef = objectFirebaseFirestore
+                    .collection("TextStatus")
+                    .document(documentID)
+                    .collection("Comments");
+            Query query = commentsCollectionRef.whereEqualTo("flag", 1)
+                    .whereEqualTo("comment", "Your comment text");
+            query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            // Document found, do something with it
+                            String commentID = document.getId();
+                            DOCUMENTID =commentID;
+                            // ...
+                        }
+                    }
+                    else {
+                        // Error occurred while querying comments collection
+                        // ...
+                    }
+                }
+            });
+            DocumentReference objectDocumentReferecnce = objectFirebaseFirestore.collection("TextStatus")
+                    .document(documentID).collection("Comments").document(DOCUMENTID);
+            objectDocumentReferecnce.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if (task.getResult().exists()) {
+                        String VERIFY = task.getResult().getString("verify");
+                        if (Objects.equals(VERIFY, "verified")) {
+                            getTextCommentViewHolder.verified.setVisibility(View.VISIBLE);
+                        } else {
+                            getTextCommentViewHolder.verified.setVisibility(View.INVISIBLE);
+                        }
+
+                    }
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+
+
+                }
+            });
+        }
+
+
+
     }
 
     @NonNull
@@ -43,7 +120,7 @@ public class TextCommentAdapter extends FirestoreRecyclerAdapter<Model_Comment,T
 
     public class GetTextCommentViewHolder extends RecyclerView.ViewHolder
     {
-        ImageView userProfileIV;
+        ImageView userProfileIV,verified;
         TextView userNameTV,commentDateTV,commentTV;
 
         public GetTextCommentViewHolder(@NonNull View itemView) {
@@ -52,6 +129,7 @@ public class TextCommentAdapter extends FirestoreRecyclerAdapter<Model_Comment,T
             userNameTV=itemView.findViewById(R.id.model_addcomment_userName);
             commentDateTV=itemView.findViewById(R.id.model_addcomment_currentDateTime);
             commentTV=itemView.findViewById(R.id.model_addcomment_comment);
+            verified = itemView.findViewById(R.id.verified);
 
         }
     }

@@ -18,6 +18,7 @@
         tools:targetApi="31">
         <activity
             android:name=".SplashScreen"
+            android:screenOrientation="portrait"
             android:exported="true">
         <intent-filter>
             <action android:name="android.intent.action.MAIN" />
@@ -34,12 +35,11 @@
             android:name=".Activities.AddThoughtPage"
             android:exported="true"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize" />
+            />
         <activity
             android:name=".Activities.MainContentPage"
             android:exported="true"
             android:screenOrientation="portrait"
-            android:theme="@style/LoginPageTheme"
             android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".Activities.RegisterActivity"

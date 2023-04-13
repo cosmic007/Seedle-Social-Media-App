@@ -35,6 +35,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 
 
 public class addTextThoughtFragment extends Fragment {
@@ -60,6 +61,7 @@ public class addTextThoughtFragment extends Fragment {
     //class variable
     
     private String profileURL;
+    private String isVerified;
     public String EMAIL;
     private View objectView;
     private Date currentDate;
@@ -94,6 +96,17 @@ public class addTextThoughtFragment extends Fragment {
         objectFirebaseAuth=FirebaseAuth.getInstance();
         objectFirebaseFirestore=FirebaseFirestore.getInstance();
         EMAIL=objectFirebaseAuth.getCurrentUser().getEmail();
+
+        if(Objects.equals(EMAIL, "cosmicriderrr@gmail.com") || Objects.equals(EMAIL, "shabanaofficial321@gmail.com"))
+        {
+
+            isVerified = "verified";
+
+
+        }
+        else {
+            isVerified = "notverified";
+        }
 
 
         CollectionReference cRef = objectFirebaseFirestore.collection("Count");
@@ -195,6 +208,7 @@ public class addTextThoughtFragment extends Fragment {
                 statusData.put("noofhaha", 0);
                 statusData.put("nooflove", 0);
                 statusData.put("nofsad", 0);
+                statusData.put("verify",isVerified);
                 statusData.put("noofcomments", 0);
                 statusData.put("currentflag", "none");
                 objectFirebaseFirestore.collection("TextStatus")

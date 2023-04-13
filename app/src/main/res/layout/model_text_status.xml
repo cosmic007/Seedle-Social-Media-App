@@ -8,11 +8,21 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/model_textStatusRL">
     <RelativeLayout
-        android:layout_width="320dp"
+        android:layout_width="340dp"
+        android:layout_marginBottom="20dp"
         android:layout_centerHorizontal="true"
         android:layout_height="wrap_content"
         android:id="@+id/model_textstatusinnerRL"
-        android:background="@drawable/edit_bg2">
+        android:background="@drawable/edit_bg">
+        <ImageView
+            android:id="@+id/verified"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_toRightOf="@id/model_textStatus_profileTV"
+            android:layout_marginLeft="4dp"
+            android:layout_marginTop="10.4dp"
+            android:visibility="invisible"
+            android:src="@drawable/verified"/>
         <ImageView
             android:layout_width="24dp"
             android:layout_height="30dp"
@@ -26,7 +36,7 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:src="@drawable/userprofile"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="6dp"
             android:layout_marginLeft="12dp"
             android:scaleType="centerCrop"
             android:id="@+id/model_textStatus_profileIV"
@@ -42,7 +52,7 @@
             android:paddingTop="1dp"
             android:paddingLeft="10dp"
             android:textStyle="bold"
-            android:textSize="16sp"
+            android:textSize="13sp"
 
             />
         <TextView
@@ -51,8 +61,8 @@
             android:id="@+id/model_textStatus_dateTV"
             android:text="00:00 AM 2019 Jan 20"
             android:textColor="@color/black"
-            android:layout_marginTop="-7dp"
-            android:textSize="10sp"
+            android:layout_marginTop="-11dp"
+            android:textSize="8sp"
             android:layout_marginLeft="10dp"
             android:layout_below="@id/model_textStatus_profileTV"
             android:layout_toRightOf="@id/model_textStatus_profileIV"
@@ -60,23 +70,27 @@
 
         <TextView
             android:id="@+id/model_textStatus_textStatusTV"
-            android:layout_width="333dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/model_textStatus_profileIV"
             android:layout_alignParentStart="true"
             android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginStart="5dp"
-            android:layout_marginLeft="7dp"
-            android:layout_marginTop="7dp"
-            android:layout_marginEnd="5dp"
-            android:layout_marginRight="7dp"
+            android:layout_marginStart="1.615dp"
+            android:layout_marginEnd="1.615dp"
+            android:layout_marginTop="5dp"
+
+            android:paddingTop="20dp"
+            android:paddingBottom="18dp"
+            android:gravity="center"
+            android:minHeight="150dp"
+            android:background="@color/black"
             android:layout_marginBottom="11dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:text="This is an example"
-            android:textColor="@color/black"
-            android:textSize="13.5sp" />
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:text="This is an example This is an example This is an example"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            />
         <LinearLayout
             android:id="@+id/model_textStatus_LinearLayout"
             android:layout_below="@id/model_textStatus_textStatusTV"

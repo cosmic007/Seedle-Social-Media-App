@@ -34,6 +34,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 
 public class TextCommentPage extends AppCompatActivity {
     //XML Variables
@@ -48,6 +49,9 @@ public class TextCommentPage extends AppCompatActivity {
     public int flag = 1;
     private Bundle objectBundle;
     private String documentID;
+
+    public String is_Verified;
+    public String Email;
 
     private Date currentDate;
     private SimpleDateFormat objectSimpleDateFormat;
@@ -73,6 +77,19 @@ public class TextCommentPage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_text_comment_page);
+
+        FirebaseAuth objectFirebaseAuth= FirebaseAuth.getInstance();
+
+        Email = objectFirebaseAuth.getCurrentUser().getEmail();
+
+        if(Objects.equals(Email, "cosmicriderrr@gmail.com") || Objects.equals(Email, "shabanaofficial321@gmail.com"))
+        {
+            is_Verified = "verified";
+        }
+        else {
+            is_Verified = "notverified";
+        }
+
 
         try {
             AttachJavaObjectsToXML();
@@ -200,6 +217,7 @@ public class TextCommentPage extends AppCompatActivity {
                                 objectMap.put("comment",commentET.getText().toString());
                                 objectMap.put("profilepicurl",profileUrl);
                                 objectMap.put("currentdatetime",getCurrentDate());
+                                objectMap.put("verified",is_Verified);
                                 objectMap.put("flag",flag);
                                 objectFirebaseFirestore.collection("TextStatus")
                                         .document(documentID).collection("Comments")

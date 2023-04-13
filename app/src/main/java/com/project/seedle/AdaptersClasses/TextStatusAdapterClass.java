@@ -3,6 +3,7 @@ import static android.content.ContentValues.TAG;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,13 +33,17 @@ import com.project.seedle.R;
 
 import java.util.HashMap;
 import java.util.Map;
-
+import java.util.Objects;
+import java.util.Random;
 
 
 public class TextStatusAdapterClass extends FirestoreRecyclerAdapter<Model_TextStatus,TextStatusAdapterClass.TextStatusViewHolder> {
 
 
     public String url;
+
+    int color;
+
 
 
 
@@ -54,6 +59,8 @@ public class TextStatusAdapterClass extends FirestoreRecyclerAdapter<Model_TextS
         textStatusViewHolder.usernameTV.setText(model_textStatus.getUsername());
         textStatusViewHolder.dateTimeTV.setText(model_textStatus.getCurrentdatetime());
         textStatusViewHolder.userStatusTV.setText((model_textStatus.getStatus()));
+        color =getRandomColor();
+        textStatusViewHolder.userStatusTV.setBackgroundColor(color);
 
         textStatusViewHolder.heartCountTV.setText(Integer.toString(model_textStatus.getNooflove()));
 
@@ -82,9 +89,37 @@ public class TextStatusAdapterClass extends FirestoreRecyclerAdapter<Model_TextS
             final String userEmail = objFirebaseAuth.getCurrentUser().getEmail();
             String documentID=getSnapshots().getSnapshot(textStatusViewHolder.getAdapterPosition()).getId();
 
+
+
             final DocumentReference objectDocumentReferecnce = objectFirebaseFirestore.collection("TextStatus")
                     .document(documentID).collection("Emotions")
                     .document(userEmail);
+            final DocumentReference objectV = objectFirebaseFirestore.collection("TextStatus")
+                    .document(documentID);
+            objectV.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if (task.getResult().exists()) {
+                        String VERIFY = task.getResult().getString("verify");
+                        if(Objects.equals(VERIFY, "verified"))
+                        {
+                            textStatusViewHolder.verified.setVisibility(View.VISIBLE);
+                        }
+                        else
+                        {
+                            textStatusViewHolder.verified.setVisibility(View.INVISIBLE);
+                        }
+
+                    }
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+
+
+
+                }
+            });
             objectDocumentReferecnce.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -155,35 +190,6 @@ public class TextStatusAdapterClass extends FirestoreRecyclerAdapter<Model_TextS
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         documentRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
@@ -200,6 +206,8 @@ public class TextStatusAdapterClass extends FirestoreRecyclerAdapter<Model_TextS
                 Log.e(TAG, "Error getting document", e);
             }
         });
+
+
 
 
         textStatusViewHolder.favoriteIV.setOnClickListener(new View.OnClickListener() {
@@ -262,6 +270,9 @@ public class TextStatusAdapterClass extends FirestoreRecyclerAdapter<Model_TextS
                 });
             }
         });
+
+
+
 
 
 
@@ -588,6 +599,22 @@ public class TextStatusAdapterClass extends FirestoreRecyclerAdapter<Model_TextS
 
 
     }
+    private int getRandomColor() {
+        Random random = new Random();
+        float minSaturation = 0.5f; // adjust as needed
+        float[] hsv = new float[3];
+        int color;
+
+        do {
+            int red = random.nextInt(256);
+            int green = random.nextInt(256);
+            int blue = random.nextInt(256);
+            Color.RGBToHSV(red, green, blue, hsv);
+            color = Color.rgb(red, green, blue);
+        } while (hsv[1] < minSaturation);
+
+        return color;
+    }
 
     @NonNull
     @Override
@@ -599,13 +626,15 @@ public class TextStatusAdapterClass extends FirestoreRecyclerAdapter<Model_TextS
 
     public class TextStatusViewHolder extends RecyclerView.ViewHolder
     {
+
         ImageView profileIV;
-        ImageView heartIV,hahaIV,sadIV,deleteIV,favoriteIV;
+        ImageView heartIV,hahaIV,sadIV,deleteIV,favoriteIV,verified;
 
         TextView usernameTV,dateTimeTV,userStatusTV,heartCountTV,hahaCountTV,sadCountTV,commentCountTV,commentIV;
 
         public TextStatusViewHolder(@NonNull View itemView) {
             super(itemView);
+            verified = itemView.findViewById(R.id.verified);
             profileIV=itemView.findViewById(R.id.model_textStatus_profileIV);
             heartIV=itemView.findViewById(R.id.model_textStatus_heartIV);
             hahaIV=itemView.findViewById(R.id.model_textStatus_hahaIV);

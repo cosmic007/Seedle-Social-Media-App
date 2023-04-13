@@ -30,8 +30,8 @@ android:layout_height="match_parent">
             android:layout_marginEnd="97dp"
             android:gravity="center"
             android:text="Publish Thoughts"
-            android:textColor="@color/black"
             android:textSize="15sp"
+            android:textColor="@color/white"
             android:textStyle="bold" />
 
         <EditText
@@ -67,7 +67,7 @@ android:layout_height="match_parent">
             android:layout_marginTop="5dp"
             android:layout_marginEnd="200dp"
 
-            android:src="@drawable/logo_black" />
+            android:src="@drawable/logo_white" />
 
         <TextView
             android:id="@+id/FragAddTextTHoughts_PublishBtn"
@@ -81,9 +81,10 @@ android:layout_height="match_parent">
             android:layout_marginEnd="216dp"
             android:drawableTop="@drawable/upload_statusdrawable"
             android:gravity="center"
+            android:drawableTint="@color/white"
             android:text="Upload"
             android:textAllCaps="false"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:textSize="9sp" />
 
         <TextView
@@ -102,7 +103,8 @@ android:layout_height="match_parent">
             android:gravity="center"
             android:text="Rewrite"
             android:textAllCaps="false"
-            android:textColor="@color/black"
+            android:drawableTint="@color/white"
+            android:textColor="@color/white"
             android:textSize="9sp" />
 
         <TextView
@@ -121,7 +123,8 @@ android:layout_height="match_parent">
             android:gravity="center"
             android:text="Return"
             android:textAllCaps="false"
-            android:textColor="@color/black"
+            android:drawableTint="@color/white"
+            android:textColor="@color/white"
             android:textSize="9sp" />
 
 

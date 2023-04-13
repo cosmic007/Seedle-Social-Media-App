@@ -1,18 +1,19 @@
 package com.project.seedle.ModelClassess;
 
 public class Model_Comment {
-    private String comment,commentperson,currentdatetime,profilepicurl,username;
+    private String comment,commentperson,currentdatetime,profilepicurl,username,verified;
 
     public Model_Comment() {
 
     }
 
-    public Model_Comment(String comment, String commentperson, String currentdatetime, String profilepicurl, String username) {
+    public Model_Comment(String comment, String commentperson, String currentdatetime, String profilepicurl, String username, String verified) {
         this.comment = comment;
         this.commentperson = commentperson;
         this.currentdatetime = currentdatetime;
         this.profilepicurl = profilepicurl;
         this.username = username;
+        this.verified = verified;
     }
 
     public String getComment() {
@@ -54,4 +55,8 @@ public class Model_Comment {
     public void setUsername(String username) {
         this.username = username;
     }
+
+    public String getVerified() { return  verified;}
+
+    public void setVerified(String verified) {this.verified = verified; }
 }

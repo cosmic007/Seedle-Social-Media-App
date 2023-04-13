@@ -27,6 +27,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/AddThoughts_PageViewer"
+        android:background="@drawable/chatbackground"
         android:layout_below="@id/AddThoughts_tabsLayout"
         />
 
