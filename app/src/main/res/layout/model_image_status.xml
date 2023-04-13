@@ -32,6 +32,27 @@
             android:textColor="@color/black"
             android:textStyle="bold" />
 
+        <ImageView
+            android:id="@+id/verified"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_toRightOf="@id/model_addcomment_userName"
+            android:layout_marginLeft="-3dp"
+            android:layout_marginTop="18dp"
+            android:visibility="visible"
+            android:src="@drawable/verified"/>
+
+        <TextView
+            android:id="@+id/admin"
+            android:layout_width="wrap_content"
+            android:layout_height="9dp"
+            android:layout_marginTop="20.7dp"
+            android:layout_marginLeft="3dp"
+            android:text="Developer"
+            android:textSize="6sp"
+            android:textStyle="bold"
+            />
+
 
     </LinearLayout>
     <ImageView
@@ -44,6 +65,7 @@
         android:elevation="5dp"
         android:src="@drawable/icon_fav"
         />
+
 
     <!--image view to display the post image-->
     <ImageView
