@@ -41,9 +41,13 @@ public class TextStatusAdapterClass extends FirestoreRecyclerAdapter<Model_TextS
     public String url;
 
 
+
     public TextStatusAdapterClass(@NonNull FirestoreRecyclerOptions<Model_TextStatus> options) {
         super(options);
     }
+
+
+
 
     @Override
     protected void onBindViewHolder(@NonNull TextStatusViewHolder textStatusViewHolder, int i, @NonNull Model_TextStatus model_textStatus) {
@@ -60,12 +64,123 @@ public class TextStatusAdapterClass extends FirestoreRecyclerAdapter<Model_TextS
         Glide.with(textStatusViewHolder.profileIV.getContext())
                 .load(linkOfProfileImage).into(textStatusViewHolder.profileIV);
 
+
         FirebaseFirestore objectFirebaseFirestore = FirebaseFirestore.getInstance();
         FirebaseAuth objectFirebaseAuth = FirebaseAuth.getInstance();
         String EMAIL= objectFirebaseAuth.getCurrentUser().getEmail();
 
         CollectionReference collectionRef = objectFirebaseFirestore.collection("UserProfileData");
         DocumentReference documentRef = collectionRef.document(EMAIL);
+
+
+        // Iterate through the list of items in the adapter to find the item to update
+        for (int j = 0; j < getItemCount(); j++) {
+            Model_TextStatus item = getItem(j);
+
+            FirebaseAuth objFirebaseAuth = FirebaseAuth.getInstance();
+
+            final String userEmail = objFirebaseAuth.getCurrentUser().getEmail();
+            String documentID=getSnapshots().getSnapshot(textStatusViewHolder.getAdapterPosition()).getId();
+
+            final DocumentReference objectDocumentReferecnce = objectFirebaseFirestore.collection("TextStatus")
+                    .document(documentID).collection("Emotions")
+                    .document(userEmail);
+            objectDocumentReferecnce.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if (task.getResult().exists()) {
+                        String currentFlag = task.getResult().getString("currentflag");
+                        if (currentFlag.equals("love")) {
+
+                            textStatusViewHolder.heartIV.setImageResource(R.drawable.icon_liked);
+
+                        }
+                        else if(currentFlag.equals("sad")){
+                            textStatusViewHolder.heartIV.setImageResource(R.drawable.icon_love);
+
+
+                        }
+                        else if(currentFlag.equals("haha")){
+                            textStatusViewHolder.heartIV.setImageResource(R.drawable.icon_love);
+
+                        }
+                    }
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+
+
+
+                }
+            });
+
+
+        }
+        for (int j = 0; j < getItemCount(); j++) {
+            Model_TextStatus item = getItem(j);
+
+            FirebaseAuth objFirebaseAuth = FirebaseAuth.getInstance();
+
+            final String userEmail = objFirebaseAuth.getCurrentUser().getEmail();
+            String documentID=getSnapshots().getSnapshot(textStatusViewHolder.getAdapterPosition()).getId();
+
+
+            final DocumentReference objectDocumentReferecnce2 = objectFirebaseFirestore.collection("UserFavorite")
+                    .document(userEmail).collection("FavoriteTextStatus")
+                    .document(documentID);
+            objectDocumentReferecnce2.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if (task.getResult().exists()) {
+                        String currentFlag = task.getResult().getString("currentflag");
+                        if (currentFlag.equals("flag")) {
+
+                            textStatusViewHolder.favoriteIV.setImageResource(R.drawable.icon_fav_filled);
+
+                        }
+                    }
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+
+
+
+                }
+            });
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -90,6 +205,7 @@ public class TextStatusAdapterClass extends FirestoreRecyclerAdapter<Model_TextS
         textStatusViewHolder.favoriteIV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                textStatusViewHolder.favoriteIV.setImageResource(R.drawable.icon_fav_filled);
                 String documentID=getSnapshots().getSnapshot(textStatusViewHolder.getAdapterPosition()).getId();
                 FirebaseFirestore objectFirebaseFirestore = FirebaseFirestore .getInstance();
                 DocumentReference objectDocumentReference = objectFirebaseFirestore.collection("TextStatus").document(documentID);
@@ -105,6 +221,7 @@ public class TextStatusAdapterClass extends FirestoreRecyclerAdapter<Model_TextS
                         objectMap.put("status",status);
                         objectMap.put("profileurl",profileUrl);
                         objectMap.put("currentdatetime",statusDate);
+                        objectMap.put("currentflag","flag");
                         FirebaseAuth objectFirebaseAuth =FirebaseAuth.getInstance();
 
                         if(objectFirebaseAuth!=null)
@@ -170,6 +287,7 @@ public class TextStatusAdapterClass extends FirestoreRecyclerAdapter<Model_TextS
                                 String currentFlag=task.getResult().getString("currentflag");
                                 if(currentFlag.equals("love"))
                                 {
+
                                     objectDocumentReferecnce.update("currentflag","love");
 
                                 }
@@ -420,6 +538,10 @@ public class TextStatusAdapterClass extends FirestoreRecyclerAdapter<Model_TextS
             }
         });
 
+
+
+
+
         textStatusViewHolder.commentIV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -502,4 +624,6 @@ public class TextStatusAdapterClass extends FirestoreRecyclerAdapter<Model_TextS
 
         }
     }
+
+
 }

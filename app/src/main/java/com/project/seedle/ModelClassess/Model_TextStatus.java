@@ -87,5 +87,8 @@ public class Model_TextStatus {
     public void setNoofcomments(int noofcomments) {
         this.noofcomments = noofcomments;
     }
+
+
+
 }
 

@@ -8,6 +8,7 @@
     android:background="@drawable/chatbackground"
     tools:context=".Fragments.TextThoughts">
 
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/textStatus_RV"
         android:layout_width="match_parent"
