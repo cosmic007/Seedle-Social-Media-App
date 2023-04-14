@@ -13,7 +13,8 @@
         android:layout_centerHorizontal="true"
         android:layout_height="wrap_content"
         android:id="@+id/model_textstatusinnerRL"
-        android:background="@drawable/edit_bg">
+        android:elevation="3dp"
+        android:background="@drawable/edit_bg2">
         <ImageView
             android:id="@+id/verified"
             android:layout_width="15dp"
@@ -23,6 +24,18 @@
             android:layout_marginTop="10.4dp"
             android:visibility="invisible"
             android:src="@drawable/verified"/>
+        <TextView
+            android:id="@+id/admin"
+            android:layout_width="wrap_content"
+            android:layout_toRightOf="@id/verified"
+            android:layout_height="9dp"
+            android:layout_marginTop="13.5dp"
+            android:layout_marginLeft="3dp"
+            android:text="Developer"
+            android:textSize="6sp"
+            android:visibility="invisible"
+            android:textStyle="bold"
+            />
         <ImageView
             android:layout_width="24dp"
             android:layout_height="30dp"
@@ -75,15 +88,14 @@
             android:layout_below="@id/model_textStatus_profileIV"
             android:layout_alignParentStart="true"
             android:layout_alignParentEnd="true"
-            android:layout_marginStart="1.615dp"
-            android:layout_marginEnd="1.615dp"
+
             android:layout_marginTop="5dp"
 
             android:paddingTop="20dp"
             android:paddingBottom="18dp"
             android:gravity="center"
-            android:minHeight="200dp"
-            android:background="@color/black"
+            android:minHeight="150dp"
+            android:background="#060F4E"
             android:layout_marginBottom="11dp"
             android:paddingLeft="5dp"
             android:paddingRight="5dp"

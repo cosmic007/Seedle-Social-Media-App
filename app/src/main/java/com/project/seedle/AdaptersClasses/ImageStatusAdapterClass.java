@@ -57,44 +57,25 @@ public class ImageStatusAdapterClass extends FirestoreRecyclerAdapter<Model_Imag
             Glide.with(context).load(linkofimageStatus)
                     .into(imageStatusViewHolderClass.imageStatus);
             imageStatusViewHolderClass.objectProgressBar.setVisibility(View.INVISIBLE);
+            String userN= model_imageStatus.getUsername();
+
+            if(Objects.equals(userN, "Abhijith V A") || Objects.equals(userN, "shabzy"))
+            {
+                imageStatusViewHolderClass.verified.setVisibility(View.VISIBLE);
+                imageStatusViewHolderClass.devtv.setVisibility(View.VISIBLE);
+
+            } else if (Objects.equals(userN, "Saira Hussain")) {
+                imageStatusViewHolderClass.verified.setVisibility(View.VISIBLE);
+            } else {
+                imageStatusViewHolderClass.verified.setVisibility(View.INVISIBLE);
+                imageStatusViewHolderClass.devtv.setVisibility(View.INVISIBLE);
+
+            }
 
             FirebaseFirestore objectFirebaseFirestore =FirebaseFirestore.getInstance();
 
 
-            for (int j = 0; j < getItemCount(); j++) {
-                Model_ImageStatus item = getItem(j);
 
-                FirebaseAuth objFirebaseAuth = FirebaseAuth.getInstance();
-
-                final String userEmail = objFirebaseAuth.getCurrentUser().getEmail();
-                String documentID = getSnapshots().getSnapshot(imageStatusViewHolderClass.getAdapterPosition()).getId();
-
-
-                final DocumentReference objectDocumentReferecnce = objectFirebaseFirestore.collection("ImageStatus")
-                        .document(documentID);
-                objectDocumentReferecnce.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if (task.getResult().exists()) {
-                            String VERIFY = task.getResult().getString("verified");
-                            if (Objects.equals(VERIFY, "verified")) {
-                                imageStatusViewHolderClass.verified.setVisibility(View.VISIBLE);
-                                imageStatusViewHolderClass.devtv.setVisibility(View.INVISIBLE);
-                            } else {
-                                imageStatusViewHolderClass.verified.setVisibility(View.INVISIBLE);
-                                imageStatusViewHolderClass.devtv.setVisibility(View.INVISIBLE);
-                            }
-
-                        }
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-
-
-                    }
-                });
-            }
 
         }
         catch(IndexOutOfBoundsException e){

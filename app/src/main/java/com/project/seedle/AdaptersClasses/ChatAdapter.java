@@ -84,16 +84,20 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
         holder.textViewMessage.setText(message.getMessageText());
         holder.textViewSender.setText(message.getSenderName());
 
-        String Sender = message.getSenderName();
-        if(Objects.equals(Sender, "Abhijith V A") || Objects.equals(Sender, "shabzy") || Objects.equals(Sender, "Saira Hussain"))
+        String userN = message.getSenderName();
+
+
+        if(Objects.equals(userN, "Abhijith V A") || Objects.equals(userN, "shabzy"))
         {
             holder.verified.setVisibility(View.VISIBLE);
             holder.devTV.setVisibility(View.VISIBLE);
-        }
-        else
-        {
+
+        } else if (Objects.equals(userN, "Saira Hussain")) {
+            holder.verified.setVisibility(View.VISIBLE);
+        } else {
             holder.verified.setVisibility(View.INVISIBLE);
             holder.devTV.setVisibility(View.INVISIBLE);
+
         }
 
 

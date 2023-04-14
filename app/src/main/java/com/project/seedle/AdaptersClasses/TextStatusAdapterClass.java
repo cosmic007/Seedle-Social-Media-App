@@ -39,10 +39,15 @@ import java.util.Random;
 
 public class TextStatusAdapterClass extends FirestoreRecyclerAdapter<Model_TextStatus,TextStatusAdapterClass.TextStatusViewHolder> {
 
-
     public String url;
 
+
+
+
     int color;
+    private  FirebaseFirestore objectFirebaseFirestore;
+
+
 
 
 
@@ -56,11 +61,13 @@ public class TextStatusAdapterClass extends FirestoreRecyclerAdapter<Model_TextS
 
     @Override
     protected void onBindViewHolder(@NonNull TextStatusViewHolder textStatusViewHolder, int i, @NonNull Model_TextStatus model_textStatus) {
+
+        objectFirebaseFirestore = FirebaseFirestore.getInstance();
         textStatusViewHolder.usernameTV.setText(model_textStatus.getUsername());
         textStatusViewHolder.dateTimeTV.setText(model_textStatus.getCurrentdatetime());
         textStatusViewHolder.userStatusTV.setText((model_textStatus.getStatus()));
-        color =getRandomColor();
-        textStatusViewHolder.userStatusTV.setBackgroundColor(color);
+
+
 
         textStatusViewHolder.heartCountTV.setText(Integer.toString(model_textStatus.getNooflove()));
 
@@ -72,7 +79,23 @@ public class TextStatusAdapterClass extends FirestoreRecyclerAdapter<Model_TextS
                 .load(linkOfProfileImage).into(textStatusViewHolder.profileIV);
 
 
-        FirebaseFirestore objectFirebaseFirestore = FirebaseFirestore.getInstance();
+
+        String userN= model_textStatus.getUsername();
+
+        if(Objects.equals(userN, "Abhijith V A") || Objects.equals(userN, "shabzy"))
+        {
+            textStatusViewHolder.verified.setVisibility(View.VISIBLE);
+            textStatusViewHolder.admintag.setVisibility(View.VISIBLE);
+
+        } else if (Objects.equals(userN, "Saira Hussain")) {
+            textStatusViewHolder.verified.setVisibility(View.VISIBLE);
+        } else {
+            textStatusViewHolder.verified.setVisibility(View.INVISIBLE);
+            textStatusViewHolder.admintag.setVisibility(View.INVISIBLE);
+
+        }
+
+
         FirebaseAuth objectFirebaseAuth = FirebaseAuth.getInstance();
         String EMAIL= objectFirebaseAuth.getCurrentUser().getEmail();
 
@@ -94,32 +117,7 @@ public class TextStatusAdapterClass extends FirestoreRecyclerAdapter<Model_TextS
             final DocumentReference objectDocumentReferecnce = objectFirebaseFirestore.collection("TextStatus")
                     .document(documentID).collection("Emotions")
                     .document(userEmail);
-            final DocumentReference objectV = objectFirebaseFirestore.collection("TextStatus")
-                    .document(documentID);
-            objectV.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                    if (task.getResult().exists()) {
-                        String VERIFY = task.getResult().getString("verify");
-                        if(Objects.equals(VERIFY, "verified"))
-                        {
-                            textStatusViewHolder.verified.setVisibility(View.VISIBLE);
-                        }
-                        else
-                        {
-                            textStatusViewHolder.verified.setVisibility(View.INVISIBLE);
-                        }
 
-                    }
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-
-
-
-                }
-            });
             objectDocumentReferecnce.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -169,7 +167,7 @@ public class TextStatusAdapterClass extends FirestoreRecyclerAdapter<Model_TextS
                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                     if (task.getResult().exists()) {
                         String currentFlag = task.getResult().getString("currentflag");
-                        if (currentFlag.equals("flag")) {
+                        if (Objects.equals(currentFlag, "flag")) {
 
                             textStatusViewHolder.favoriteIV.setImageResource(R.drawable.icon_fav_filled);
 
@@ -280,6 +278,7 @@ public class TextStatusAdapterClass extends FirestoreRecyclerAdapter<Model_TextS
         textStatusViewHolder.heartIV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                textStatusViewHolder.heartIV.setImageResource(R.drawable.icon_liked);
                 FirebaseAuth objFirestoreAuth=FirebaseAuth.getInstance();
                 if(objFirestoreAuth!=null)
                 {
@@ -630,10 +629,11 @@ public class TextStatusAdapterClass extends FirestoreRecyclerAdapter<Model_TextS
         ImageView profileIV;
         ImageView heartIV,hahaIV,sadIV,deleteIV,favoriteIV,verified;
 
-        TextView usernameTV,dateTimeTV,userStatusTV,heartCountTV,hahaCountTV,sadCountTV,commentCountTV,commentIV;
+        TextView usernameTV,dateTimeTV,userStatusTV,heartCountTV,hahaCountTV,sadCountTV,commentCountTV,commentIV,admintag;
 
         public TextStatusViewHolder(@NonNull View itemView) {
             super(itemView);
+            admintag  = itemView.findViewById(R.id.admin);
             verified = itemView.findViewById(R.id.verified);
             profileIV=itemView.findViewById(R.id.model_textStatus_profileIV);
             heartIV=itemView.findViewById(R.id.model_textStatus_heartIV);
