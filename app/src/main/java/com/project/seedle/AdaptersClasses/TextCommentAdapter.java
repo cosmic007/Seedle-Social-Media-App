@@ -24,6 +24,7 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.project.seedle.Activities.TextCommentPage;
+import com.project.seedle.Admin;
 import com.project.seedle.ModelClassess.Model_Comment;
 import com.project.seedle.ModelClassess.Model_TextStatus;
 import com.project.seedle.R;
@@ -31,6 +32,9 @@ import com.project.seedle.R;
 import java.util.Objects;
 
 public class TextCommentAdapter extends FirestoreRecyclerAdapter<Model_Comment,TextCommentAdapter.GetTextCommentViewHolder> {
+
+
+    public Admin admin = new Admin();
 
 
 
@@ -44,6 +48,28 @@ public class TextCommentAdapter extends FirestoreRecyclerAdapter<Model_Comment,T
         getTextCommentViewHolder.commentDateTV.setText(model_comment.getCurrentdatetime());
         getTextCommentViewHolder.commentTV.setText(model_comment.getComment());
         String profileImageUri=model_comment.getProfilepicurl();
+
+        String userN = model_comment.getUsername();
+        String admin1 = admin.getAdmin1();
+        String admin2 = admin.getAdmin2();
+        String admin3 = admin.getAdmin3();
+
+
+        if(Objects.equals(userN, admin1) || Objects.equals(userN, admin2))
+        {
+            getTextCommentViewHolder.verified.setVisibility(View.VISIBLE);
+            getTextCommentViewHolder.devTV.setText("Developer");
+            getTextCommentViewHolder.devTV.setVisibility(View.VISIBLE);
+
+        } else if (Objects.equals(userN, admin3)) {
+            getTextCommentViewHolder.verified.setVisibility(View.VISIBLE);
+            getTextCommentViewHolder.devTV.setText("Tester");
+            getTextCommentViewHolder.devTV.setVisibility(View.VISIBLE);
+        } else {
+            getTextCommentViewHolder.verified.setVisibility(View.INVISIBLE);
+            getTextCommentViewHolder.devTV.setVisibility(View.INVISIBLE);
+
+        }
 
         Glide.with(getTextCommentViewHolder.userProfileIV.getContext())
                 .load(profileImageUri).into(getTextCommentViewHolder.userProfileIV);
@@ -62,10 +88,11 @@ public class TextCommentAdapter extends FirestoreRecyclerAdapter<Model_Comment,T
     public class GetTextCommentViewHolder extends RecyclerView.ViewHolder
     {
         ImageView userProfileIV,verified;
-        TextView userNameTV,commentDateTV,commentTV;
+        TextView userNameTV,commentDateTV,commentTV,devTV;
 
         public GetTextCommentViewHolder(@NonNull View itemView) {
             super(itemView);
+            devTV = itemView.findViewById(R.id.admin);
             userProfileIV=itemView.findViewById(R.id.model_addcomment_profile);
             userNameTV=itemView.findViewById(R.id.model_addcomment_userName);
             commentDateTV=itemView.findViewById(R.id.model_addcomment_currentDateTime);

@@ -28,6 +28,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.project.seedle.Activities.TextCommentPage;
+import com.project.seedle.Admin;
 import com.project.seedle.ModelClassess.Model_TextStatus;
 import com.project.seedle.R;
 
@@ -39,7 +40,11 @@ import java.util.Random;
 
 public class TextStatusAdapterClass extends FirestoreRecyclerAdapter<Model_TextStatus,TextStatusAdapterClass.TextStatusViewHolder> {
 
-    public String url;
+    public String url,User_Name;
+
+    public String AdminName;
+
+    public Admin admin = new Admin();
 
 
 
@@ -66,7 +71,7 @@ public class TextStatusAdapterClass extends FirestoreRecyclerAdapter<Model_TextS
         textStatusViewHolder.usernameTV.setText(model_textStatus.getUsername());
         textStatusViewHolder.dateTimeTV.setText(model_textStatus.getCurrentdatetime());
         textStatusViewHolder.userStatusTV.setText((model_textStatus.getStatus()));
-
+        AdminName = model_textStatus.getUsername();
 
 
         textStatusViewHolder.heartCountTV.setText(Integer.toString(model_textStatus.getNooflove()));
@@ -80,15 +85,26 @@ public class TextStatusAdapterClass extends FirestoreRecyclerAdapter<Model_TextS
 
 
 
-        String userN= model_textStatus.getUsername();
 
-        if(Objects.equals(userN, "Abhijith V A") || Objects.equals(userN, "shabzy"))
+
+
+
+
+        String userN= model_textStatus.getUsername();
+        String admin1 = admin.getAdmin1();
+        String admin2 = admin.getAdmin2();
+        String admin3 = admin.getAdmin3();
+
+        if(Objects.equals(userN, admin1) || Objects.equals(userN, admin2))
         {
             textStatusViewHolder.verified.setVisibility(View.VISIBLE);
+            textStatusViewHolder.admintag.setText("Developer");
             textStatusViewHolder.admintag.setVisibility(View.VISIBLE);
 
-        } else if (Objects.equals(userN, "Saira Hussain")) {
+        } else if (Objects.equals(userN, admin3)) {
             textStatusViewHolder.verified.setVisibility(View.VISIBLE);
+            textStatusViewHolder.admintag.setText("Tester");
+            textStatusViewHolder.admintag.setVisibility(View.VISIBLE);
         } else {
             textStatusViewHolder.verified.setVisibility(View.INVISIBLE);
             textStatusViewHolder.admintag.setVisibility(View.INVISIBLE);
@@ -96,8 +112,14 @@ public class TextStatusAdapterClass extends FirestoreRecyclerAdapter<Model_TextS
         }
 
 
+
         FirebaseAuth objectFirebaseAuth = FirebaseAuth.getInstance();
         String EMAIL= objectFirebaseAuth.getCurrentUser().getEmail();
+
+
+
+
+
 
         CollectionReference collectionRef = objectFirebaseFirestore.collection("UserProfileData");
         DocumentReference documentRef = collectionRef.document(EMAIL);
@@ -194,6 +216,10 @@ public class TextStatusAdapterClass extends FirestoreRecyclerAdapter<Model_TextS
                 if (documentSnapshot.exists()) {
                     String Userprofile = documentSnapshot.getString("profileimageurl");
                     url = Userprofile;
+                    if(Objects.equals(url, model_textStatus.getProfileurl()) || EMAIL.equals("cosmicriderrr@gmail.com"))
+                    {
+                        textStatusViewHolder.deleteIV.setVisibility(View.VISIBLE);
+                    }
                 } else {
                     Log.d(TAG, "No such document");
                 }
@@ -204,6 +230,7 @@ public class TextStatusAdapterClass extends FirestoreRecyclerAdapter<Model_TextS
                 Log.e(TAG, "Error getting document", e);
             }
         });
+
 
 
 
@@ -568,7 +595,7 @@ public class TextStatusAdapterClass extends FirestoreRecyclerAdapter<Model_TextS
             @Override
             public void onClick(View v) {
                 FirebaseAuth objectFirebaseAuth=FirebaseAuth.getInstance();
-                if(url.equals(model_textStatus.getProfileurl()))
+                if(url.equals(model_textStatus.getProfileurl()) || EMAIL.equals("cosmicriderrr@gmail.com"))
                 {
 
                     FirebaseFirestore objectFirebaseFirestore = FirebaseFirestore.getInstance();

@@ -34,7 +34,7 @@
             android:id="@+id/model_addcomment_userName"
             android:paddingLeft="10dp"
             android:paddingTop="5dp"
-            android:layout_marginTop="-1dp"
+            android:layout_marginTop="-2dp"
             android:textStyle="bold"
             android:text="Abhijith V A"
             android:textColor="@color/black"
@@ -46,9 +46,21 @@
             android:layout_height="15dp"
             android:layout_toRightOf="@id/model_addcomment_userName"
             android:layout_marginLeft="3dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="3.8dp"
             android:visibility="invisible"
             android:src="@drawable/verified"/>
+        <TextView
+            android:id="@+id/admin"
+            android:layout_width="wrap_content"
+            android:layout_toRightOf="@id/verified"
+            android:layout_height="9dp"
+            android:layout_marginTop="7dp"
+            android:layout_marginLeft="2dp"
+            android:text="Developer"
+            android:textSize="6sp"
+            android:visibility="invisible"
+            android:textStyle="bold"
+            />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="13dp"

@@ -20,6 +20,7 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.project.seedle.Admin;
 import com.project.seedle.ModelClassess.ChatMessage;
 import com.project.seedle.R;
 
@@ -35,6 +36,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
     private List<ChatMessage> chatMessagesList;
 
     public String EMAIL;
+    public Admin admin =new Admin();
     public String User_Name;
 
     public ChatAdapter(List<ChatMessage> chatMessagesList) {
@@ -85,15 +87,21 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
         holder.textViewSender.setText(message.getSenderName());
 
         String userN = message.getSenderName();
+        String admin1 = admin.getAdmin1();
+        String admin2 = admin.getAdmin2();
+        String admin3 = admin.getAdmin3();
 
 
-        if(Objects.equals(userN, "Abhijith V A") || Objects.equals(userN, "shabzy"))
+        if(Objects.equals(userN, admin1) || Objects.equals(userN, admin2))
         {
             holder.verified.setVisibility(View.VISIBLE);
+            holder.devTV.setText("Developer");
             holder.devTV.setVisibility(View.VISIBLE);
 
-        } else if (Objects.equals(userN, "Saira Hussain")) {
+        } else if (Objects.equals(userN, admin3)) {
             holder.verified.setVisibility(View.VISIBLE);
+            holder.devTV.setText("Tester");
+            holder.devTV.setVisibility(View.VISIBLE);
         } else {
             holder.verified.setVisibility(View.INVISIBLE);
             holder.devTV.setVisibility(View.INVISIBLE);

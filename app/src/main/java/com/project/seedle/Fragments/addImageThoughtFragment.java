@@ -172,7 +172,7 @@ public class addImageThoughtFragment extends Fragment {
                 objectFirebaseAuth=FirebaseAuth.getInstance();
                 objectFirebaseFirestore=FirebaseFirestore.getInstance();
 
-                if(objectFirebaseAuth!=null && !statusET.getText().toString().isEmpty())
+                if(objectFirebaseAuth!=null)
                 {
                     objectProgressBar.setVisibility(View.VISIBLE);
                     publishStatus.setEnabled(false);
@@ -281,7 +281,7 @@ public class addImageThoughtFragment extends Fragment {
                     });
                 }
                 else {
-                    Toast.makeText(getContext(), "Please check if logged in or image status decription is provided", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Please check if logged in", Toast.LENGTH_SHORT).show();
                 }
 
             }

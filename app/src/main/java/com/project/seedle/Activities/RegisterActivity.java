@@ -35,6 +35,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.project.seedle.Admin;
 import com.project.seedle.R;
 
 import java.sql.Struct;
@@ -48,6 +49,8 @@ public class RegisterActivity extends AppCompatActivity {
 
     //xml variables
     private CircleImageView profilepic;
+
+    private Admin admin = new Admin();
     private EditText userName,userEmail,userPassword,userConfirmPassword;
 
     private TextView userDob;
@@ -107,8 +110,15 @@ public class RegisterActivity extends AppCompatActivity {
                 objectFirebaseAuth.signOut();
 
             }
+            String admin1=admin.getAdmin1();
+            String admin2=admin.getAdmin2();
+            String admin3=admin.getAdmin3();
+
             if(objectFirebaseAuth.getCurrentUser()==null
                     && !userName.getText().toString().isEmpty()
+                    && !userName.getText().toString().equals(admin1)
+                    && !userName.getText().toString().equals(admin2)
+                    && !userName.getText().toString().equals(admin3)
                     && !userEmail.getText().toString().isEmpty()
                     && profileimageURL!=null
                     && !userPassword.getText().toString().isEmpty()) {
@@ -140,7 +150,7 @@ public class RegisterActivity extends AppCompatActivity {
             }
             else
             {
-                Toast.makeText(this,"Please check user data fields or user profile image",Toast.LENGTH_SHORT).show();
+                Toast.makeText(this,"Please make sure your profile picture is selected or You have no rights to select this Username",Toast.LENGTH_SHORT).show();
             }
 
         }

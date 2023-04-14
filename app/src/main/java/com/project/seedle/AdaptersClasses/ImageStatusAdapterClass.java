@@ -21,6 +21,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.project.seedle.Admin;
 import com.project.seedle.ModelClassess.Model_ImageStatus;
 import com.project.seedle.ModelClassess.Model_TextStatus;
 import com.project.seedle.R;
@@ -30,6 +31,8 @@ import java.util.Objects;
 public class ImageStatusAdapterClass extends FirestoreRecyclerAdapter<Model_ImageStatus, ImageStatusAdapterClass.ImageStatusViewHolderClass> {
 
     private Context context;
+
+    public Admin admin = new Admin();
 
     public ImageStatusAdapterClass(@NonNull FirestoreRecyclerOptions<Model_ImageStatus> options, Context context) {
         super(options);
@@ -58,14 +61,20 @@ public class ImageStatusAdapterClass extends FirestoreRecyclerAdapter<Model_Imag
                     .into(imageStatusViewHolderClass.imageStatus);
             imageStatusViewHolderClass.objectProgressBar.setVisibility(View.INVISIBLE);
             String userN= model_imageStatus.getUsername();
+            String admin1 = admin.getAdmin1();
+            String admin2 = admin.getAdmin2();
+            String admin3 = admin.getAdmin3();
 
-            if(Objects.equals(userN, "Abhijith V A") || Objects.equals(userN, "shabzy"))
+            if(Objects.equals(userN, admin1) || Objects.equals(userN, admin2))
             {
                 imageStatusViewHolderClass.verified.setVisibility(View.VISIBLE);
+                imageStatusViewHolderClass.devtv.setText("Developer");
                 imageStatusViewHolderClass.devtv.setVisibility(View.VISIBLE);
 
-            } else if (Objects.equals(userN, "Saira Hussain")) {
+            } else if (Objects.equals(userN, admin3)) {
                 imageStatusViewHolderClass.verified.setVisibility(View.VISIBLE);
+                imageStatusViewHolderClass.devtv.setText("Tester");
+                imageStatusViewHolderClass.devtv.setVisibility(View.VISIBLE);
             } else {
                 imageStatusViewHolderClass.verified.setVisibility(View.INVISIBLE);
                 imageStatusViewHolderClass.devtv.setVisibility(View.INVISIBLE);
