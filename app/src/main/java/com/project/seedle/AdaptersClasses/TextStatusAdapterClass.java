@@ -40,7 +40,7 @@ import java.util.Random;
 
 public class TextStatusAdapterClass extends FirestoreRecyclerAdapter<Model_TextStatus,TextStatusAdapterClass.TextStatusViewHolder> {
 
-    public String url,User_Name;
+    public String url;
 
     public String AdminName;
 
@@ -49,7 +49,6 @@ public class TextStatusAdapterClass extends FirestoreRecyclerAdapter<Model_TextS
 
 
 
-    int color;
     private  FirebaseFirestore objectFirebaseFirestore;
 
 
@@ -189,12 +188,13 @@ public class TextStatusAdapterClass extends FirestoreRecyclerAdapter<Model_TextS
                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                     if (task.getResult().exists()) {
                         String currentFlag = task.getResult().getString("currentflag");
-                        if (Objects.equals(currentFlag, "flag")) {
+                        if (currentFlag.equals("flag")) {
 
                             textStatusViewHolder.favoriteIV.setImageResource(R.drawable.icon_fav_filled);
 
                         }
                     }
+
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
@@ -202,8 +202,11 @@ public class TextStatusAdapterClass extends FirestoreRecyclerAdapter<Model_TextS
 
 
 
+
                 }
             });
+
+            
 
 
         }

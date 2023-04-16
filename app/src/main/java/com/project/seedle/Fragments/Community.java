@@ -58,6 +58,8 @@ public class Community extends Fragment {
 
     private FloatingActionButton fab;
 
+    private int flagn = 0;
+
 
     private Context mContext;
 

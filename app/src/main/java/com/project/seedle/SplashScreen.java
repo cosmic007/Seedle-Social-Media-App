@@ -40,10 +40,9 @@ public class SplashScreen extends AppCompatActivity {
         animationSet.addAnimation(translateAnimation);
         animationSet.addAnimation(alphaAnimation);
 
-        Logo.startAnimation(animationSet);
+        //Logo.startAnimation(animationSet);
 
 
-        // Delay the start of the LoginActivity for a few seconds
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {

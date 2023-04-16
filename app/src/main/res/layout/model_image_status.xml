@@ -2,7 +2,8 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    >
 
     <LinearLayout
         android:id="@+id/idLLTopBar"
@@ -17,16 +18,17 @@
             android:id="@+id/idCVUserprofile"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:src="@drawable/userprofile"
-            android:layout_margin="5dp" />
+            android:layout_margin="5dp"
+            android:src="@drawable/userprofile" />
 
         <!--text view for displaying user name-->
         <TextView
             android:id="@+id/idTVUsername"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="30dp"
             android:layout_gravity="center"
-            android:layout_margin="3dp"
+            android:layout_marginLeft="-1.5dp"
+            android:layout_marginTop="1.6dp"
             android:padding="3dp"
             android:text="Abhijith V A"
             android:textColor="@color/black"
@@ -36,23 +38,22 @@
             android:id="@+id/verified"
             android:layout_width="15dp"
             android:layout_height="15dp"
-            android:layout_toRightOf="@id/model_addcomment_userName"
-            android:layout_marginLeft="-3dp"
+            android:layout_marginLeft="0dp"
             android:layout_marginTop="18dp"
-            android:visibility="invisible"
-            android:src="@drawable/verified"/>
+            android:layout_toRightOf="@id/model_addcomment_userName"
+            android:src="@drawable/verified"
+            android:visibility="visible" />
 
         <TextView
             android:id="@+id/admin"
             android:layout_width="wrap_content"
             android:layout_height="9dp"
+            android:layout_marginLeft="1dp"
             android:layout_marginTop="21dp"
-            android:layout_marginLeft="3dp"
             android:text="Developer"
             android:textSize="6sp"
-            android:visibility="invisible"
             android:textStyle="bold"
-            />
+            android:visibility="visible" />
 
 
     </LinearLayout>
@@ -74,7 +75,6 @@
         android:layout_width="match_parent"
         android:layout_height="350dp"
         android:layout_below="@id/idLLTopBar"
-
         android:adjustViewBounds="true"
         android:scaleType="centerCrop" />
 
@@ -84,7 +84,7 @@
         android:layout_height="25dp"
         android:layout_below="@id/idIVPost"
         android:layout_marginTop="6dp"
-        android:layout_marginLeft="6dp"
+        android:layout_marginLeft="5dp"
         android:layout_alignParentLeft="true"
         android:gravity="center"
         android:scaleType="centerCrop"
