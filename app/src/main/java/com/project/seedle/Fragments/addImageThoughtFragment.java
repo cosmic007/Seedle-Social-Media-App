@@ -440,7 +440,7 @@ public class addImageThoughtFragment extends Fragment {
 
             // Write the compressed bitmap to the file
             FileOutputStream outputStream = new FileOutputStream(imageFile);
-            compressedBitmap.compress(Bitmap.CompressFormat.JPEG, 80, outputStream);
+            compressedBitmap.compress(Bitmap.CompressFormat.JPEG, 75, outputStream);
             outputStream.flush();
             outputStream.close();
 
