@@ -10,7 +10,7 @@
         android:id="@+id/model_addcomment_profile"
         android:layout_width="25dp"
         android:layout_height="25dp"
-        android:layout_marginLeft="5dp"
+        android:layout_marginLeft="8dp"
         android:layout_marginTop="7.6dp"
         android:scaleType="centerCrop"
         android:src="@drawable/userprofile" />
@@ -32,7 +32,7 @@
             android:layout_width="wrap_content"
             android:layout_height="25dp"
             android:id="@+id/model_addcomment_userName"
-            android:paddingLeft="10dp"
+            android:paddingLeft="5dp"
             android:paddingTop="5dp"
             android:layout_marginTop="-2dp"
             android:textStyle="bold"
@@ -68,7 +68,7 @@
             android:text="00:00:00 00 Jan 2019"
             android:id="@+id/model_addcomment_currentDateTime"
             android:textSize="8.5sp"
-            android:paddingLeft="10dp"
+            android:paddingLeft="5dp"
             android:layout_below="@id/model_addcomment_userName"
             />
         <TextView
@@ -79,7 +79,7 @@
             android:text="this is an example"
             android:textSize="13sp"
             android:layout_marginBottom="5dp"
-            android:paddingLeft="10dp"
+            android:paddingLeft="5dp"
             android:paddingRight="10dp"
             android:textColor="@color/black"
             android:maxLines="6"

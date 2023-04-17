@@ -91,6 +91,7 @@ public class LoginPage extends AppCompatActivity {
                                     editor.putBoolean("loggedIn", true);
                                     editor.apply();
                                     startActivity(new Intent(LoginPage.this,MainContentPage.class));
+                                    finish();
                                 }
                             }).addOnFailureListener(new OnFailureListener() {
                                 @Override

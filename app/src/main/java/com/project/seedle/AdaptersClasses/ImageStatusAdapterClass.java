@@ -1,14 +1,20 @@
 package com.project.seedle.AdaptersClasses;
 
+import static androidx.core.app.ActivityCompat.startActivityForResult;
+import static java.security.AccessController.getContext;
+
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -22,6 +28,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.project.seedle.Admin;
+import com.project.seedle.CropActivity;
 import com.project.seedle.ModelClassess.Model_ImageStatus;
 import com.project.seedle.ModelClassess.Model_TextStatus;
 import com.project.seedle.R;
@@ -54,6 +61,8 @@ public class ImageStatusAdapterClass extends FirestoreRecyclerAdapter<Model_Imag
 
             String linkofprofileimage = model_imageStatus.getProfileurl();
             String linkofimageStatus = model_imageStatus.getStatusimageurl();
+
+
 
             Glide.with(context).load(linkofprofileimage)
                     .into(imageStatusViewHolderClass.profileImageIV);

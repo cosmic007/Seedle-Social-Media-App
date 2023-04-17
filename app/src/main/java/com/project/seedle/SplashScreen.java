@@ -20,7 +20,7 @@ public class SplashScreen extends AppCompatActivity {
 
     private TextView Tag;
 
-    private static final int SPLASH_TIMEOUT = 5000;
+    private static final int SPLASH_TIMEOUT = 4000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +40,7 @@ public class SplashScreen extends AppCompatActivity {
         animationSet.addAnimation(translateAnimation);
         animationSet.addAnimation(alphaAnimation);
 
-        //Logo.startAnimation(animationSet);
+        Logo.startAnimation(animationSet);
 
 
         new Handler().postDelayed(new Runnable() {

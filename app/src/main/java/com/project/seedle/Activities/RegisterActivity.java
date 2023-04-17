@@ -1,18 +1,24 @@
 package com.project.seedle.Activities;
 
+import static android.content.ContentValues.TAG;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.ContentResolver;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
@@ -36,11 +42,18 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.project.seedle.Admin;
+import com.project.seedle.CropActivity;
 import com.project.seedle.R;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.sql.Struct;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -60,7 +73,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     //class variable
 
-    private Uri profileimageURL;
+    private Uri profileimageURL,compressedUri;
     private static int REQUEST_CODE=1;
 
     private String finalpassword;
@@ -192,7 +205,7 @@ public class RegisterActivity extends AppCompatActivity {
                         {
                             Toast.makeText(RegisterActivity.this,"Uploading User Information",Toast.LENGTH_SHORT).show();
                             Map<String,Object> objectMap=new HashMap<>();
-                            objectMap.put("profileimageurl",task.getResult().toString());
+                            objectMap.put("profileimageurl",compressedUri);
                             objectMap.put("username",userName.getText().toString());
                             objectMap.put("useremail",userEmail.getText().toString());
                             objectMap.put("dob",userDob.getText().toString());
@@ -361,17 +374,83 @@ public class RegisterActivity extends AppCompatActivity {
 
     }
 
+
+
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(data.getData()!=null && data != null)
-        {
-            profileimageURL=data.getData();
-            profilepic.setImageURI(profileimageURL);
+        if (requestCode == 12 && resultCode == Activity.RESULT_OK) {
+            String croppedImageUriString = data.getStringExtra("croppedImageUri");
+            Uri croppedImageUri = Uri.parse(croppedImageUriString);
+
+            // Do something with the cropped image Uri, e.g. set it to an ImageView
+            compressedUri = compressImage(croppedImageUri);
+            profilepic.setImageURI(compressedUri);
+        } else if (data == null || data.getData() == null) {
+            Toast.makeText(RegisterActivity.this, "No Image Selected", Toast.LENGTH_SHORT).show();
+        } else {
+
+            if(data.getData()!=null && data != null)
+            {
+                profileimageURL=data.getData();
+
+
+            }
+            else
+            {
+                Toast.makeText(this, "Please upload your profile picture", Toast.LENGTH_SHORT).show();
+            }
+            Intent intent = new Intent(RegisterActivity.this, CropActivity.class);
+            intent.putExtra("imageUri", profileimageURL.toString());
+            intent.putExtra("content","profile");
+            startActivityForResult(intent, 12);
+
         }
-        else {
-            Toast.makeText(this,"Image Not Selected",Toast.LENGTH_SHORT).show();
+    }
+    private Uri compressImage(Uri imageUri) {
+        try {
+            // Get the original bitmap from the image URI
+            Bitmap originalBitmap = MediaStore.Images.Media.getBitmap(RegisterActivity.this.getContentResolver(), imageUri);
+
+            // Calculate the new dimensions for the compressed bitmap
+            int width = originalBitmap.getWidth();
+            int height = originalBitmap.getHeight();
+            float bitmapRatio = (float) width / (float) height;
+            if (bitmapRatio > 1) {
+                width = 1024;
+                height = (int) (width / bitmapRatio);
+            } else {
+                height = 1024;
+                width = (int) (height * bitmapRatio);
+            }
+
+            // Create a new bitmap with the new dimensions
+            Bitmap compressedBitmap = Bitmap.createScaledBitmap(originalBitmap, width, height, true);
+
+            // Create a file to store the compressed image
+            String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
+            String imageFileName = "JPEG_" + timeStamp + "_";
+            File storageDir = RegisterActivity.this.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+            File imageFile = File.createTempFile(
+                    imageFileName,  /* prefix */
+                    ".jpg",         /* suffix */
+                    storageDir      /* directory */
+            );
+
+            // Write the compressed bitmap to the file
+            FileOutputStream outputStream = new FileOutputStream(imageFile);
+            compressedBitmap.compress(Bitmap.CompressFormat.JPEG, 80, outputStream);
+            outputStream.flush();
+            outputStream.close();
+
+            // Return the URI of the compressed image file
+            return Uri.fromFile(imageFile);
+
+
+        } catch (IOException e) {
+            Log.e(TAG, "Failed to compress image: " + e.getMessage());
+            return null;
         }
     }
 }
