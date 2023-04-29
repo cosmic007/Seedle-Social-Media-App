@@ -11,6 +11,7 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.ContentResolver;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -180,12 +181,12 @@ public class RegisterActivity extends AppCompatActivity {
         {
             if(profileimageURL!=null)
             {
-                String imageName=userName.getText().toString()+"."+getExtension(profileimageURL);
+                String imageName=userName.getText().toString()+"."+getExtension(compressedUri);
                 final StorageReference imageRef=objectStorageReference.child(imageName);
 
 
                 Toast.makeText(this,"Uploading user profile picture",Toast.LENGTH_SHORT).show();
-                UploadTask objectUploadTask = imageRef.putFile(profileimageURL);
+                UploadTask objectUploadTask = imageRef.putFile(compressedUri);
                 objectUploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
                     @Override
                     public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
@@ -203,9 +204,12 @@ public class RegisterActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<Uri> task) {
                         if(task.isSuccessful())
                         {
+                            Uri downloaduri = task.getResult();
+                            String profileurl= downloaduri.toString();
+
                             Toast.makeText(RegisterActivity.this,"Uploading User Information",Toast.LENGTH_SHORT).show();
                             Map<String,Object> objectMap=new HashMap<>();
-                            objectMap.put("profileimageurl",compressedUri);
+                            objectMap.put("profileimageurl",profileurl);
                             objectMap.put("username",userName.getText().toString());
                             objectMap.put("useremail",userEmail.getText().toString());
                             objectMap.put("dob",userDob.getText().toString());
@@ -301,23 +305,30 @@ public class RegisterActivity extends AppCompatActivity {
         }
     }
 
-    private String getExtension(Uri uri)
-    {
-        try
-        {
-            ContentResolver objectContentResolver = getContentResolver();
-            MimeTypeMap objectMimeTypeMap = MimeTypeMap.getSingleton();
-
-            return objectMimeTypeMap.getExtensionFromMimeType(objectContentResolver.getType(uri));
+    private String getExtension(Uri selectedImageUri) {
+        try {
+            String filePath = getRealPathFromURI(selectedImageUri, this.getContentResolver());
+            if (filePath != null) {
+                return filePath.substring(filePath.lastIndexOf(".") + 1);
+            }
+        } catch (Exception e) {
+            Toast.makeText(this, "ImageThought:" + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
-        catch (Exception e)
-        {
-            Toast.makeText(this,"RegisterPage:"+e.getMessage(),Toast.LENGTH_SHORT).show();
-            return null;
+        return "No Extension";
+    }
 
+    private String getRealPathFromURI(Uri uri, ContentResolver contentResolver) {
+        String[] projection = {MediaStore.Images.Media.DATA};
+        Cursor cursor = contentResolver.query(uri, projection, null, null, null);
+        if (cursor == null) {
+            return uri.getPath();
+        } else {
+            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            cursor.moveToFirst();
+            String path = cursor.getString(column_index);
+            cursor.close();
+            return path;
         }
-
-
     }
 
 

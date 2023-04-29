@@ -5,6 +5,7 @@ import static android.content.ContentValues.TAG;
 import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -87,6 +88,8 @@ public class addImageThoughtFragment extends Fragment {
     private int PreCode=1000;
 
     private Uri selectedImageUri,compressedUri;
+
+    public Uri finalimageuri, croppedImageUri;
 
     private Date currentDate;
     private SimpleDateFormat objectSimpleDateFormat;
@@ -211,9 +214,9 @@ public class addImageThoughtFragment extends Fragment {
 
                         }
                     });
-                    String statusImageToBeStore=System.currentTimeMillis()+"."+getExtension(selectedImageUri);
+                    String statusImageToBeStore=System.currentTimeMillis()+"."+getExtension(finalimageuri);
                     StorageReference imgRef=objectStorageReference.child(statusImageToBeStore);
-                    UploadTask objectUploadTask=imgRef.putFile(selectedImageUri);
+                    UploadTask objectUploadTask=imgRef.putFile(finalimageuri);
                     objectUploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
                         @Override
                         public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
@@ -231,6 +234,8 @@ public class addImageThoughtFragment extends Fragment {
                         public void onComplete(@NonNull Task<Uri> task) {
                             if(task.isSuccessful())
                             {
+                                Uri downloaduri = task.getResult();
+                                String statusurl= downloaduri.toString();
                                 Map<String,Object> statusMap=new HashMap<>();
                                 statusMap.put("currentdatetime", getCurrentDate());
                                 statusMap.put("useremail", currentLoggedInUserEmail);
@@ -244,7 +249,7 @@ public class addImageThoughtFragment extends Fragment {
                                 statusMap.put("noofcomments", 0);
                                 statusMap.put("verified",isVerified);
                                 statusMap.put("currentflag", "none");
-                                statusMap.put("statusimageurl",compressedUri);
+                                statusMap.put("statusimageurl",statusurl);
                                 objectFirebaseFirestore.collection("ImageStatus")
                                         .document(String.valueOf(System.currentTimeMillis()))
                                         .set(statusMap)
@@ -316,22 +321,29 @@ public class addImageThoughtFragment extends Fragment {
     }
 
     private String getExtension(Uri selectedImageUri) {
-
         try {
-            ContentResolver objectContentResolver=getActivity().getContentResolver();
-            MimeTypeMap objectMimeTypeMap=MimeTypeMap.getSingleton();
-
-            return objectMimeTypeMap.getExtensionFromMimeType(objectContentResolver.getType(selectedImageUri));
-
-
+            String filePath = getRealPathFromURI(selectedImageUri, getActivity().getContentResolver());
+            if (filePath != null) {
+                return filePath.substring(filePath.lastIndexOf(".") + 1);
+            }
+        } catch (Exception e) {
+            Toast.makeText(getContext(), "ImageThought:" + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
-        catch (Exception e)
-        {
-            Toast.makeText(getContext(),"ImageThought:"+e.getMessage(),Toast.LENGTH_SHORT).show();
-            return "No Extension";
+        return "No Extension";
+    }
 
+    private String getRealPathFromURI(Uri uri, ContentResolver contentResolver) {
+        String[] projection = {MediaStore.Images.Media.DATA};
+        Cursor cursor = contentResolver.query(uri, projection, null, null, null);
+        if (cursor == null) {
+            return uri.getPath();
+        } else {
+            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            cursor.moveToFirst();
+            String path = cursor.getString(column_index);
+            cursor.close();
+            return path;
         }
-
     }
 
 
@@ -373,11 +385,12 @@ public class addImageThoughtFragment extends Fragment {
 
         if (requestCode == 1 && resultCode == Activity.RESULT_OK) {
             String croppedImageUriString = data.getStringExtra("croppedImageUri");
-            Uri croppedImageUri = Uri.parse(croppedImageUriString);
+            croppedImageUri = Uri.parse(croppedImageUriString);
+            compressedUri = compressImage(croppedImageUri);
 
             // Do something with the cropped image Uri, e.g. set it to an ImageView
-            statusImageView.setImageURI(croppedImageUri);
-            compressedUri = compressImage(croppedImageUri);
+            statusImageView.setImageURI(compressedUri);
+            finalimageuri =compressedUri;
         } else if (data == null || data.getData() == null) {
             Toast.makeText(getContext(), "No Image Selected", Toast.LENGTH_SHORT).show();
         } else {

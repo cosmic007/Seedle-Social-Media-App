@@ -27,20 +27,7 @@ public class SplashScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
 
-        Logo = findViewById(R.id.logo);
-        Tag = findViewById(R.id.tagline);
-        AnimationSet animationSet = new AnimationSet(true);
 
-        TranslateAnimation translateAnimation = new TranslateAnimation(0, 0, 100, 0);
-        translateAnimation.setDuration(1000);
-
-        AlphaAnimation alphaAnimation = new AlphaAnimation(0.0f, 1.0f);
-        alphaAnimation.setDuration(1000);
-
-        animationSet.addAnimation(translateAnimation);
-        animationSet.addAnimation(alphaAnimation);
-
-        Logo.startAnimation(animationSet);
 
 
         new Handler().postDelayed(new Runnable() {

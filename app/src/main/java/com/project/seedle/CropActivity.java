@@ -1,10 +1,13 @@
 package com.project.seedle;
 
 import android.app.Activity;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.ImageDecoder;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -17,6 +20,8 @@ import com.canhub.cropper.CropImageActivity;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
+
 public class CropActivity extends AppCompatActivity {
 
     public CropImageView cropImageView;
@@ -29,8 +34,6 @@ public class CropActivity extends AppCompatActivity {
         setContentView(R.layout.activity_crop);
 
         cropImageView = findViewById(R.id.cropImageView);
-
-
 
         if (getIntent().hasExtra("imageUri")) {
             String uriString = getIntent().getStringExtra("imageUri");
@@ -50,8 +53,6 @@ public class CropActivity extends AppCompatActivity {
                 int widthInPixels = (int) (width * scale + 0.5f);
                 int heightInPixels = (int) (height * scale + 0.5f);
                 cropImageView.setAspectRatio(widthInPixels, heightInPixels);
-
-
             }
         }
 
@@ -59,16 +60,12 @@ public class CropActivity extends AppCompatActivity {
             bitmap = uriToBitmap(imageUri);
             cropImageView.setImageBitmap(bitmap);
 
-
             if (bitmap.getWidth() == 0) {
                 throw new IllegalArgumentException("Image has zero width");
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
-
-
     }
 
     @Override
@@ -84,7 +81,9 @@ public class CropActivity extends AppCompatActivity {
             croppedBitmap = cropImageView.getCroppedImage();
 
             try {
-                croppedUri = bitmapToUri(croppedBitmap);
+                if (croppedBitmap != null) {
+                    croppedUri = bitmapToUri(croppedBitmap);
+                }
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -107,9 +106,15 @@ public class CropActivity extends AppCompatActivity {
     }
 
     public Uri bitmapToUri(Bitmap bitmap) throws IOException {
-        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
-        String path = MediaStore.Images.Media.insertImage(getContentResolver(), bitmap, "Title", null);
-        return Uri.parse(path);
+        String fileName = "cropped_image_" + System.currentTimeMillis() + ".jpg";
+        ContentValues values = new ContentValues();
+        values.put(MediaStore.Images.Media.DISPLAY_NAME, fileName);
+        values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
+        values.put(MediaStore.Images.Media.RELATIVE_PATH, Environment.DIRECTORY_PICTURES);
+        Uri imageUri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+        OutputStream outputStream = getContentResolver().openOutputStream(imageUri);
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
+        outputStream.close();
+        return imageUri;
     }
 }

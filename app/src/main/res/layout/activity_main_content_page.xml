@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/toolBar"
             android:layout_alignParentTop="true"
-            android:background="#EDE7E7"
+            android:background="@color/themecolor"
             android:minHeight="?attr/actionBarSize"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
             />
@@ -30,22 +30,24 @@
             android:id="@+id/title"
             android:text="Seedle"
             android:textSize="25sp"
-            android:layout_marginLeft="65dp"
+            android:layout_marginLeft="63dp"
+            android:layout_marginRight="8dp"
             android:textAlignment="center"
-            android:layout_centerHorizontal="true"
+            android:layout_alignParentRight="true"
             android:layout_marginTop="10dp"
-            android:textColor="@color/black"
+            android:textColor="@color/greywhite"
             android:textStyle="bold"/>
         <ImageView
             android:layout_width="121dp"
             android:layout_height="70dp"
-            android:src="@drawable/logo_black"
+            android:src="@drawable/logo_white"
             android:scaleType="centerCrop"
+            android:tint="@color/greywhite"
             android:layout_marginTop="-8dp"
             android:layout_toLeftOf="@id/title"
             android:layout_marginRight="-110dp"
             android:layout_centerHorizontal="true"
-            />
+            tools:ignore="UseAppTint" />
 
 
 
@@ -65,7 +67,7 @@
             android:layout_width="match_parent"
             android:layout_height="55dp"
             android:layout_alignParentBottom="true"
-            android:background="#EDE7E7"
+            android:background="@color/themecolor"
             android:elevation="10dp"
             app:itemIconSize="27dp"
             app:itemIconTint="@drawable/selector_bottombar_item"

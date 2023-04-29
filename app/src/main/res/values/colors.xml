@@ -12,6 +12,10 @@
     <color name="color_1">#FFB6C1</color>
     <color name="color_2">#7B68EE</color>
     <color name="color_3">#00FFFF</color>
-    <color name="themecolor">#00BFA5</color>
+    <color name="themecolor">#092C43</color>
+    <color name="secondtheme">#113C5A</color>
+    <color name="greywhite">#D1CECE</color>
+    <color name="Grey">#E1DCDC</color>
+
 
 </resources>

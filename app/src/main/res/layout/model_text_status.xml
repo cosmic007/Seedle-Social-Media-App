@@ -64,7 +64,7 @@
             android:layout_toRightOf="@id/model_textStatus_profileIV"
             android:text="Abhijith V A"
             android:layout_marginTop="8dp"
-            android:textColor="@color/black"
+            android:textColor="@color/themecolor"
             android:paddingTop="1dp"
             android:paddingLeft="10dp"
             android:textStyle="bold"
@@ -76,7 +76,7 @@
             android:layout_height="20dp"
             android:id="@+id/model_textStatus_dateTV"
             android:text="00:00 AM 2019 Jan 20"
-            android:textColor="@color/black"
+            android:textColor="@color/secondtheme"
             android:layout_marginTop="-11dp"
             android:textSize="8sp"
             android:layout_marginLeft="10dp"
@@ -94,16 +94,25 @@
             android:layout_marginTop="5dp"
             android:paddingTop="10dp"
             android:paddingBottom="15dp"
+
             android:layout_marginBottom="10dp"
             android:paddingLeft="15dp"
             android:paddingRight="5dp"
             android:text="This is an example This is an example This is an example"
-            android:textColor="@color/black"
+            android:textColor="@color/themecolor"
             android:textSize="14sp"
             />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="340dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="-13dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/model_textstatusinnerRL">
         <LinearLayout
             android:id="@+id/model_textStatus_LinearLayout"
-            android:layout_below="@id/model_textStatus_textStatusTV"
             android:layout_width="match_parent"
             android:layout_height="36dp"
             android:layout_marginTop="-11dp"
@@ -186,17 +195,17 @@
                 android:id="@+id/model_textStatus_commentCountTV"
                 android:layout_width="50dp"
                 android:layout_height="30dp"
-                android:layout_marginLeft="40dp"
+                android:layout_marginLeft="70dp"
                 android:layout_marginTop="5dp"
                 android:gravity="center"
                 android:text="0"
-                android:textSize="9sp"
+                android:textSize="10sp"
                 android:textStyle="bold"
                 />
             <TextView
                 android:id="@+id/model_textStatus_commentIV"
-                android:layout_width="49dp"
-                android:textSize="9sp"
+                android:layout_width="wrap_content"
+                android:textSize="10sp"
                 android:text="Comments"
                 android:layout_height="15dp"
                 android:layout_marginLeft="-17dp"
@@ -217,11 +226,6 @@
 
 
         </LinearLayout>
-    </RelativeLayout>
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/model_textstatusinnerRL">
 
 
     </RelativeLayout>
