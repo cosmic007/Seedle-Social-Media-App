@@ -120,7 +120,7 @@ public class MainContentPage extends AppCompatActivity implements NavigationView
         setUpDrawerMenu();
         Drawable drawable = objectToolBar.getNavigationIcon();
         if (drawable != null) {
-            drawable.setColorFilter(ContextCompat.getColor(this, R.color.greywhite), PorterDuff.Mode.SRC_ATOP);
+            drawable.setColorFilter(ContextCompat.getColor(this, R.color.black), PorterDuff.Mode.SRC_ATOP);
         }
         getCurrentUserDetails();
         objectNavigationView.setNavigationItemSelectedListener(this);

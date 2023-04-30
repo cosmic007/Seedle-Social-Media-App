@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:color="#9AA29B"
+        android:color="#5E615F"
         android:state_enabled="false"
         />
     <item
-        android:color="@color/white"
+        android:color="@color/black"
         android:state_checked="true"
         />
     <item
-        android:color="#9AA29B"
+        android:color="#5E615F"
         />
 
 
