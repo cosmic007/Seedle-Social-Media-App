@@ -10,6 +10,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Paint;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Build;
@@ -27,10 +28,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
@@ -38,6 +42,7 @@ import android.widget.ImageButton;
 import android.widget.MediaController;
 import android.widget.ProgressBar;
 
+import android.widget.TextView;
 import android.widget.VideoView;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -83,6 +88,11 @@ public class Community extends Fragment {
 
     private FloatingActionButton fab;
 
+    private TextView Caption;
+    public String captitle;
+
+    public EditText setTitle;
+
     private int flagn = 0;
 
 
@@ -110,12 +120,11 @@ public class Community extends Fragment {
     private RecyclerView recyclerView;
 
     private VideoView videoView;
-    private Button uploadButton;
+    private Button uploadButton,Setbtn;
 
     public String currentVideoUrl;
     private ProgressBar progressBar;
     private FirebaseStorage storage;
-    private ListenerRegistration listenerRegistration;
 
 
     public String User_Name;
@@ -168,6 +177,9 @@ public class Community extends Fragment {
             NotificationManager notificationManager = requireActivity().getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(channel);
         }
+        Caption=objectview.findViewById(R.id.caption);
+        setTitle = objectview.findViewById(R.id.setid);
+        Setbtn=objectview.findViewById(R.id.setbtn);
 
         videoView = objectview.findViewById(R.id.video);
         uploadButton = objectview.findViewById(R.id.uploadbtn);
@@ -234,6 +246,8 @@ public class Community extends Fragment {
 
         if ("cosmicriderrr@gmail.com".equals(currentloggedinuser) || "shabanaofficial321@gmail.com".equals(currentloggedinuser)) {
             uploadButton.setVisibility(View.VISIBLE);
+            setTitle.setVisibility(View.VISIBLE);
+            Setbtn.setVisibility(View.VISIBLE);
         }
 
         CollectionReference collectionReff = objectFirebaseFirestore.collection("UserProfileData");
@@ -255,6 +269,63 @@ public class Community extends Fragment {
                 Log.e(TAG, "Error getting document", e);
             }
         });
+
+
+        CollectionReference collectionRefTitle = objectFirebaseFirestore.collection("Caption");
+        DocumentReference documentReffTitle = collectionRefTitle.document("videotitle");
+
+        Setbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                String newText = setTitle.getText().toString();
+
+                // Create a Map object with the field to update and the new value
+                Map<String, Object> updates = new HashMap<>();
+                updates.put("title", newText);
+
+                // Update the document with the new value
+                documentReffTitle.update(updates);
+
+                // Clear the EditText
+                setTitle.setText("");
+
+                // Hide the keyboard
+                InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(setTitle.getWindowToken(), 0);
+
+            }
+        });
+
+
+
+
+
+
+
+
+        documentReffTitle.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                if(documentSnapshot.exists()){
+                    String capt = documentSnapshot.getString("title");
+                    captitle = capt;
+                    Caption.setText(capt);
+
+                } else {
+                    Log.d(TAG, "No such document");
+                }
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.e(TAG, "Error getting document", e);
+
+            }
+        });
+
+
+
 
 
 
