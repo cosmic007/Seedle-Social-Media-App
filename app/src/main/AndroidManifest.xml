@@ -54,12 +54,10 @@
             android:name=".Activities.LoginPage"
             android:exported="true"
             android:screenOrientation="portrait"
-            android:theme="@style/LoginPageTheme"
             android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:theme="@style/LoginPageTheme"
             android:screenOrientation="portrait" />
     </application>
 

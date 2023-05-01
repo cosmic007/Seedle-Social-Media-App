@@ -48,6 +48,8 @@ dependencies {
     implementation 'com.google.firebase:firebase-core:21.1.1'
     implementation("com.vanniktech:android-image-cropper:4.5.0")
     implementation "com.vanniktech:android-image-cropper:4.5.0"
+    implementation 'com.google.android.exoplayer:exoplayer:2.16.1'
+
 
 
 

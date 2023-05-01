@@ -1,17 +1,24 @@
 package com.project.seedle.Fragments;
 
+import static android.app.Activity.RESULT_OK;
 import static android.content.ContentValues.TAG;
 
+import android.Manifest;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.collection.ArraySet;
+import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.fragment.app.Fragment;
@@ -23,8 +30,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
+import android.widget.ToggleButton;
+import android.widget.VideoView;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -38,8 +51,17 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.ListenerRegistration;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.auth.User;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageMetadata;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.project.seedle.Activities.MainContentPage;
 import com.project.seedle.AdaptersClasses.ChatAdapter;
 import com.project.seedle.ModelClassess.ChatMessage;
@@ -48,7 +70,9 @@ import com.project.seedle.R;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public class Community extends Fragment {
@@ -61,7 +85,11 @@ public class Community extends Fragment {
     private int flagn = 0;
 
 
+    public ImageButton mutebtn;
+
+
     private Context mContext;
+
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -70,13 +98,9 @@ public class Community extends Fragment {
     }
 
 
-
-
-
-
-
-
     private ChatAdapter chatAdapter;
+
+
     public String url;
 
     DatabaseReference chatRef = FirebaseDatabase.getInstance().getReference().child("chat_messages");
@@ -84,6 +108,15 @@ public class Community extends Fragment {
     private ImageButton sendbtn;
     private EditText msg;
     private RecyclerView recyclerView;
+
+    private VideoView videoView;
+    private Button uploadButton;
+
+    public String currentVideoUrl;
+    private ProgressBar progressBar;
+    private FirebaseStorage storage;
+    private ListenerRegistration listenerRegistration;
+
 
     public String User_Name;
 
@@ -108,6 +141,16 @@ public class Community extends Fragment {
 
         // Show the notification
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(mContext);
+        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
         notificationManager.notify(0, builder.build());
     }
 
@@ -115,12 +158,71 @@ public class Community extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        View objectview;
+
+        objectview = inflater.inflate(R.layout.fragment_community, container, false);
+        getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel channel = new NotificationChannel("my_channel_id", "Global Chat", NotificationManager.IMPORTANCE_DEFAULT);
             NotificationManager notificationManager = requireActivity().getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(channel);
         }
+
+        videoView = objectview.findViewById(R.id.video);
+        uploadButton = objectview.findViewById(R.id.uploadbtn);
+        progressBar = objectview.findViewById(R.id.progress_bar);
+
+        storage = FirebaseStorage.getInstance();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        uploadButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                intent.setType("video/*");
+                startActivityForResult(Intent.createChooser(intent, "Select Video"), 1);
+            }
+        });
+
+        ToggleButton toggleButton = (ToggleButton) objectview.findViewById(R.id.toggleButton);
+        toggleButton.setChecked(false);
+
+        toggleButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+
+                    videoView.pause();
+                } else {
+
+                    videoView.start();
+                }
+            }
+        });
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -136,6 +238,10 @@ public class Community extends Fragment {
 
         FirebaseAuth objectFirebaseAuth= FirebaseAuth.getInstance();
         FirebaseFirestore objectFirebaseFirestore = FirebaseFirestore.getInstance();
+
+        if ("cosmicriderrr@gmail.com".equals(currentloggedinuser) || "shabanaofficial321@gmail.com".equals(currentloggedinuser)) {
+            uploadButton.setVisibility(View.VISIBLE);
+        }
 
         CollectionReference collectionReff = objectFirebaseFirestore.collection("UserProfileData");
         DocumentReference documentReff = collectionReff.document(currentloggedinuser);
@@ -188,9 +294,7 @@ public class Community extends Fragment {
         });
 
         FirebaseDatabase ObjectFirebaseDatabase = FirebaseDatabase.getInstance();
-        View objectview;
 
-        objectview = inflater.inflate(R.layout.fragment_community, container, false);
 
 
 
@@ -301,10 +405,120 @@ public class Community extends Fragment {
 
 
 
+
+
         return objectview;
 
 
     }
+
+
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 1 && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            Uri videoUri = data.getData();
+            StorageReference storageRef = storage.getReference().child("videos/" + videoUri.getLastPathSegment());
+
+            // Delete existing video
+            if (currentVideoUrl != null) {
+                StorageReference existingVideoRef = storage.getReferenceFromUrl(currentVideoUrl);
+                existingVideoRef.delete();
+            }
+
+            UploadTask uploadTask = storageRef.putFile(videoUri);
+
+            progressBar.setVisibility(View.VISIBLE);
+
+            uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    storageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            String videoUrl = uri.toString();
+                            currentVideoUrl = videoUrl; // Save the current video URL
+                            // Update the current video URL in the real-time database
+                            DatabaseReference currentVideoRef = FirebaseDatabase.getInstance().getReference().child("current_video");
+                            currentVideoRef.setValue(videoUrl);
+
+
+                            // Display the video on the VideoView
+                            videoView.setVideoURI(Uri.parse(videoUrl));
+                            videoView.start();
+                            videoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+
+
+                                @Override
+                                public void onCompletion(MediaPlayer mp) {
+                                    // Loop the video when it ends
+                                    videoView.start();
+                                }
+                            });
+
+                            progressBar.setVisibility(View.GONE);
+                        }
+                    });
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    // Handle any errors
+                    progressBar.setVisibility(View.GONE);
+                }
+            });
+        }
+    }
+
+
+    private void playVideo(String videourl) {
+        videoView.setVideoURI(Uri.parse(videourl));
+        videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+            @Override
+            public void onPrepared(MediaPlayer mp) {
+                videoView.start();
+            }
+        });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        DatabaseReference currentVideoRef = FirebaseDatabase.getInstance().getReference().child("current_video");
+        currentVideoRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String videoUrl = dataSnapshot.getValue(String.class);
+                if (videoUrl != null) {
+                    currentVideoUrl = videoUrl;
+                    videoView.setVideoURI(Uri.parse(videoUrl));
+                    videoView.start();
+                    videoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+
+                        @Override
+                        public void onCompletion(MediaPlayer mp) {
+
+                            // Loop the video when it ends
+                            videoView.start();
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                // Handle any errors
+            }
+        });
+    }
+
+
+
+
+
 
 
 
