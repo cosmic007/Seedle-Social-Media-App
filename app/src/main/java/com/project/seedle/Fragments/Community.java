@@ -35,8 +35,9 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.MediaController;
 import android.widget.ProgressBar;
-import android.widget.ToggleButton;
+
 import android.widget.VideoView;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -85,7 +86,6 @@ public class Community extends Fragment {
     private int flagn = 0;
 
 
-    public ImageButton mutebtn;
 
 
     private Context mContext;
@@ -173,6 +173,13 @@ public class Community extends Fragment {
         uploadButton = objectview.findViewById(R.id.uploadbtn);
         progressBar = objectview.findViewById(R.id.progress_bar);
 
+        MediaController mediaController = new MediaController(getContext());
+        videoView.setMediaController(mediaController);
+        mediaController.setAnchorView(videoView);
+
+
+
+
         storage = FirebaseStorage.getInstance();
 
 
@@ -198,21 +205,7 @@ public class Community extends Fragment {
             }
         });
 
-        ToggleButton toggleButton = (ToggleButton) objectview.findViewById(R.id.toggleButton);
-        toggleButton.setChecked(false);
 
-        toggleButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-
-                    videoView.pause();
-                } else {
-
-                    videoView.start();
-                }
-            }
-        });
 
 
 
