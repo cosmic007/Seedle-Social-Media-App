@@ -73,6 +73,7 @@ import com.project.seedle.AdaptersClasses.ChatAdapter;
 import com.project.seedle.ModelClassess.ChatMessage;
 import com.project.seedle.R;
 
+import java.lang.ref.WeakReference;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -95,7 +96,7 @@ public class Community extends Fragment {
 
     private int flagn = 0;
 
-
+    private WeakReference<Context> mContextRef;
 
 
     private Context mContext;
@@ -120,7 +121,7 @@ public class Community extends Fragment {
     private RecyclerView recyclerView;
 
     private VideoView videoView;
-    private Button uploadButton,Setbtn;
+    private Button uploadButton, Setbtn;
 
     public String currentVideoUrl;
     private ProgressBar progressBar;
@@ -138,19 +139,22 @@ public class Community extends Fragment {
     }
 
     private void showNotification(String message, String username) {
-
+        // Get the context object from the weak reference
+        Context context = getContextRef();
+        if (context == null) {
+            return;
+        }
         // Create a notification builder
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(mContext, "my_channel_id")
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "my_channel_id")
                 .setSmallIcon(R.mipmap.seedle_app_logo)
                 .setContentTitle(username)
                 .setContentText(message)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setAutoCancel(true);
 
-
         // Show the notification
-        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(mContext);
-        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
+        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
             // here to request the missing permissions, and then overriding
@@ -167,7 +171,12 @@ public class Community extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+
+
         View objectview;
+
+        mContextRef = new WeakReference<>(getContext());
 
         objectview = inflater.inflate(R.layout.fragment_community, container, false);
         getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
@@ -475,6 +484,22 @@ public class Community extends Fragment {
 
 
     }
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        // Remove the Firebase listener and set the context object to null
+        mContextRef.clear();
+        mContextRef = null;
+        // Remove the Firebase listener
+        DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference("Messages");
+    }
+
+    private Context getContextRef() {
+        if (mContextRef == null) {
+            return null;
+        }
+        return mContextRef.get();
+    }
 
 
 
@@ -551,6 +576,7 @@ public class Community extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        progressBar.setVisibility(View.VISIBLE);
         DatabaseReference currentVideoRef = FirebaseDatabase.getInstance().getReference().child("current_video");
         currentVideoRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -560,6 +586,7 @@ public class Community extends Fragment {
                     currentVideoUrl = videoUrl;
                     videoView.setVideoURI(Uri.parse(videoUrl));
                     videoView.start();
+                    progressBar.setVisibility(View.GONE);
                     videoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
 
                         @Override
@@ -578,6 +605,8 @@ public class Community extends Fragment {
             }
         });
     }
+
+
 
 
 

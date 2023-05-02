@@ -42,7 +42,6 @@ import com.project.seedle.Fragments.Community;
 import com.project.seedle.Fragments.Favorites;
 import com.project.seedle.Fragments.ImageThoughts;
 import com.project.seedle.Fragments.TextThoughts;
-import com.project.seedle.MyForegroundService;
 import com.project.seedle.R;
 
 import java.security.PrivilegedAction;
@@ -85,9 +84,6 @@ public class MainContentPage extends AppCompatActivity implements NavigationView
         super.onCreate(savedInstanceState);
 
 
-
-        Intent serviceIntent = new Intent(this, MyForegroundService.class);
-        startService(serviceIntent);
 
         setContentView(R.layout.activity_main_content_page);
 
