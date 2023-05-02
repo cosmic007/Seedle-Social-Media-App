@@ -22,7 +22,7 @@
             android:layout_toRightOf="@id/model_textStatus_profileTV"
             android:layout_marginLeft="4dp"
             android:layout_marginTop="10.4dp"
-            android:visibility="invisible"
+            android:visibility="visible"
             android:src="@drawable/verified"/>
         <TextView
             android:id="@+id/admin"
@@ -30,10 +30,10 @@
             android:layout_toRightOf="@id/verified"
             android:layout_height="9dp"
             android:layout_marginTop="13.5dp"
-            android:layout_marginLeft="3dp"
+            android:layout_marginLeft="1.7dp"
             android:text="Developer"
             android:textSize="6sp"
-            android:visibility="invisible"
+            android:visibility="visible"
             android:textStyle="bold"
             />
         <ImageView
