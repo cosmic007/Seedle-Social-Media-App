@@ -3,7 +3,6 @@ package com.project.seedle.Activities;
 import static android.content.ContentValues.TAG;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
@@ -13,15 +12,12 @@ import android.content.ContentResolver;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
-import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -35,7 +31,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.circularreveal.CircularRevealLinearLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -49,13 +44,11 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.project.seedle.Admin;
 import com.project.seedle.CropActivity;
-import com.project.seedle.MemoryData;
 import com.project.seedle.R;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.sql.Struct;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -225,33 +218,6 @@ public class RegisterActivity extends AppCompatActivity {
 
                             Uri downloaduri = task.getResult();
                             String profileurl= downloaduri.toString();
-
-                            final String nameTxt = userName.getText().toString();
-                            final String mobileTxt= mobile.getText().toString();
-                            final String emailTxt = userEmail.getText().toString();
-
-                            databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                    if(snapshot.child("users").hasChild(mobileTxt)){
-                                        Toast.makeText(RegisterActivity.this, "Mobile already exists", Toast.LENGTH_SHORT).show();
-                                    }
-                                    else
-                                    {
-                                        databaseReference.child("users").child(mobileTxt).child("email").setValue(emailTxt);
-                                        databaseReference.child("users").child(mobileTxt).child("name").setValue(nameTxt);
-                                        databaseReference.child("users").child(mobileTxt).child("profilepic").setValue(profileurl);
-                                        MemoryData.saveData(mobileTxt,RegisterActivity.this);
-
-
-                                    }
-                                }
-
-                                @Override
-                                public void onCancelled(@NonNull DatabaseError error) {
-
-                                }
-                            });
 
 
                             Toast.makeText(RegisterActivity.this,"Uploading User Information",Toast.LENGTH_SHORT).show();

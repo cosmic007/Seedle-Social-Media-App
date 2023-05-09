@@ -20,9 +20,6 @@
             android:name=".chat.Chat"
             android:exported="true" />
         <activity
-            android:name=".chatActivity"
-            android:exported="true" />
-        <activity
             android:name=".CropActivity"
             android:exported="true"
             android:screenOrientation="portrait"
