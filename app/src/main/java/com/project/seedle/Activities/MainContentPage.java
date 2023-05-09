@@ -43,6 +43,7 @@ import com.project.seedle.Fragments.Favorites;
 import com.project.seedle.Fragments.ImageThoughts;
 import com.project.seedle.Fragments.TextThoughts;
 import com.project.seedle.R;
+import com.project.seedle.chatActivity;
 
 import java.security.PrivilegedAction;
 
@@ -63,6 +64,8 @@ public class MainContentPage extends AppCompatActivity implements NavigationView
     private Toolbar objectToolBar;
     private NavigationView objectNavigationView;
 
+    private ImageView chat;
+
 
     private DrawerLayout objectDrawerLayout;
     private ImageView header_backgroundProfile;
@@ -70,11 +73,13 @@ public class MainContentPage extends AppCompatActivity implements NavigationView
     private TextView header_username,header_userEmail;
     private ProgressBar header_progressBar;
 
+    public String mobileno;
+
     private FirebaseAuth objectFirebaseAuth;
     private FirebaseFirestore objectFirebaseFirestore;
     private BottomNavigationView objectBottomNavigationView;
 
-    private DocumentReference objectDocumentReference;
+    private DocumentReference objectDocumentReference,obj2;
 
 
     private String currentUserEmail;
@@ -103,6 +108,7 @@ public class MainContentPage extends AppCompatActivity implements NavigationView
 
         objectToolBar=findViewById(R.id.toolBar);
         objectNavigationView=findViewById(R.id.navigationView);
+        chat = findViewById(R.id.chat);
         objectDrawerLayout=findViewById(R.id.drawerLayout);
         View headerXMLFile=objectNavigationView.getHeaderView(0);
         header_backgroundProfile=headerXMLFile.findViewById(R.id.header_profilePicbg);
@@ -113,6 +119,23 @@ public class MainContentPage extends AppCompatActivity implements NavigationView
         header_progressBar=headerXMLFile.findViewById(R.id.header_progressBar);
         objectBottomNavigationView= findViewById(R.id.bottom_nav_viewbar);
 
+
+        FirebaseAuth obj3 = FirebaseAuth.getInstance();
+
+        String mailid= obj3.getCurrentUser().getEmail().toString();
+
+
+        obj2 = objectFirebaseFirestore.collection("UserProfileData").document(mailid);
+        obj2.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+
+                String Mobile = documentSnapshot.getString("mobile");
+                mobileno = Mobile;
+
+            }
+        });
+
         setUpDrawerMenu();
         Drawable drawable = objectToolBar.getNavigationIcon();
         if (drawable != null) {
@@ -120,6 +143,20 @@ public class MainContentPage extends AppCompatActivity implements NavigationView
         }
         getCurrentUserDetails();
         objectNavigationView.setNavigationItemSelectedListener(this);
+
+
+
+
+        chat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle bundle2 = new Bundle();
+                bundle2.putString("Mobile", mobileno);
+                Intent intent = new Intent(MainContentPage.this, chatActivity.class);
+                intent.putExtras(bundle2);
+                startActivity(intent);
+            }
+        });
 
         objectBottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -220,6 +257,7 @@ public class MainContentPage extends AppCompatActivity implements NavigationView
             Toast.makeText(this,"MainContentPage:"+e.getMessage(),Toast.LENGTH_SHORT).show();
         }
     }
+
 
     private String getCurrentLoggedInUser()
     {

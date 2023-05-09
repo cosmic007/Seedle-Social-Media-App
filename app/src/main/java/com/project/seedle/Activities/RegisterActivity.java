@@ -38,12 +38,18 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.circularreveal.CircularRevealLinearLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.project.seedle.Admin;
 import com.project.seedle.CropActivity;
+import com.project.seedle.MemoryData;
 import com.project.seedle.R;
 
 import java.io.File;
@@ -61,11 +67,13 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class RegisterActivity extends AppCompatActivity {
 
+    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReferenceFromUrl("https://seedle-2a24f-default-rtdb.firebaseio.com/");
+
     //xml variables
     private CircleImageView profilepic;
 
     private Admin admin = new Admin();
-    private EditText userName,userEmail,userPassword,userConfirmPassword;
+    private EditText userName,userEmail,userPassword,userConfirmPassword,mobile;
 
     private TextView userDob;
     private Button registerbtn;
@@ -108,6 +116,9 @@ public class RegisterActivity extends AppCompatActivity {
         registerbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+
+
                 createUserAccount();
             }
         });
@@ -117,6 +128,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     private void createUserAccount()
     {
+
         try
         {
             if (objectFirebaseAuth.getCurrentUser()!=null)
@@ -138,6 +150,8 @@ public class RegisterActivity extends AppCompatActivity {
                     && !userPassword.getText().toString().isEmpty()) {
                 if (userPassword.getText().toString().equals(userConfirmPassword.getText().toString()))
                 {
+
+
                     objectDialog.show();
                     finalpassword=userPassword.getText().toString();
                     objectFirebaseAuth.createUserWithEmailAndPassword(
@@ -185,6 +199,8 @@ public class RegisterActivity extends AppCompatActivity {
                 final StorageReference imageRef=objectStorageReference.child(imageName);
 
 
+
+
                 Toast.makeText(this,"Uploading user profile picture",Toast.LENGTH_SHORT).show();
                 UploadTask objectUploadTask = imageRef.putFile(compressedUri);
                 objectUploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
@@ -200,18 +216,50 @@ public class RegisterActivity extends AppCompatActivity {
                         return imageRef.getDownloadUrl();
                     }
                 }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+
+
                     @Override
                     public void onComplete(@NonNull Task<Uri> task) {
                         if(task.isSuccessful())
                         {
+
                             Uri downloaduri = task.getResult();
                             String profileurl= downloaduri.toString();
+
+                            final String nameTxt = userName.getText().toString();
+                            final String mobileTxt= mobile.getText().toString();
+                            final String emailTxt = userEmail.getText().toString();
+
+                            databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    if(snapshot.child("users").hasChild(mobileTxt)){
+                                        Toast.makeText(RegisterActivity.this, "Mobile already exists", Toast.LENGTH_SHORT).show();
+                                    }
+                                    else
+                                    {
+                                        databaseReference.child("users").child(mobileTxt).child("email").setValue(emailTxt);
+                                        databaseReference.child("users").child(mobileTxt).child("name").setValue(nameTxt);
+                                        databaseReference.child("users").child(mobileTxt).child("profilepic").setValue(profileurl);
+                                        MemoryData.saveData(mobileTxt,RegisterActivity.this);
+
+
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+
+                                }
+                            });
+
 
                             Toast.makeText(RegisterActivity.this,"Uploading User Information",Toast.LENGTH_SHORT).show();
                             Map<String,Object> objectMap=new HashMap<>();
                             objectMap.put("profileimageurl",profileurl);
                             objectMap.put("username",userName.getText().toString());
                             objectMap.put("useremail",userEmail.getText().toString());
+                            objectMap.put("mobile",mobile.getText().toString());
                             objectMap.put("dob",userDob.getText().toString());
                             objectMap.put("userpassword",finalpassword);
                             radioID=objectRadioGroup.getCheckedRadioButtonId();
@@ -281,6 +329,7 @@ public class RegisterActivity extends AppCompatActivity {
             userDob=findViewById(R.id.Resgisterpage_dob);
             registerbtn=findViewById(R.id.RegisterPage_RegisterBtn);
             objectRadioGroup=findViewById(R.id.RegisterPage_Radiogroup);
+            mobile = findViewById(R.id.Resgisterpage_mobile);
 
             profilepic.setOnClickListener(new View.OnClickListener() {
                 @Override

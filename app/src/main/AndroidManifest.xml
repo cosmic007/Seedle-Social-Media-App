@@ -17,10 +17,16 @@
         android:theme="@style/Theme.Seedle"
         tools:targetApi="31">
         <activity
+            android:name=".Chat"
+            android:exported="false" />
+        <activity
+            android:name=".chatActivity"
+            android:exported="true" />
+        <activity
             android:name=".CropActivity"
-            android:theme="@style/Base.Theme.AppCompat"
             android:exported="true"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/Base.Theme.AppCompat" />
         <activity
             android:name=".SplashScreen"
             android:exported="true"

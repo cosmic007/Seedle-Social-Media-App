@@ -39,9 +39,11 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.MediaController;
 import android.widget.ProgressBar;
 
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.VideoView;
 
@@ -92,6 +94,8 @@ public class Community extends Fragment {
     private TextView Caption;
     public String captitle;
 
+    private RelativeLayout videolayout;
+
     public EditText setTitle;
 
     private int flagn = 0;
@@ -118,6 +122,8 @@ public class Community extends Fragment {
 
     private ImageButton sendbtn;
     private EditText msg;
+
+    private ImageView close,open;
     private RecyclerView recyclerView;
 
     private VideoView videoView;
@@ -155,13 +161,7 @@ public class Community extends Fragment {
         // Show the notification
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
+
             return;
         }
         notificationManager.notify(0, builder.build());
@@ -190,7 +190,13 @@ public class Community extends Fragment {
         setTitle = objectview.findViewById(R.id.setid);
         Setbtn=objectview.findViewById(R.id.setbtn);
 
+        videolayout = objectview.findViewById(R.id.videoRL);
+
         videoView = objectview.findViewById(R.id.video);
+
+        open = objectview.findViewById(R.id.openvideo);
+
+        close = objectview.findViewById(R.id.closevideo);
         uploadButton = objectview.findViewById(R.id.uploadbtn);
         progressBar = objectview.findViewById(R.id.progress_bar);
 
@@ -223,6 +229,23 @@ public class Community extends Fragment {
                 Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
                 intent.setType("video/*");
                 startActivityForResult(Intent.createChooser(intent, "Select Video"), 1);
+            }
+        });
+
+
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                videolayout.setVisibility(View.GONE);
+                videoView.stopPlayback();
+            }
+        });
+
+        open.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                videolayout.setVisibility(View.VISIBLE);
+                videoView.resume();
             }
         });
 

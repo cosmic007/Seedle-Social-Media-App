@@ -24,6 +24,17 @@
             android:minHeight="?attr/actionBarSize"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
             />
+
+
+        <ImageView
+            android:layout_width="30dp"
+            android:id="@+id/chat"
+            android:layout_height="30dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="13dp"
+            android:src="@drawable/icon_chat"
+            android:layout_marginRight="10dp"/>
+
         <TextView
             android:layout_width="90dp"
             android:layout_height="40dp"
@@ -96,5 +107,7 @@
         app:menu="@menu/menu_items"
         android:theme="@style/NavigationViewStyle"
         />
+
+
 
 </androidx.drawerlayout.widget.DrawerLayout>
