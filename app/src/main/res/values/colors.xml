@@ -8,7 +8,6 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="navTextColor">#000000</color>
-    <color name="grey">#000000</color>
     <color name="color_1">#FFB6C1</color>
     <color name="color_2">#7B68EE</color>
     <color name="color_3">#00FFFF</color>
@@ -18,5 +17,8 @@
     <color name="Grey">#E1DCDC</color>
     <color name="theme2">#CC000000</color>
 
+    <color name="black_shade_1">#292D36</color>
+    <color name="grey">#424242</color>
+    <color name="yellow">#ffa500</color>
 
 </resources>

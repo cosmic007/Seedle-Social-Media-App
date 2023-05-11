@@ -33,7 +33,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.project.seedle.Fragments.Community;
-import com.project.seedle.Fragments.Favorites;
+import com.project.seedle.Fragments.News;
 import com.project.seedle.Fragments.ImageThoughts;
 import com.project.seedle.Fragments.TextThoughts;
 import com.project.seedle.R;
@@ -46,7 +46,7 @@ public class MainContentPage extends AppCompatActivity implements NavigationView
 
     private TextThoughts objectTextThoughts;
     private ImageThoughts objectImageThoughts;
-    private Favorites objectFavorites;
+    private News objectNews;
     private Community objectCommunity;
 
     private AddThoughtPage objectAddThoughtPage;
@@ -88,7 +88,7 @@ public class MainContentPage extends AppCompatActivity implements NavigationView
 
         objectTextThoughts =new TextThoughts();
         objectImageThoughts = new ImageThoughts();
-        objectFavorites = new Favorites();
+        objectNews = new News();
         objectCommunity = new Community();
         objectAddThoughtPage = new AddThoughtPage();
 
@@ -136,7 +136,7 @@ public class MainContentPage extends AppCompatActivity implements NavigationView
                             changeFragments(objectTextThoughts);
                             return true;
                         case Constants.item_fav_thoughts:
-                            changeFragments(objectFavorites);
+                            changeFragments(objectNews);
                             return true;
                         case Constants.community:
                             changeFragments(objectCommunity);

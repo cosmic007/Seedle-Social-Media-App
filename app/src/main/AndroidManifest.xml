@@ -17,7 +17,7 @@
         android:theme="@style/Theme.Seedle"
         tools:targetApi="31">
         <activity
-            android:name=".chat.Chat"
+            android:name=".NewsDetailsActivity"
             android:exported="true" />
         <activity
             android:name=".CropActivity"
