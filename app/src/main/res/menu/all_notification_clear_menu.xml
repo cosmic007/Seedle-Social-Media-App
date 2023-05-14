@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/allnotification_item_clear"
+        android:title="CLEAR"
+        android:icon="@drawable/ic_delete"
+        android:checkable="true"
+        app:showAsAction="always"
+        />
+    <item
+        android:id="@+id/allnotification_item_goback"
+        android:title="GO BACK"
+        android:icon="@drawable/icon_backbtn"
+        android:checkable="true"
+        app:showAsAction="always"
+
+
+        />
+
+</menu>

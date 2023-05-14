@@ -23,6 +23,7 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.project.seedle.AdaptersClasses.GetImageCommentAdapter;
 import com.project.seedle.AdaptersClasses.TextCommentAdapter;
+import com.project.seedle.AppClasses.AddNotifications;
 import com.project.seedle.ModelClassess.Model_Comment;
 import com.project.seedle.ModelClassess.Model_GetImageComments;
 import com.project.seedle.R;
@@ -48,6 +49,8 @@ public class ImageCommentPage extends AppCompatActivity {
     private Bundle objectBundle;
     private String documentID;
 
+    private String recUserEmail;
+
 
 
     private Date currentDate;
@@ -57,6 +60,8 @@ public class ImageCommentPage extends AppCompatActivity {
     private String currentLoggedinUser;
     private String currentLoggedinUsername;
     private GetImageCommentAdapter objectGetImageCommentsAdapter;
+
+    private AddNotifications objectAddNotifications;
 
     //Firebase Variables
     private FirebaseFirestore objectFirebaseFirestore;
@@ -75,6 +80,7 @@ public class ImageCommentPage extends AppCompatActivity {
         objectFirebaseFirestore = FirebaseFirestore.getInstance();
         objectBundle = getIntent().getExtras();
         documentID=objectBundle.getString("documentId");
+        recUserEmail = objectBundle.getString("userEmailID");
         getCommentIntoRV();
 
 
@@ -184,6 +190,9 @@ public class ImageCommentPage extends AppCompatActivity {
                                             @Override
                                             public void onSuccess(DocumentReference documentReference) {
                                                 Toast.makeText(ImageCommentPage.this, "Comment Added", Toast.LENGTH_SHORT).show();
+
+                                                objectAddNotifications.generateNotification(currentLoggedinUser,"commented on","image status",
+                                                        recUserEmail);
                                                 commentET.setText("");
                                                 objectCollectionReference=objectFirebaseFirestore.collection("ImageStatus")
                                                         .document(documentID)
@@ -265,6 +274,8 @@ public class ImageCommentPage extends AppCompatActivity {
             objectRecyclerView = findViewById(R.id.imagestatus_commentRV);
             commentET = findViewById(R.id.imagestatus_commentET);
             SendCommentBtn = findViewById(R.id.imageStatus_commentSendBtn);
+
+            objectAddNotifications = new AddNotifications();
 
 
         }

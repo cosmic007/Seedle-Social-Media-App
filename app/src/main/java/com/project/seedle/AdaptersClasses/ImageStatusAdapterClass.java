@@ -36,11 +36,14 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.project.seedle.Activities.ImageCommentPage;
 import com.project.seedle.Activities.TextCommentPage;
 import com.project.seedle.Admin;
+import com.project.seedle.AppClasses.AddNotifications;
 import com.project.seedle.CropActivity;
 import com.project.seedle.ModelClassess.Model_ImageStatus;
 import com.project.seedle.ModelClassess.Model_TextStatus;
 import com.project.seedle.NoInternetActivity;
 import com.project.seedle.R;
+
+import org.checkerframework.checker.units.qual.A;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -77,11 +80,23 @@ public class ImageStatusAdapterClass extends FirestoreRecyclerAdapter<Model_Imag
             String linkofimageStatus = model_imageStatus.getStatusimageurl();
 
 
+            try{
+                Glide.with(context).load(linkofprofileimage)
+                        .into(imageStatusViewHolderClass.profileImageIV);
+                Glide.with(context).load(linkofimageStatus)
+                        .into(imageStatusViewHolderClass.imageStatus);
 
-            Glide.with(context).load(linkofprofileimage)
-                    .into(imageStatusViewHolderClass.profileImageIV);
-            Glide.with(context).load(linkofimageStatus)
-                    .into(imageStatusViewHolderClass.imageStatus);
+            }
+            catch (Exception e)
+            {
+                Toast.makeText(context, "No internet connection", Toast.LENGTH_SHORT).show();
+            }
+
+            AddNotifications objectAddNotifications = new AddNotifications();
+
+
+
+
             imageStatusViewHolderClass.objectProgressBar.setVisibility(View.INVISIBLE);
             String userN= model_imageStatus.getUsername();
             String admin1 = admin.getAdmin1();
@@ -247,6 +262,7 @@ public class ImageStatusAdapterClass extends FirestoreRecyclerAdapter<Model_Imag
                                 if(task.getResult().exists())
                                 {
                                     String currentFlag=task.getResult().getString("currentflag");
+
                                     if(currentFlag.equals("love"))
                                     {
 
@@ -259,6 +275,8 @@ public class ImageStatusAdapterClass extends FirestoreRecyclerAdapter<Model_Imag
 
                                     }
                                     else {
+                                        objectAddNotifications.generateNotification(userEmail,"liked","image status",
+                                                model_imageStatus.getUseremail());
                                         Map<String,Object> objectMap=new HashMap<>();
                                         objectMap.put("currentflag","love");
                                         objectFirebaseFirestore.collection("ImageStatus")
@@ -274,6 +292,8 @@ public class ImageStatusAdapterClass extends FirestoreRecyclerAdapter<Model_Imag
 
                                 }
                                 else {
+                                    objectAddNotifications.generateNotification(userEmail,"liked","image status",
+                                            model_imageStatus.getUseremail());
                                     Map<String,Object> objectMap=new HashMap<>();
                                     objectMap.put("currentflag","love");
                                     objectFirebaseFirestore.collection("ImageStatus")
@@ -285,6 +305,9 @@ public class ImageStatusAdapterClass extends FirestoreRecyclerAdapter<Model_Imag
                                     getSnapshots().getSnapshot(imageStatusViewHolderClass.getAdapterPosition())
                                             .getReference().update("nooflove",totalHearts);
                                     objectDocumentReferecnce.update("currentflag","love");
+                                    objectAddNotifications.generateNotification(userEmail,"love","image status",
+                                            model_imageStatus.getUseremail());
+
                                 }
 
 
@@ -316,6 +339,7 @@ public class ImageStatusAdapterClass extends FirestoreRecyclerAdapter<Model_Imag
 
                     Intent objectIntent=new Intent(objectContext, ImageCommentPage.class);
                     objectIntent.putExtra("documentId",documentID);
+                    objectIntent.putExtra("userEmailID",model_imageStatus.getUseremail());
 
                     objectContext.startActivity(objectIntent);
 
@@ -441,6 +465,8 @@ public class ImageStatusAdapterClass extends FirestoreRecyclerAdapter<Model_Imag
                                                             public void onSuccess(Void unused) {
 
                                                                 Toast.makeText(imageStatusViewHolderClass.favoriteIV.getContext(), "Added to favorites", Toast.LENGTH_SHORT).show();
+                                                                objectAddNotifications.generateNotification(userEmail,"Added","image status",
+                                                                        model_imageStatus.getUseremail());
 
 
 
@@ -505,6 +531,8 @@ public class ImageStatusAdapterClass extends FirestoreRecyclerAdapter<Model_Imag
                                                         public void onSuccess(Void unused) {
 
                                                             Toast.makeText(imageStatusViewHolderClass.favoriteIV.getContext(), "Added to favorites", Toast.LENGTH_SHORT).show();
+                                                            objectAddNotifications.generateNotification(userEmail,"Added","image status",
+                                                                    model_imageStatus.getUseremail());
 
 
 

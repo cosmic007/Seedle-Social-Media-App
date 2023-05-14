@@ -29,6 +29,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.project.seedle.Activities.TextCommentPage;
 import com.project.seedle.Admin;
+import com.project.seedle.AppClasses.AddNotifications;
 import com.project.seedle.ModelClassess.Model_TextStatus;
 import com.project.seedle.R;
 
@@ -89,6 +90,9 @@ public class TextStatusAdapterClass extends FirestoreRecyclerAdapter<Model_TextS
         {
             Toast.makeText(textStatusViewHolder.profileIV.getContext(), "No internet connection", Toast.LENGTH_SHORT).show();
         }
+
+
+        AddNotifications objectAddNotifications = new AddNotifications();
 
 
 
@@ -350,6 +354,8 @@ public class TextStatusAdapterClass extends FirestoreRecyclerAdapter<Model_TextS
                                                         public void onSuccess(Void unused) {
 
                                                             Toast.makeText(textStatusViewHolder.favoriteIV.getContext(), "Added to favorites", Toast.LENGTH_SHORT).show();
+                                                            objectAddNotifications.generateNotification(userEmail,"favorite","text status",
+                                                                    model_textStatus.getUseremail());
 
 
 
@@ -481,6 +487,8 @@ public class TextStatusAdapterClass extends FirestoreRecyclerAdapter<Model_TextS
                         if(task.getResult().exists())
                         {
                             String currentFlag=task.getResult().getString("currentflag");
+                            objectAddNotifications.generateNotification(userEmail,"liked","text status",
+                                    model_textStatus.getUseremail());
                             if(currentFlag.equals("love"))
                             {
 
@@ -530,6 +538,8 @@ public class TextStatusAdapterClass extends FirestoreRecyclerAdapter<Model_TextS
                             getSnapshots().getSnapshot(textStatusViewHolder.getAdapterPosition())
                                     .getReference().update("nooflove",totalHearts);
                             objectDocumentReferecnce.update("currentflag","love");
+                            objectAddNotifications.generateNotification(userEmail,"liked","text status",
+                                    model_textStatus.getUseremail());
                         }
 
                     }
@@ -569,6 +579,9 @@ public class TextStatusAdapterClass extends FirestoreRecyclerAdapter<Model_TextS
                             if(task.getResult().exists())
                             {
                                 String currentFlag=task.getResult().getString("currentflag");
+
+                                objectAddNotifications.generateNotification(userEmail,"liked","text status",
+                                        model_textStatus.getUseremail());
                                 if(currentFlag.equals("haha"))
                                 {
                                     objectDocumentReferecnce.update("currentflag","haha");
@@ -619,6 +632,8 @@ public class TextStatusAdapterClass extends FirestoreRecyclerAdapter<Model_TextS
                                 getSnapshots().getSnapshot(textStatusViewHolder.getAdapterPosition())
                                         .getReference().update("noofhaha",totalHaha);
                                 objectDocumentReferecnce.update("currentflag","haha");
+                                objectAddNotifications.generateNotification(userEmail,"liked","text status",
+                                        model_textStatus.getUseremail());
                             }
 
                         }
@@ -660,6 +675,8 @@ public class TextStatusAdapterClass extends FirestoreRecyclerAdapter<Model_TextS
                             if(task.getResult().exists())
                             {
                                 String currentFlag=task.getResult().getString("currentflag");
+                                objectAddNotifications.generateNotification(userEmail,"liked","text status",
+                                        model_textStatus.getUseremail());
                                 if(currentFlag.equals("sad"))
                                 {
                                     objectDocumentReferecnce.update("currentflag","sad");
@@ -710,6 +727,8 @@ public class TextStatusAdapterClass extends FirestoreRecyclerAdapter<Model_TextS
                                 getSnapshots().getSnapshot(textStatusViewHolder.getAdapterPosition())
                                         .getReference().update("nofsad",totalSad);
                                 objectDocumentReferecnce.update("currentflag","sad");
+                                objectAddNotifications.generateNotification(userEmail,"liked","text status",
+                                        model_textStatus.getUseremail());
                             }
 
                         }
@@ -745,6 +764,8 @@ public class TextStatusAdapterClass extends FirestoreRecyclerAdapter<Model_TextS
 
                 Intent objectIntent=new Intent(objectContext, TextCommentPage.class);
                 objectIntent.putExtra("documentId",documentID);
+
+                objectIntent.putExtra("userEmailID",model_textStatus.getUseremail());
 
                 objectContext.startActivity(objectIntent);
             }

@@ -25,6 +25,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.project.seedle.AdaptersClasses.TextCommentAdapter;
+import com.project.seedle.AppClasses.AddNotifications;
 import com.project.seedle.ModelClassess.Model_Comment;
 import com.project.seedle.R;
 
@@ -49,6 +50,10 @@ public class TextCommentPage extends AppCompatActivity {
     public int flag = 1;
     private Bundle objectBundle;
     private String documentID;
+
+    private String recUserEmail;
+
+    private AddNotifications objectAddNotifications;
 
 
 
@@ -84,6 +89,7 @@ public class TextCommentPage extends AppCompatActivity {
             AttachJavaObjectsToXML();
             objectBundle =getIntent().getExtras();
             documentID=objectBundle.getString("documentId");
+            recUserEmail = objectBundle.getString("userEmailID");
             getCommentIntoRV();
 
             SendCommentBtn.setOnClickListener(new View.OnClickListener() {
@@ -213,6 +219,10 @@ public class TextCommentPage extends AppCompatActivity {
                                             @Override
                                             public void onSuccess(DocumentReference documentReference) {
                                                 Toast.makeText(TextCommentPage.this, "Comment Added", Toast.LENGTH_SHORT).show();
+
+                                                objectAddNotifications.generateNotification(currentLoggedinUser,"commented on","text status",
+                                                        recUserEmail);
+
                                                 commentET.setText("");
                                                 objectCollectionReference=objectFirebaseFirestore.collection("TextStatus")
                                                         .document(documentID)
@@ -286,6 +296,8 @@ public class TextCommentPage extends AppCompatActivity {
             objectRecyclerView = findViewById(R.id.textstatus_commentRV);
             commentET = findViewById(R.id.textstatus_commentET);
             SendCommentBtn = findViewById(R.id.textStatus_commentSendBtn);
+
+            objectAddNotifications = new AddNotifications();
 
 
         }

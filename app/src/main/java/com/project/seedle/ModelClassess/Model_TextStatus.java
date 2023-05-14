@@ -7,6 +7,19 @@ package com.project.seedle.ModelClassess;
 public class Model_TextStatus {
 
     private String username, currentdatetime, status, profileurl, useremail;
+
+    public Model_TextStatus(String useremail) {
+        this.useremail = useremail;
+    }
+
+    public String getUseremail() {
+        return useremail;
+    }
+
+    public void setUseremail(String useremail) {
+        this.useremail = useremail;
+    }
+
     private int nooflove, noofhaha, nofsad, noofcomments;
 
     public Model_TextStatus() {

@@ -1,7 +1,20 @@
 package com.project.seedle.ModelClassess;
 
 public class Model_ImageStatus {
-    private String username,currentdatetime,status,profileurl,statusimageurl;
+    private String username,currentdatetime,status,profileurl,statusimageurl,useremail;
+
+    public Model_ImageStatus(String useremail) {
+        this.useremail = useremail;
+    }
+
+    public String getUseremail() {
+        return useremail;
+    }
+
+    public void setUseremail(String useremail) {
+        this.useremail = useremail;
+    }
+
     private int nooflove,noofcomments;
 
     public Model_ImageStatus() {
