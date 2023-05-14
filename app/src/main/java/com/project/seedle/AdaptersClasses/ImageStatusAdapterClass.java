@@ -32,6 +32,8 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.project.seedle.Activities.ImageCommentPage;
+import com.project.seedle.Activities.TextCommentPage;
 import com.project.seedle.Admin;
 import com.project.seedle.CropActivity;
 import com.project.seedle.ModelClassess.Model_ImageStatus;
@@ -287,9 +289,17 @@ public class ImageStatusAdapterClass extends FirestoreRecyclerAdapter<Model_Imag
                 }
             });
 
-            imageStatusViewHolderClass.commentCount.setOnClickListener(new View.OnClickListener() {
+            imageStatusViewHolderClass.commentIV.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+
+                    String documentID=getSnapshots().getSnapshot(imageStatusViewHolderClass.getAdapterPosition()).getId();
+                    Context objectContext = imageStatusViewHolderClass.commentIV.getContext();
+
+                    Intent objectIntent=new Intent(objectContext, ImageCommentPage.class);
+                    objectIntent.putExtra("documentId",documentID);
+
+                    objectContext.startActivity(objectIntent);
 
                 }
             });
@@ -555,7 +565,7 @@ public class ImageStatusAdapterClass extends FirestoreRecyclerAdapter<Model_Imag
 
     public static class ImageStatusViewHolderClass extends RecyclerView.ViewHolder {
         ImageView imageStatus,verified;
-        TextView userName, StatusDesc, statusDate, heartCount, commentCount, devtv;
+        TextView userName, StatusDesc, statusDate, heartCount, commentCount, devtv,commentIV;
         ImageView favoriteIV, deleteIV, profileImageIV, HeartIV;
         ProgressBar objectProgressBar;
 
@@ -573,6 +583,7 @@ public class ImageStatusAdapterClass extends FirestoreRecyclerAdapter<Model_Imag
             deleteIV = itemView.findViewById(R.id.idIVdelete);
             profileImageIV = itemView.findViewById(R.id.idCVUserprofile);
             HeartIV = itemView.findViewById(R.id.idIVHeart);
+            commentIV=itemView.findViewById(R.id.idTVComment);
             userName = itemView.findViewById(R.id.idTVUsername);
             StatusDesc = itemView.findViewById(R.id.idTVPostDesc);
             statusDate = itemView.findViewById(R.id.idTVDate);

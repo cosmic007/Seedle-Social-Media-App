@@ -32,6 +32,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.project.seedle.Favorites;
 import com.project.seedle.Fragments.Community;
 import com.project.seedle.Fragments.News;
 import com.project.seedle.Fragments.ImageThoughts;
@@ -135,7 +136,7 @@ public class MainContentPage extends AppCompatActivity implements NavigationView
                         case Constants.item_textThoughts:
                             changeFragments(objectTextThoughts);
                             return true;
-                        case Constants.item_fav_thoughts:
+                        case Constants.item_news:
                             changeFragments(objectNews);
                             return true;
                         case Constants.community:
@@ -303,7 +304,8 @@ public class MainContentPage extends AppCompatActivity implements NavigationView
                     Toast.makeText(this,"Settings is Clicked",Toast.LENGTH_SHORT).show();
                     return true;
                 case R.id.item_favorites:
-                    Toast.makeText(this,"Favorite is Clicked",Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(MainContentPage.this, Favorites.class);
+                    startActivity(intent);
                     return true;
                 case R.id.item_textstatus:
                     Toast.makeText(this,"TextStatus is Clicked",Toast.LENGTH_SHORT).show();
