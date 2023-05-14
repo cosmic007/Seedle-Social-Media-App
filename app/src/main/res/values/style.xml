@@ -5,6 +5,10 @@
         <item name="android:listPreferredItemPaddingLeft">5dp</item>
         <item name="android:listPreferredItemHeightSmall">45dp</item>
     </style>
+    <style name="NoAnimTheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:windowAnimationStyle">@null</item>
+    </style>
+
 
     <style name="LoginPageTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowAnimationStyle">@null</item>

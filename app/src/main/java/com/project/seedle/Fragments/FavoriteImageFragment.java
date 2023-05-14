@@ -3,11 +3,20 @@ package com.project.seedle.Fragments;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.project.seedle.AdaptersClasses.GetFavoriteImageStatusAdapter;
+import com.project.seedle.ModelClassess.Model_Favorite_Image_Status;
 import com.project.seedle.R;
 
 /**
@@ -17,50 +26,100 @@ import com.project.seedle.R;
  */
 public class FavoriteImageFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private RecyclerView objectRecyclerView;
+
+    private FirebaseFirestore objectFirebaseFirestore;
+
+    private FirebaseAuth objectFirebaseAuth;
+
+    private View parent;
+
+    private GetFavoriteImageStatusAdapter objectGetFavoriteImageStatusAdapter;
+
+
+
 
     public FavoriteImageFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment FavoriteImageFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static FavoriteImageFragment newInstance(String param1, String param2) {
-        FavoriteImageFragment fragment = new FavoriteImageFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_favorite_image, container, false);
+        parent = inflater.inflate(R.layout.fragment_favorite_image, container, false);
+
+
+        initializeJavaObjects();
+        getStatusIntoRV();
+
+        return parent;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        objectGetFavoriteImageStatusAdapter.startListening();
+    }
+
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        objectGetFavoriteImageStatusAdapter.stopListening();
+    }
+
+    private void getStatusIntoRV()
+    {
+        try {
+            objectFirebaseAuth = FirebaseAuth.getInstance();
+
+            if(objectFirebaseAuth!=null)
+            {
+                String currentLoggedinUser = objectFirebaseAuth.getCurrentUser().getEmail().toString();
+                Query objectQuery = objectFirebaseFirestore.collection("UserFavorite")
+                        .document(currentLoggedinUser)
+                        .collection("FavoriteImageStatus").orderBy("currentdatetime",Query.Direction.DESCENDING);
+
+                FirestoreRecyclerOptions<Model_Favorite_Image_Status> objectOptions = new FirestoreRecyclerOptions.Builder<Model_Favorite_Image_Status>()
+                        .setQuery(objectQuery,Model_Favorite_Image_Status.class).build();
+
+
+
+                objectGetFavoriteImageStatusAdapter = new GetFavoriteImageStatusAdapter(objectOptions);
+                objectRecyclerView.setAdapter(objectGetFavoriteImageStatusAdapter);
+
+                objectRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+
+
+            }
+            else {
+                Toast.makeText(getContext(), "User not online", Toast.LENGTH_SHORT).show();
+            }
+
+
+        }
+        catch (Exception e)
+        {
+            Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+
+    private void initializeJavaObjects()
+    {
+        try {
+
+            objectRecyclerView = parent.findViewById(R.id.favorite_ImageStatusRV);
+            objectFirebaseFirestore = FirebaseFirestore.getInstance();
+
+        }
+        catch (Exception e)
+        {
+            Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+
+        }
     }
 }

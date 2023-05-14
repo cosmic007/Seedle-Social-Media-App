@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -37,6 +39,8 @@ import com.project.seedle.Fragments.Community;
 import com.project.seedle.Fragments.News;
 import com.project.seedle.Fragments.ImageThoughts;
 import com.project.seedle.Fragments.TextThoughts;
+import com.project.seedle.MainActivity;
+import com.project.seedle.NoInternetActivity;
 import com.project.seedle.R;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -78,6 +82,12 @@ public class MainContentPage extends AppCompatActivity implements NavigationView
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if (!isInternetConnected()) {
+            Intent intent = new Intent(MainContentPage.this, NoInternetActivity.class);
+            startActivity(intent);
+            finish();// Optional: Finish the current activity if you don't want the user to go back to it without an internet connection
+        }
 
 
 
@@ -190,7 +200,6 @@ public class MainContentPage extends AppCompatActivity implements NavigationView
             {
                 Toast.makeText(this,"No user is logged in",Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(this,LoginPage.class));
-                finish();
             }
             else
             {
@@ -204,9 +213,18 @@ public class MainContentPage extends AppCompatActivity implements NavigationView
 
                         header_userEmail.setText(currentUserEmail);
                         String linkofProfileImage=documentSnapshot.getString("profileimageurl");
-                        Glide.with(MainContentPage.this).load(linkofProfileImage).into(header_profilepic);
-                        Glide.with(MainContentPage.this).load(linkofProfileImage).into(header_backgroundProfile);
-                        header_progressBar.setVisibility(View.INVISIBLE);
+                        
+                        try {
+                            Glide.with(MainContentPage.this).load(linkofProfileImage).into(header_profilepic);
+                            Glide.with(MainContentPage.this).load(linkofProfileImage).into(header_backgroundProfile);
+                            header_progressBar.setVisibility(View.INVISIBLE);
+                            
+                        }
+                        catch (Exception e)
+                        {
+                            Toast.makeText(MainContentPage.this, "No internet connection", Toast.LENGTH_SHORT).show();
+                        }
+                        
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
@@ -325,6 +343,13 @@ public class MainContentPage extends AppCompatActivity implements NavigationView
 
 
         return false;
+    }
+
+
+    private boolean isInternetConnected() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
     private void signOutUser()
     {

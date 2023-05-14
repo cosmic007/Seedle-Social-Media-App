@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.project.seedle.Activities.LoginPage;
+import com.project.seedle.Activities.MainContentPage;
 
 public class SplashScreen extends AppCompatActivity {
 
@@ -20,7 +21,7 @@ public class SplashScreen extends AppCompatActivity {
 
     private TextView Tag;
 
-    private static final int SPLASH_TIMEOUT = 4000;
+    private static final int SPLASH_TIMEOUT = 5000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +37,7 @@ public class SplashScreen extends AppCompatActivity {
                 Intent intent = new Intent(SplashScreen.this, MainActivity.class);
                 startActivity(intent);
                 finish();
+
             }
         }, SPLASH_TIMEOUT);
     }

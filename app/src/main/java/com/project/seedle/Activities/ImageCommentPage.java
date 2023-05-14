@@ -218,7 +218,7 @@ public class ImageCommentPage extends AppCompatActivity {
                             }
                         });
             }
-            else if(objectFirebaseAuth!=null){
+            else if(objectFirebaseAuth==null){
                 Toast.makeText(this,"No user is logged in", Toast.LENGTH_SHORT).show();
             }
             else if (commentET.getText().toString().isEmpty()) {

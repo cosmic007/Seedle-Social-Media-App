@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -48,9 +49,17 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
         // Inflate the chat item view layout
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.model_chat_item, parent, false);
+        try{
+            FirebaseAuth objectFirebaseAuth= FirebaseAuth.getInstance();
+            EMAIL =objectFirebaseAuth.getCurrentUser().getEmail();
+            FirebaseFirestore objectFirebaseFirestore = FirebaseFirestore.getInstance();
+            
+        }
+        catch (Exception e)
+        {
+            Toast.makeText(itemView.getContext(), "Error", Toast.LENGTH_SHORT).show();
+        }
 
-        FirebaseAuth objectFirebaseAuth= FirebaseAuth.getInstance();
-        EMAIL =objectFirebaseAuth.getCurrentUser().getEmail();
         FirebaseFirestore objectFirebaseFirestore = FirebaseFirestore.getInstance();
 
         CollectionReference collectionRef = objectFirebaseFirestore.collection("UserProfileData");

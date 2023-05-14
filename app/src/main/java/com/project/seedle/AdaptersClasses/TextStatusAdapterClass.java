@@ -79,8 +79,16 @@ public class TextStatusAdapterClass extends FirestoreRecyclerAdapter<Model_TextS
         textStatusViewHolder.sadCountTV.setText(Integer.toString(model_textStatus.getNofsad()));
         textStatusViewHolder.commentCountTV.setText(Integer.toString(model_textStatus.getNoofcomments()));
         String linkOfProfileImage= model_textStatus.getProfileurl();
-        Glide.with(textStatusViewHolder.profileIV.getContext())
-                .load(linkOfProfileImage).into(textStatusViewHolder.profileIV);
+        try
+        {
+            Glide.with(textStatusViewHolder.profileIV.getContext())
+                    .load(linkOfProfileImage).into(textStatusViewHolder.profileIV);
+            
+        }
+        catch (Exception e)
+        {
+            Toast.makeText(textStatusViewHolder.profileIV.getContext(), "No internet connection", Toast.LENGTH_SHORT).show();
+        }
 
 
 
@@ -186,13 +194,22 @@ public class TextStatusAdapterClass extends FirestoreRecyclerAdapter<Model_TextS
             objectDocumentReferecnce2.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                    if (task.getResult().exists()) {
-                        String currentFlag = task.getResult().getString("currentflag");
-                        if (currentFlag.equals("flag")) {
 
-                            textStatusViewHolder.favoriteIV.setImageResource(R.drawable.icon_fav_filled);
+                    try
+                    {
+                        if (task.getResult().exists()) {
+                            String currentFlag = task.getResult().getString("currentflag");
+                            if (currentFlag.equals("flag")) {
 
+                                textStatusViewHolder.favoriteIV.setImageResource(R.drawable.icon_fav_filled);
+
+                            }
                         }
+
+                    }
+                    catch (Exception e)
+                    {
+                        Toast.makeText(textStatusViewHolder.favoriteIV.getContext(), "No internet connection", Toast.LENGTH_SHORT).show();
                     }
 
                 }

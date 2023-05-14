@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:layout_margin="2dp"
+    android:id="@+id/model_favorite_is_RL">
+
+    <LinearLayout
+        android:id="@+id/idLLTopBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="4dp">
+
+
+        <!--circle image for displaying the user image-->
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/model_favorite_profilepic"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_margin="5dp"
+            android:src="@drawable/userprofile" />
+
+        <!--text view for displaying user name-->
+        <TextView
+            android:id="@+id/model_favorite_username"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="-1.5dp"
+            android:layout_marginTop="1.6dp"
+            android:padding="3dp"
+            android:text="Abhijith V A"
+            android:textColor="@color/black"
+            android:textStyle="bold" />
+
+
+
+    </LinearLayout>
+    <ImageView
+        android:layout_width="27dp"
+        android:layout_height="30dp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="12dp"
+        android:id="@+id/model_favorite_remove"
+        android:layout_marginRight="16dp"
+        android:elevation="5dp"
+        android:src="@drawable/icon_remove_fav"
+        />
+
+
+    <!--image view to display the post image-->
+    <ImageView
+        android:id="@+id/model_favorite_post"
+        android:layout_width="match_parent"
+        android:layout_height="350dp"
+        android:layout_below="@id/idLLTopBar"
+        android:adjustViewBounds="true"
+        android:scaleType="centerCrop" />
+
+
+
+
+    <TextView
+        android:id="@+id/model_favorite_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/model_favorite_post"
+        android:layout_alignParentLeft="true"
+        android:layout_marginStart="9dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="5dp"
+        android:padding="5dp"
+        android:text="25th June 2028"
+        android:textSize="11sp"
+        android:textStyle="bold" />
+
+    <!--text view to display the caption
+        in instagram post-->
+    <TextView
+        android:id="@+id/model_favorite_desc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/model_favorite_date"
+        android:minHeight="10dp"
+        android:layout_marginStart="9dp"
+        android:layout_marginTop="-10dp"
+        android:layout_marginEnd="6dp"
+        android:layout_marginBottom="6dp"
+        android:padding="5dp"
+        android:text="This is an example"
+        android:textColor="@color/black"
+        android:textSize="13sp" />
+
+
+
+
+
+</RelativeLayout>

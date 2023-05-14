@@ -77,7 +77,7 @@ public class News extends Fragment implements CategoryRVAdapter.CategoryClickInt
         newsRV.setAdapter(newsRVAdapter);
         categoryRV.setAdapter(categoryRVAdapter);
         getCategories();
-        getNews("All");
+        getNews("Technology");
         newsRVAdapter.notifyDataSetChanged();
 
 
@@ -91,7 +91,7 @@ public class News extends Fragment implements CategoryRVAdapter.CategoryClickInt
     private void getCategories(){
 
 
-        categoryRVModelArrayList.add(new CategoryRVModel("All","https://images.unsplash.com/photo-1504711434969-e33886168f5c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8OXx8bmV3cyUyMGJnfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60"));
+        categoryRVModelArrayList.add(new CategoryRVModel("All","https://images.unsplash.com/photo-1476242906366-d8eb64c2f661?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mjd8fG5ld3N8ZW58MHx8MHx8&auto=format&fit=crop&w=500&q=60"));
         categoryRVModelArrayList.add(new CategoryRVModel("Technology","https://images.unsplash.com/photo-1461749280684-dccba630e2f6?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MzR8fHRlY2hub2xvZ3l8ZW58MHx8MHx8&auto=format&fit=crop&w=500&q=60"));
         categoryRVModelArrayList.add(new CategoryRVModel("Science","https://images.unsplash.com/photo-1628595351029-c2bf17511435?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTR8fHNjaWVuY2V8ZW58MHx8MHx8&auto=format&fit=crop&w=500&q=60"));
         categoryRVModelArrayList.add(new CategoryRVModel("Sports","https://plus.unsplash.com/premium_photo-1672046218081-5154b14bad06?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTl8fHNwb3J0c3xlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60"));

@@ -45,6 +45,7 @@ import android.widget.ProgressBar;
 
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.VideoView;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -309,22 +310,28 @@ public class Community extends Fragment {
         Setbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(!(setTitle.getText().toString().equals("")))
+                {
+                    String newText = setTitle.getText().toString();
 
-                String newText = setTitle.getText().toString();
+                    // Create a Map object with the field to update and the new value
+                    Map<String, Object> updates = new HashMap<>();
+                    updates.put("title", newText);
 
-                // Create a Map object with the field to update and the new value
-                Map<String, Object> updates = new HashMap<>();
-                updates.put("title", newText);
+                    // Update the document with the new value
+                    documentReffTitle.update(updates);
 
-                // Update the document with the new value
-                documentReffTitle.update(updates);
+                    // Clear the EditText
+                    setTitle.setText("");
 
-                // Clear the EditText
-                setTitle.setText("");
-
-                // Hide the keyboard
-                InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(setTitle.getWindowToken(), 0);
+                    // Hide the keyboard
+                    InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(setTitle.getWindowToken(), 0);
+                    
+                }
+                else {
+                    Toast.makeText(mContext, "Type something to send", Toast.LENGTH_SHORT).show();
+                }
 
             }
         });
@@ -403,28 +410,36 @@ public class Community extends Fragment {
         sendbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Get the message text and sender name from the UI
-                String messageText = msg.getText().toString();
-                String senderName = User_Name;
+                
+                if(!msg.getText().toString().isEmpty())
+                {
+ 
+                    String messageText = msg.getText().toString();
+                    String senderName = User_Name;
 
-                // Get the current timestamp
+                    // Get the current timestamp
 
 
-                long timestamp = System.currentTimeMillis();
-                String profileurl = url;
+                    long timestamp = System.currentTimeMillis();
+                    String profileurl = url;
 
 
-                ChatMessage chatMessage = new ChatMessage(messageText, senderName, timestamp , profileurl);
+                    ChatMessage chatMessage = new ChatMessage(messageText, senderName, timestamp , profileurl);
 
-                // Generate a unique key for the message
-                String messageId = chatRef.push().getKey();
+     
+                    String messageId = chatRef.push().getKey();
 
-                // Set the value of the new child node to the ChatMessage object
-                chatRef.child(messageId).setValue(chatMessage);
+  
+                    chatRef.child(messageId).setValue(chatMessage);
 
-                // Clear the message text field
-                msg.setText("");
-
+         
+                    msg.setText("");
+                    
+                }
+                else {
+                    Toast.makeText(mContext, "Type something to send", Toast.LENGTH_SHORT).show();
+                }
+                
 
             }
         });

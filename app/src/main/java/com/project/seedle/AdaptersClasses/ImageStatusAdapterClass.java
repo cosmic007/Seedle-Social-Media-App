@@ -2,6 +2,7 @@ package com.project.seedle.AdaptersClasses;
 
 import static android.content.ContentValues.TAG;
 import static androidx.core.app.ActivityCompat.startActivityForResult;
+import static androidx.core.content.ContextCompat.startActivity;
 import static java.security.AccessController.getContext;
 
 import android.content.Context;
@@ -38,6 +39,7 @@ import com.project.seedle.Admin;
 import com.project.seedle.CropActivity;
 import com.project.seedle.ModelClassess.Model_ImageStatus;
 import com.project.seedle.ModelClassess.Model_TextStatus;
+import com.project.seedle.NoInternetActivity;
 import com.project.seedle.R;
 
 import java.util.HashMap;
@@ -145,18 +147,25 @@ public class ImageStatusAdapterClass extends FirestoreRecyclerAdapter<Model_Imag
             objectDocumentReferecnce.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                    if (task.getResult().exists()) {
-                        String currentFlag = task.getResult().getString("currentflag");
-                        if (currentFlag.equals("love")) {
+                    try{
+                        if (task.getResult().exists()) {
+                            String currentFlag = task.getResult().getString("currentflag");
+                            if (currentFlag.equals("love")) {
 
-                            imageStatusViewHolderClass.HeartIV.setImageResource(R.drawable.icon_liked);
+                                imageStatusViewHolderClass.HeartIV.setImageResource(R.drawable.icon_liked);
 
+                            }
+                            else {
+                                imageStatusViewHolderClass.HeartIV.setImageResource(R.drawable.icon_love);
+
+
+                            }
                         }
-                        else {
-                            imageStatusViewHolderClass.HeartIV.setImageResource(R.drawable.icon_love);
 
-
-                        }
+                    }
+                    catch (Exception e)
+                    {
+                        Toast.makeText(context, "No Internet Connection", Toast.LENGTH_SHORT).show();
                     }
                 }
             }).addOnFailureListener(new OnFailureListener() {
@@ -180,18 +189,27 @@ public class ImageStatusAdapterClass extends FirestoreRecyclerAdapter<Model_Imag
             objectDocumentReferecnce3.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                    if (task.getResult().exists()) {
-                        String currentFlag = task.getResult().getString("currentflag");
-                        if (currentFlag.equals("flag")) {
 
-                            imageStatusViewHolderClass.favoriteIV.setImageResource(R.drawable.icon_fav_filled);
+                    try {
+                        if (task.getResult().exists()) {
+                            String currentFlag = task.getResult().getString("currentflag");
+                            if (currentFlag.equals("flag")) {
 
+                                imageStatusViewHolderClass.favoriteIV.setImageResource(R.drawable.icon_fav_filled);
+
+                            }
+                            else {
+                                imageStatusViewHolderClass.favoriteIV.setImageResource(R.drawable.icon_fav);
+
+                            }
                         }
-                        else {
-                            imageStatusViewHolderClass.favoriteIV.setImageResource(R.drawable.icon_fav);
 
-                        }
                     }
+                    catch (Exception e)
+                    {
+                        Toast.makeText(context, "No internet connection", Toast.LENGTH_SHORT).show();
+                    }
+
 
                 }
             }).addOnFailureListener(new OnFailureListener() {
@@ -404,6 +422,7 @@ public class ImageStatusAdapterClass extends FirestoreRecyclerAdapter<Model_Imag
                                             String statusDate =documentSnapshot.getString("currentdatetime");
                                             Map<String, Object> objectMap = new HashMap<>();
                                             objectMap.put("username",username);
+                                            objectMap.put("statusurl",statusurl);
                                             objectMap.put("useremail",userEmail);
                                             objectMap.put("status",status);
                                             objectMap.put("profileurl",profileUrl);
@@ -467,6 +486,7 @@ public class ImageStatusAdapterClass extends FirestoreRecyclerAdapter<Model_Imag
                                         String statusDate =documentSnapshot.getString("currentdatetime");
                                         Map<String, Object> objectMap = new HashMap<>();
                                         objectMap.put("username",username);
+                                        objectMap.put("statusurl",statusurl);
                                         objectMap.put("useremail",userEmail);
                                         objectMap.put("status",status);
                                         objectMap.put("profileurl",profileUrl);
