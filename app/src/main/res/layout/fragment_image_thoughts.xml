@@ -11,7 +11,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/imageStatus_RV"
+        tools:listitem="@layout/model_image_status"
+
         />
+
+
+
+
+
+
 
 
 

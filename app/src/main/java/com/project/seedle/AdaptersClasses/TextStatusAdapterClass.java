@@ -40,7 +40,7 @@ import java.util.Random;
 
 public class TextStatusAdapterClass extends FirestoreRecyclerAdapter<Model_TextStatus,TextStatusAdapterClass.TextStatusViewHolder> {
 
-    public String url;
+    public String url,USERNAME;
 
     public String AdminName;
 
@@ -130,12 +130,12 @@ public class TextStatusAdapterClass extends FirestoreRecyclerAdapter<Model_TextS
 
             FirebaseAuth objFirebaseAuth = FirebaseAuth.getInstance();
 
-            final String userEmail = objFirebaseAuth.getCurrentUser().getEmail();
+            String userEmail = objFirebaseAuth.getCurrentUser().getEmail();
             String documentID=getSnapshots().getSnapshot(textStatusViewHolder.getAdapterPosition()).getId();
 
 
 
-            final DocumentReference objectDocumentReferecnce = objectFirebaseFirestore.collection("TextStatus")
+            DocumentReference objectDocumentReferecnce = objectFirebaseFirestore.collection("TextStatus")
                     .document(documentID).collection("Emotions")
                     .document(userEmail);
 
@@ -218,6 +218,8 @@ public class TextStatusAdapterClass extends FirestoreRecyclerAdapter<Model_TextS
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 if (documentSnapshot.exists()) {
                     String Userprofile = documentSnapshot.getString("profileimageurl");
+                    String UserName = documentSnapshot.getString("username");
+                    USERNAME = UserName;
                     url = Userprofile;
                     if(Objects.equals(url, model_textStatus.getProfileurl()) || EMAIL.equals("cosmicriderrr@gmail.com"))
                     {
@@ -241,61 +243,200 @@ public class TextStatusAdapterClass extends FirestoreRecyclerAdapter<Model_TextS
         textStatusViewHolder.favoriteIV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                textStatusViewHolder.favoriteIV.setImageResource(R.drawable.icon_fav_filled);
-                String documentID=getSnapshots().getSnapshot(textStatusViewHolder.getAdapterPosition()).getId();
-                FirebaseFirestore objectFirebaseFirestore = FirebaseFirestore .getInstance();
-                DocumentReference objectDocumentReference = objectFirebaseFirestore.collection("TextStatus").document(documentID);
-                objectDocumentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                FirebaseAuth objFirebaseAuth = FirebaseAuth.getInstance();
+
+                String userEmail3 = objFirebaseAuth.getCurrentUser().getEmail();
+                String documentID3=getSnapshots().getSnapshot(textStatusViewHolder.getAdapterPosition()).getId();
+
+
+                DocumentReference objectDocumentReferecnce5 = objectFirebaseFirestore.collection("UserFavorite")
+                        .document(userEmail3).collection("FavoriteTextStatus")
+                        .document(documentID3);
+                objectDocumentReferecnce5.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
-                    public void onSuccess(DocumentSnapshot documentSnapshot) {
-                        String userEmail =documentSnapshot.getString("useremail");
-                        String status = documentSnapshot.getString("status");
-                        String profileUrl=documentSnapshot.getString("profileurl");
-                        String statusDate =documentSnapshot.getString("currentdatetime");
-                        Map<String, Object> objectMap = new HashMap<>();
-                        objectMap.put("useremail",userEmail);
-                        objectMap.put("status",status);
-                        objectMap.put("profileurl",profileUrl);
-                        objectMap.put("currentdatetime",statusDate);
-                        objectMap.put("currentflag","flag");
-                        FirebaseAuth objectFirebaseAuth =FirebaseAuth.getInstance();
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.getResult().exists()) {
+                            String currentFlag = task.getResult().getString("currentflag");
+                            if (currentFlag.equals("flag")) {
 
-                        if(objectFirebaseAuth!=null)
-                        {
-                            String currentLoggedInUser=objectFirebaseAuth.getCurrentUser().getEmail();
-                            objectFirebaseFirestore.collection("UserFavorite").document(currentLoggedInUser)
-                                    .collection("FavoriteTextStatus")
-                                    .document(documentID).set(objectMap)
-                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                        @Override
-                                        public void onSuccess(Void unused) {
+                                textStatusViewHolder.favoriteIV.setImageResource(R.drawable.icon_fav);
+                                Map<String, Object> objectMap = new HashMap<>();
+                                objectMap.put("currentflag","none");
+                                FirebaseAuth objectFirebaseAuth = FirebaseAuth.getInstance();
+                                String currentLoggedInUser=objectFirebaseAuth.getCurrentUser().getEmail();
+                                objectFirebaseFirestore.collection("UserFavorite").document(currentLoggedInUser)
+                                        .collection("FavoriteTextStatus")
+                                        .document(documentID3).set(objectMap)
+                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void unused) {
+                                                objectFirebaseFirestore.collection("UserFavorite").document(currentLoggedInUser).collection("FavoriteTextStatus")
+                                                        .document(getSnapshots().getSnapshot(textStatusViewHolder.getAdapterPosition()).getId())
+                                                        .delete()
+                                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                            @Override
+                                                            public void onSuccess(Void unused) {
+                                                                Toast.makeText(textStatusViewHolder.deleteIV.getContext(), "Removed from favorites", Toast.LENGTH_SHORT).show();
+                                                            }
+                                                        }).addOnFailureListener(new OnFailureListener() {
+                                                            @Override
+                                                            public void onFailure(@NonNull Exception e) {
+                                                                Toast.makeText(textStatusViewHolder.deleteIV.getContext(), "Failed to remove from favorites", Toast.LENGTH_SHORT).show();
+                                                                textStatusViewHolder.favoriteIV.setImageResource(R.drawable.icon_fav_filled);
 
-                                            Toast.makeText(textStatusViewHolder.favoriteIV.getContext(), "Added to favorites", Toast.LENGTH_SHORT).show();
+                                                            }
+                                                        });
 
+
+
+
+                                            }
+                                        }).addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                textStatusViewHolder.favoriteIV.setImageResource(R.drawable.icon_fav_filled);
+                                                Toast.makeText(textStatusViewHolder.favoriteIV.getContext(), "Failed to remove from favorites", Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+
+                            }
+                            else {
+                                textStatusViewHolder.favoriteIV.setImageResource(R.drawable.icon_fav_filled);
+                                String documentID=getSnapshots().getSnapshot(textStatusViewHolder.getAdapterPosition()).getId();
+                                FirebaseFirestore objectFirebaseFirestore = FirebaseFirestore .getInstance();
+                                DocumentReference objectDocumentReference = objectFirebaseFirestore.collection("TextStatus").document(documentID);
+                                objectDocumentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                                    @Override
+                                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                        String username= model_textStatus.getUsername();
+                                        String userEmail =documentSnapshot.getString("useremail");
+                                        String status = documentSnapshot.getString("status");
+                                        String profileUrl=documentSnapshot.getString("profileurl");
+                                        String statusDate =documentSnapshot.getString("currentdatetime");
+                                        Map<String, Object> objectMap = new HashMap<>();
+                                        objectMap.put("username",username);
+                                        objectMap.put("useremail",userEmail);
+                                        objectMap.put("status",status);
+                                        objectMap.put("profileurl",profileUrl);
+                                        objectMap.put("currentdatetime",statusDate);
+                                        objectMap.put("currentflag","flag");
+                                        FirebaseAuth objectFirebaseAuth =FirebaseAuth.getInstance();
+
+                                        if(objectFirebaseAuth!=null)
+                                        {
+                                            String currentLoggedInUser=objectFirebaseAuth.getCurrentUser().getEmail();
+                                            objectFirebaseFirestore.collection("UserFavorite").document(currentLoggedInUser)
+                                                    .collection("FavoriteTextStatus")
+                                                    .document(documentID).set(objectMap)
+                                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                        @Override
+                                                        public void onSuccess(Void unused) {
+
+                                                            Toast.makeText(textStatusViewHolder.favoriteIV.getContext(), "Added to favorites", Toast.LENGTH_SHORT).show();
+
+
+
+                                                        }
+                                                    }).addOnFailureListener(new OnFailureListener() {
+                                                        @Override
+                                                        public void onFailure(@NonNull Exception e) {
+                                                            Toast.makeText(textStatusViewHolder.favoriteIV.getContext(), "Failed to add into favorites", Toast.LENGTH_SHORT).show();
+                                                            textStatusViewHolder.favoriteIV.setImageResource(R.drawable.icon_fav);
+                                                        }
+                                                    });
 
 
                                         }
-                                    }).addOnFailureListener(new OnFailureListener() {
-                                        @Override
-                                        public void onFailure(@NonNull Exception e) {
-                                            Toast.makeText(textStatusViewHolder.favoriteIV.getContext(), "Failed to add into favorites", Toast.LENGTH_SHORT).show();
+                                        else {
+                                            Toast.makeText(textStatusViewHolder.favoriteIV.getContext(),"User not online", Toast.LENGTH_SHORT).show();
+                                            textStatusViewHolder.favoriteIV.setImageResource(R.drawable.icon_fav);
                                         }
-                                    });
 
 
+                                    }
+                                }).addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        textStatusViewHolder.favoriteIV.setImageResource(R.drawable.icon_fav);
+
+                                    }
+                                });
+
+                            }
                         }
                         else {
-                            Toast.makeText(textStatusViewHolder.favoriteIV.getContext(),"User not online", Toast.LENGTH_SHORT).show();
-                        }
+                            textStatusViewHolder.favoriteIV.setImageResource(R.drawable.icon_fav_filled);
+                            String documentID=getSnapshots().getSnapshot(textStatusViewHolder.getAdapterPosition()).getId();
+                            FirebaseFirestore objectFirebaseFirestore = FirebaseFirestore .getInstance();
+                            DocumentReference objectDocumentReference = objectFirebaseFirestore.collection("TextStatus").document(documentID);
+                            objectDocumentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                                @Override
+                                public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                    String username= model_textStatus.getUsername();
+                                    String userEmail =documentSnapshot.getString("useremail");
+                                    String status = documentSnapshot.getString("status");
+                                    String profileUrl=documentSnapshot.getString("profileurl");
+                                    String statusDate =documentSnapshot.getString("currentdatetime");
+                                    Map<String, Object> objectMap = new HashMap<>();
+                                    objectMap.put("username",username);
+                                    objectMap.put("useremail",userEmail);
+                                    objectMap.put("status",status);
+                                    objectMap.put("profileurl",profileUrl);
+                                    objectMap.put("currentdatetime",statusDate);
+                                    objectMap.put("currentflag","flag");
+                                    FirebaseAuth objectFirebaseAuth =FirebaseAuth.getInstance();
 
+                                    if(objectFirebaseAuth!=null)
+                                    {
+                                        String currentLoggedInUser=objectFirebaseAuth.getCurrentUser().getEmail();
+                                        objectFirebaseFirestore.collection("UserFavorite").document(currentLoggedInUser)
+                                                .collection("FavoriteTextStatus")
+                                                .document(documentID).set(objectMap)
+                                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                    @Override
+                                                    public void onSuccess(Void unused) {
+
+                                                        Toast.makeText(textStatusViewHolder.favoriteIV.getContext(), "Added to favorites", Toast.LENGTH_SHORT).show();
+
+
+
+                                                    }
+                                                }).addOnFailureListener(new OnFailureListener() {
+                                                    @Override
+                                                    public void onFailure(@NonNull Exception e) {
+                                                        Toast.makeText(textStatusViewHolder.favoriteIV.getContext(), "Failed to add into favorites", Toast.LENGTH_SHORT).show();
+                                                        textStatusViewHolder.favoriteIV.setImageResource(R.drawable.icon_fav);
+                                                    }
+                                                });
+
+
+                                    }
+                                    else {
+                                        Toast.makeText(textStatusViewHolder.favoriteIV.getContext(),"User not online", Toast.LENGTH_SHORT).show();
+                                    }
+
+
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    textStatusViewHolder.favoriteIV.setImageResource(R.drawable.icon_fav);
+
+                                }
+                            });
+                        }
 
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
 
+
+
+
                     }
                 });
+
             }
         });
 
@@ -305,94 +446,91 @@ public class TextStatusAdapterClass extends FirestoreRecyclerAdapter<Model_TextS
 
 
 
-        textStatusViewHolder.heartIV.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                textStatusViewHolder.heartIV.setImageResource(R.drawable.icon_liked);
-                FirebaseAuth objFirestoreAuth=FirebaseAuth.getInstance();
-                if(objFirestoreAuth!=null)
-                {
-                    final String userEmail = objFirestoreAuth.getCurrentUser().getEmail();
-                    final String documentID=getSnapshots().getSnapshot(textStatusViewHolder.getAdapterPosition()).getId();
+        textStatusViewHolder.heartIV.setOnClickListener(v -> {
+            textStatusViewHolder.heartIV.setImageResource(R.drawable.icon_liked);
+            FirebaseAuth objFirestoreAuth=FirebaseAuth.getInstance();
+            if(objFirestoreAuth!=null)
+            {
+                final String userEmail = objFirestoreAuth.getCurrentUser().getEmail();
+                final String documentID=getSnapshots().getSnapshot(textStatusViewHolder.getAdapterPosition()).getId();
 
-                    final FirebaseFirestore objectFirebaseFirestore=FirebaseFirestore.getInstance();
-                    final DocumentReference objectDocumentReferecnce = objectFirebaseFirestore.collection("TextStatus")
-                            .document(documentID).collection("Emotions")
-                            .document(userEmail);
-                    objectDocumentReferecnce.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                            if(task.getResult().exists())
+                final FirebaseFirestore objectFirebaseFirestore=FirebaseFirestore.getInstance();
+                final DocumentReference objectDocumentReferecnce = objectFirebaseFirestore.collection("TextStatus")
+                        .document(documentID).collection("Emotions")
+                        .document(userEmail);
+                objectDocumentReferecnce.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if(task.getResult().exists())
+                        {
+                            String currentFlag=task.getResult().getString("currentflag");
+                            if(currentFlag.equals("love"))
                             {
-                                String currentFlag=task.getResult().getString("currentflag");
-                                if(currentFlag.equals("love"))
-                                {
 
-                                    objectDocumentReferecnce.update("currentflag","love");
-
-                                }
-                                else if(currentFlag.equals("haha"))
-                                {
-                                    Long totalHearts= (Long) getSnapshots().getSnapshot(textStatusViewHolder.getAdapterPosition()).get("nooflove");
-                                    totalHearts++;
-                                    getSnapshots().getSnapshot(textStatusViewHolder.getAdapterPosition())
-                                            .getReference().update("nooflove",totalHearts);
-                                    objectDocumentReferecnce.update("currentflag","love");
-                                    Long totalHaha= (Long) getSnapshots().getSnapshot(textStatusViewHolder.getAdapterPosition()).get("noofhaha");
-                                    totalHaha--;
-                                    getSnapshots().getSnapshot(textStatusViewHolder.getAdapterPosition())
-                                            .getReference().update("noofhaha",totalHaha);
-
-
-                                }
-                                else if(currentFlag.equals("sad"))
-                                {
-                                    Long totalHearts= (Long) getSnapshots().getSnapshot(textStatusViewHolder.getAdapterPosition()).get("nooflove");
-                                    totalHearts++;
-                                    getSnapshots().getSnapshot(textStatusViewHolder.getAdapterPosition())
-                                            .getReference().update("nooflove",totalHearts);
-                                    objectDocumentReferecnce.update("currentflag","love");
-                                    Long totalSad= (Long) getSnapshots().getSnapshot(textStatusViewHolder.getAdapterPosition())
-                                            .get("nofsad");
-                                    totalSad--;
-
-                                    getSnapshots().getSnapshot(textStatusViewHolder.getAdapterPosition()).getReference()
-                                            .update("nofsad",totalSad);
-
-                                }
+                                objectDocumentReferecnce.update("currentflag","love");
 
                             }
-                            else {
-                                Map<String,Object> objectMap=new HashMap<>();
-                                objectMap.put("currentflag","love");
-                                objectFirebaseFirestore.collection("TextStatus")
-                                        .document(documentID).collection("Emotions")
-                                        .document(userEmail)
-                                        .set(objectMap);
+                            else if(currentFlag.equals("haha"))
+                            {
                                 Long totalHearts= (Long) getSnapshots().getSnapshot(textStatusViewHolder.getAdapterPosition()).get("nooflove");
                                 totalHearts++;
                                 getSnapshots().getSnapshot(textStatusViewHolder.getAdapterPosition())
                                         .getReference().update("nooflove",totalHearts);
                                 objectDocumentReferecnce.update("currentflag","love");
+                                Long totalHaha= (Long) getSnapshots().getSnapshot(textStatusViewHolder.getAdapterPosition()).get("noofhaha");
+                                totalHaha--;
+                                getSnapshots().getSnapshot(textStatusViewHolder.getAdapterPosition())
+                                        .getReference().update("noofhaha",totalHaha);
+
+
+                            }
+                            else if(currentFlag.equals("sad"))
+                            {
+                                Long totalHearts= (Long) getSnapshots().getSnapshot(textStatusViewHolder.getAdapterPosition()).get("nooflove");
+                                totalHearts++;
+                                getSnapshots().getSnapshot(textStatusViewHolder.getAdapterPosition())
+                                        .getReference().update("nooflove",totalHearts);
+                                objectDocumentReferecnce.update("currentflag","love");
+                                Long totalSad= (Long) getSnapshots().getSnapshot(textStatusViewHolder.getAdapterPosition())
+                                        .get("nofsad");
+                                totalSad--;
+
+                                getSnapshots().getSnapshot(textStatusViewHolder.getAdapterPosition()).getReference()
+                                        .update("nofsad",totalSad);
+
                             }
 
                         }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(textStatusViewHolder.heartIV.getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
-
+                        else {
+                            Map<String,Object> objectMap=new HashMap<>();
+                            objectMap.put("currentflag","love");
+                            objectFirebaseFirestore.collection("TextStatus")
+                                    .document(documentID).collection("Emotions")
+                                    .document(userEmail)
+                                    .set(objectMap);
+                            Long totalHearts= (Long) getSnapshots().getSnapshot(textStatusViewHolder.getAdapterPosition()).get("nooflove");
+                            totalHearts++;
+                            getSnapshots().getSnapshot(textStatusViewHolder.getAdapterPosition())
+                                    .getReference().update("nooflove",totalHearts);
+                            objectDocumentReferecnce.update("currentflag","love");
                         }
-                    });
 
-                }
-                else
-                {
-                    Toast.makeText(textStatusViewHolder.heartIV.getContext(), "No user is online", Toast.LENGTH_SHORT).show();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(textStatusViewHolder.heartIV.getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
 
-                }
+                    }
+                });
 
             }
+            else
+            {
+                Toast.makeText(textStatusViewHolder.heartIV.getContext(), "No user is online", Toast.LENGTH_SHORT).show();
+
+            }
+
         });
 
         textStatusViewHolder.hahaIV.setOnClickListener(new View.OnClickListener() {

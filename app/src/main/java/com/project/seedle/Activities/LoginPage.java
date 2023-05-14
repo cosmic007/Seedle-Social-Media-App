@@ -16,8 +16,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.project.seedle.R;
@@ -29,11 +31,11 @@ public class LoginPage extends AppCompatActivity {
     private RelativeLayout objectRelativeLayout;
     private ImageView loginpageLogo;
     private EditText loginPageEmail,loginpagePassword;
-    private TextView loginPageTagline,loginpagetoReg;
+    private TextView loginPageTagline,loginpagetoReg,Resetbtn;
     private Dialog objectDialog;
 
     //Firebase Variable
-    private FirebaseAuth ObjectFirebaseAuth;
+    private FirebaseAuth ObjectFirebaseAuth,firebaseAuth;
 
 
 
@@ -43,6 +45,8 @@ public class LoginPage extends AppCompatActivity {
         objectDialog=new Dialog(this);
         objectDialog.setContentView(R.layout.please_wait_dialogue);
         setContentView(R.layout.activity_login_page);
+
+        Resetbtn = findViewById(R.id.Resetbtn);
 
         ObjectFirebaseAuth = FirebaseAuth.getInstance();
 
@@ -64,6 +68,14 @@ public class LoginPage extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 moveToRegisterPage();
+            }
+        });
+
+
+        Resetbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sendPasswordResetEmail();
             }
         });
 
@@ -134,5 +146,37 @@ public class LoginPage extends AppCompatActivity {
             Toast.makeText(this,"LoginPage"+e.getMessage(),Toast.LENGTH_SHORT).show();
 
         }
+    }
+
+    private void sendPasswordResetEmail() {
+        firebaseAuth = FirebaseAuth.getInstance();
+
+
+        String email = loginPageEmail.getText().toString();
+
+        if(!email.isEmpty())
+        {
+            firebaseAuth.sendPasswordResetEmail(email)
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+                                Toast.makeText(LoginPage.this, "Password reset email sent!", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(LoginPage.this, "Failed to send password reset email.", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+
+        }
+        else {
+
+            Toast.makeText(LoginPage.this, "Please fill email and try again", Toast.LENGTH_SHORT).show();
+
+        }
+
+
+
+
     }
 }
