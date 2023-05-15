@@ -348,7 +348,7 @@ public class MainContentPage extends AppCompatActivity implements NavigationView
             switch (item.getItemId())
             {
                 case R.id.item_profile:
-                    Toast.makeText(this,"Profile is Clicked",Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(MainContentPage.this,ProfilePage.class));
                     return true;
                 case R.id.item_notifications:
                     startActivity(new Intent(MainContentPage.this,AllNotifications.class));

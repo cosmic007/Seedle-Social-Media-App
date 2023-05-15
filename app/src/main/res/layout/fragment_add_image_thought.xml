@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -42,9 +43,10 @@
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
             android:layout_marginStart="1dp"
-            android:layout_marginTop="140dp"
+            android:layout_marginTop="120dp"
             android:layout_marginEnd="-1dp"
-            android:src="@drawable/insertimagedrawable" />
+            android:src="#80000000"
+            />
 
         <EditText
             android:id="@+id/Frag_addImageThoughtET"
@@ -55,7 +57,7 @@
             android:layout_alignParentStart="true"
             android:layout_marginStart="2dp"
             android:layout_marginTop="69dp"
-            android:background="@color/white"
+            android:background="@null"
             android:hint="@string/imagestatus_hint"
             android:minHeight="50dp"
             android:paddingLeft="60dp"
@@ -102,7 +104,7 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:layout_marginStart="11dp"
-            android:layout_marginTop="563dp"
+            android:layout_marginTop="545dp"
             android:src="@drawable/addpic" />
 
         <TextView

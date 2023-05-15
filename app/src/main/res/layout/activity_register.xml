@@ -211,6 +211,16 @@
                 android:paddingLeft="2dp"
                 android:text="Female"
                 android:textColor="@color/black" />
+            <RadioButton
+                android:id="@+id/others_radio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:buttonTint="@color/black"
+                android:checked="true"
+                android:layout_marginLeft="15dp"
+                android:paddingLeft="2dp"
+                android:text="Others"
+                android:textColor="@color/black" />
         </RadioGroup>
 
         <Button

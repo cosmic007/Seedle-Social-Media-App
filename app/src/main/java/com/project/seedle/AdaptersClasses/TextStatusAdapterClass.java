@@ -354,7 +354,7 @@ public class TextStatusAdapterClass extends FirestoreRecyclerAdapter<Model_TextS
                                                         public void onSuccess(Void unused) {
 
                                                             Toast.makeText(textStatusViewHolder.favoriteIV.getContext(), "Added to favorites", Toast.LENGTH_SHORT).show();
-                                                            objectAddNotifications.generateNotification(userEmail,"favorite","text status",
+                                                            objectAddNotifications.generateNotification(userEmail,"Added","Text status",
                                                                     model_textStatus.getUseremail());
 
 
@@ -420,6 +420,8 @@ public class TextStatusAdapterClass extends FirestoreRecyclerAdapter<Model_TextS
                                                     public void onSuccess(Void unused) {
 
                                                         Toast.makeText(textStatusViewHolder.favoriteIV.getContext(), "Added to favorites", Toast.LENGTH_SHORT).show();
+                                                        objectAddNotifications.generateNotification(userEmail,"Added","Text status",
+                                                                model_textStatus.getUseremail());
 
 
 
@@ -487,7 +489,7 @@ public class TextStatusAdapterClass extends FirestoreRecyclerAdapter<Model_TextS
                         if(task.getResult().exists())
                         {
                             String currentFlag=task.getResult().getString("currentflag");
-                            objectAddNotifications.generateNotification(userEmail,"liked","text status",
+                            objectAddNotifications.generateNotification(userEmail,"liked","Text status",
                                     model_textStatus.getUseremail());
                             if(currentFlag.equals("love"))
                             {
@@ -538,7 +540,7 @@ public class TextStatusAdapterClass extends FirestoreRecyclerAdapter<Model_TextS
                             getSnapshots().getSnapshot(textStatusViewHolder.getAdapterPosition())
                                     .getReference().update("nooflove",totalHearts);
                             objectDocumentReferecnce.update("currentflag","love");
-                            objectAddNotifications.generateNotification(userEmail,"liked","text status",
+                            objectAddNotifications.generateNotification(userEmail,"liked","Text status",
                                     model_textStatus.getUseremail());
                         }
 
@@ -580,7 +582,7 @@ public class TextStatusAdapterClass extends FirestoreRecyclerAdapter<Model_TextS
                             {
                                 String currentFlag=task.getResult().getString("currentflag");
 
-                                objectAddNotifications.generateNotification(userEmail,"liked","text status",
+                                objectAddNotifications.generateNotification(userEmail,"liked","Text status",
                                         model_textStatus.getUseremail());
                                 if(currentFlag.equals("haha"))
                                 {
@@ -632,7 +634,7 @@ public class TextStatusAdapterClass extends FirestoreRecyclerAdapter<Model_TextS
                                 getSnapshots().getSnapshot(textStatusViewHolder.getAdapterPosition())
                                         .getReference().update("noofhaha",totalHaha);
                                 objectDocumentReferecnce.update("currentflag","haha");
-                                objectAddNotifications.generateNotification(userEmail,"liked","text status",
+                                objectAddNotifications.generateNotification(userEmail,"liked","Text status",
                                         model_textStatus.getUseremail());
                             }
 
@@ -675,7 +677,7 @@ public class TextStatusAdapterClass extends FirestoreRecyclerAdapter<Model_TextS
                             if(task.getResult().exists())
                             {
                                 String currentFlag=task.getResult().getString("currentflag");
-                                objectAddNotifications.generateNotification(userEmail,"liked","text status",
+                                objectAddNotifications.generateNotification(userEmail,"liked","Text status",
                                         model_textStatus.getUseremail());
                                 if(currentFlag.equals("sad"))
                                 {
@@ -727,7 +729,7 @@ public class TextStatusAdapterClass extends FirestoreRecyclerAdapter<Model_TextS
                                 getSnapshots().getSnapshot(textStatusViewHolder.getAdapterPosition())
                                         .getReference().update("nofsad",totalSad);
                                 objectDocumentReferecnce.update("currentflag","sad");
-                                objectAddNotifications.generateNotification(userEmail,"liked","text status",
+                                objectAddNotifications.generateNotification(userEmail,"liked","Text status",
                                         model_textStatus.getUseremail());
                             }
 

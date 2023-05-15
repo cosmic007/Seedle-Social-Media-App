@@ -275,7 +275,7 @@ public class ImageStatusAdapterClass extends FirestoreRecyclerAdapter<Model_Imag
 
                                     }
                                     else {
-                                        objectAddNotifications.generateNotification(userEmail,"liked","image status",
+                                        objectAddNotifications.generateNotification(userEmail,"liked","Image status",
                                                 model_imageStatus.getUseremail());
                                         Map<String,Object> objectMap=new HashMap<>();
                                         objectMap.put("currentflag","love");
@@ -292,7 +292,7 @@ public class ImageStatusAdapterClass extends FirestoreRecyclerAdapter<Model_Imag
 
                                 }
                                 else {
-                                    objectAddNotifications.generateNotification(userEmail,"liked","image status",
+                                    objectAddNotifications.generateNotification(userEmail,"liked","Image status",
                                             model_imageStatus.getUseremail());
                                     Map<String,Object> objectMap=new HashMap<>();
                                     objectMap.put("currentflag","love");
@@ -465,7 +465,7 @@ public class ImageStatusAdapterClass extends FirestoreRecyclerAdapter<Model_Imag
                                                             public void onSuccess(Void unused) {
 
                                                                 Toast.makeText(imageStatusViewHolderClass.favoriteIV.getContext(), "Added to favorites", Toast.LENGTH_SHORT).show();
-                                                                objectAddNotifications.generateNotification(userEmail,"Added","image status",
+                                                                objectAddNotifications.generateNotification(userEmail,"Added","Image status",
                                                                         model_imageStatus.getUseremail());
 
 
@@ -531,7 +531,7 @@ public class ImageStatusAdapterClass extends FirestoreRecyclerAdapter<Model_Imag
                                                         public void onSuccess(Void unused) {
 
                                                             Toast.makeText(imageStatusViewHolderClass.favoriteIV.getContext(), "Added to favorites", Toast.LENGTH_SHORT).show();
-                                                            objectAddNotifications.generateNotification(userEmail,"Added","image status",
+                                                            objectAddNotifications.generateNotification(userEmail,"Added","Image status",
                                                                     model_imageStatus.getUseremail());
 
 

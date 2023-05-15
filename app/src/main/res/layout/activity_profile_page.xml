@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/profilebg"
+        android:id="@+id/ppcontainer"
+        />
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        app:itemIconSize="25dp"
+        android:background="@color/black"
+        app:itemIconTint="@drawable/selectorbtmprofile"
+        android:id="@+id/profilePage_bottomNV"
+        app:itemBackground="@color/black"
+        android:elevation="0dp"
+        app:labelVisibilityMode="unlabeled"
+        android:layout_alignParentBottom="true"
+        app:menu="@menu/profile_bnv_menu"
+        />
+
+
+
+
+</RelativeLayout>

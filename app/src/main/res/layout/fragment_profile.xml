@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black"
+    tools:context=".Fragments.ProfileFragment">
+
+    <!-- Cover Photo -->
+    <ImageView
+        android:id="@+id/cover_photo"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:scaleType="centerCrop"
+        android:src="@color/yellow" />
+
+    <!-- Profile Picture -->
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/profile_image"
+        android:layout_alignParentTop="true"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:src="@drawable/icon_profilepic"
+        android:layout_marginTop="30dp"
+
+        android:layout_marginStart="16dp"
+        android:elevation="8dp" />
+
+    <!-- Profile Name -->
+    <TextView
+        android:id="@+id/profile_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="John Doe"
+        android:textColor="#FFFFFF"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:layout_below="@id/profile_image"
+        android:layout_marginTop="40dp"
+        android:layout_marginStart="16dp" />
+
+    <!-- Profile Bio -->
+    <TextView
+        android:id="@+id/mailid"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Software Developer"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp"
+        android:layout_below="@id/profile_name"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="16dp" />
+
+    <!-- Profile Stats -->
+    <LinearLayout
+        android:id="@+id/profile_stats"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@id/mailid"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp">
+
+        <!-- Image Status Count -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/imageStatusCount"
+                android:text="350"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Image Status"
+                android:textColor="#FFFFFF"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <!-- Text Status Count -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:background="wh"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:id="@+id/textStatusCount"
+                android:layout_height="wrap_content"
+                android:text="150"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Text Status"
+                android:textColor="#FFFFFF"
+                android:textSize="12sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- User Details -->
+    <TextView
+        android:id="@+id/gender"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Gender"
+        android:textColor="#FFFFFF"
+        android:textSize="14sp"
+        android:layout_below="@id/profile_stats"
+        android:layout_marginTop="25dp"
+        android:layout_marginStart="16dp" />
+
+    <!-- Profile Description -->
+    <TextView
+        android:id="@+id/location"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="UserCity"
+        android:textColor="#FFFFFF"
+        android:textSize="14sp"
+        android:layout_below="@id/gender"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp" />
+
+    <!-- Email -->
+    <TextView
+        android:id="@+id/country"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="India"
+        android:textColor="#FFFFFF"
+        android:textSize="15sp"
+        android:layout_below="@id/location"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="16dp" />
+
+
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@drawable/icon_backbtn"
+        android:id="@+id/goback"
+        android:tint="@color/white"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="5dp"
+        />
+
+</RelativeLayout>
+
+
+
+
+
+
