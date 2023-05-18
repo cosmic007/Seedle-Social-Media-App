@@ -15,12 +15,6 @@
         android:icon="@drawable/icon_notifications"
         android:checked="true"
         />
-    <item
-        android:id="@+id/item_settings"
-        android:title="Settings"
-        android:icon="@drawable/icon_settings"
-        android:checked="true"
-        />
 
 
 
@@ -28,12 +22,6 @@
         android:id="@+id/item_favorites"
         android:title="Favorites"
         android:icon="@drawable/icon_fav_thoughts"
-        android:checked="true"
-        />
-    <item
-        android:id="@+id/item_textstatus"
-        android:title="Timeline"
-        android:icon="@drawable/icon_text_thoughts"
         android:checked="true"
         />
 

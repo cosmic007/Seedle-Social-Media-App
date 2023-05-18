@@ -353,15 +353,9 @@ public class MainContentPage extends AppCompatActivity implements NavigationView
                 case R.id.item_notifications:
                     startActivity(new Intent(MainContentPage.this,AllNotifications.class));
                     return true;
-                case R.id.item_settings:
-                    Toast.makeText(this,"Settings is Clicked",Toast.LENGTH_SHORT).show();
-                    return true;
                 case R.id.item_favorites:
                     Intent intent = new Intent(MainContentPage.this, Favorites.class);
                     startActivity(intent);
-                    return true;
-                case R.id.item_textstatus:
-                    Toast.makeText(this,"TextStatus is Clicked",Toast.LENGTH_SHORT).show();
                     return true;
                 case  R.id.item_signout:
                     signOutUser();

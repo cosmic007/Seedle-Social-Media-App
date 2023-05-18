@@ -66,6 +66,9 @@ public class RegisterActivity extends AppCompatActivity {
     private CircleImageView profilepic;
 
     private Admin admin = new Admin();
+
+    public String IMAGEName;
+
     private EditText userName,userEmail,userPassword,userConfirmPassword,mobile;
 
     private TextView userDob;
@@ -139,7 +142,6 @@ public class RegisterActivity extends AppCompatActivity {
                     && !userName.getText().toString().equals(admin2)
                     && !userName.getText().toString().equals(admin3)
                     && !userEmail.getText().toString().isEmpty()
-                    && profileimageURL!=null
                     && !userPassword.getText().toString().isEmpty()) {
                 if (userPassword.getText().toString().equals(userConfirmPassword.getText().toString()))
                 {
@@ -272,7 +274,89 @@ public class RegisterActivity extends AppCompatActivity {
             }
             else
             {
-                Toast.makeText(this,"Please Choose a Profile Image",Toast.LENGTH_SHORT).show();
+                Uri defaultProfileUri = Uri.parse("android.resource://" + getPackageName() + "/" + R.drawable.defaultprofilepic);
+
+                IMAGEName=userName.getText().toString()+"."+getExtension(defaultProfileUri);
+                final StorageReference imageRef=objectStorageReference.child(IMAGEName);
+
+
+
+
+                Toast.makeText(this,"Uploading user profile picture",Toast.LENGTH_SHORT).show();
+                UploadTask objectUploadTask = imageRef.putFile(defaultProfileUri);
+                objectUploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+                    @Override
+                    public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                        if (!task.isSuccessful())
+                        {
+                            objectDialog.dismiss();
+                            Toast.makeText(RegisterActivity.this,task.getException().toString(),Toast.LENGTH_SHORT).show();
+                            throw task.getException();
+                        }
+
+                        return imageRef.getDownloadUrl();
+                    }
+                }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+
+
+                    @Override
+                    public void onComplete(@NonNull Task<Uri> task) {
+                        if(task.isSuccessful())
+                        {
+
+                            Uri downloaduri = task.getResult();
+                            String profileurl= downloaduri.toString();
+
+
+                            Toast.makeText(RegisterActivity.this,"Uploading User Information",Toast.LENGTH_SHORT).show();
+                            Map<String,Object> objectMap=new HashMap<>();
+                            objectMap.put("profileimageurl",profileurl);
+                            objectMap.put("username",userName.getText().toString());
+                            objectMap.put("useremail",userEmail.getText().toString());
+                            objectMap.put("mobile",mobile.getText().toString());
+                            objectMap.put("dob",userDob.getText().toString());
+                            objectMap.put("userpassword",finalpassword);
+                            radioID=objectRadioGroup.getCheckedRadioButtonId();
+                            objectRadioButton=findViewById(radioID);
+                            objectMap.put("noofemotions",0);
+                            objectMap.put("gender",objectRadioButton.getText().toString());
+                            objectMap.put("noofimagestatus",0);
+                            objectMap.put("noftextstatus",0);
+                            objectMap.put("usercity","NA");
+                            objectMap.put("usercountry","NA");
+                            objectMap.put("userbio","NA");
+
+                            objectFirebaseFirestore.collection("UserProfileData")
+                                    .document(userEmail.getText().toString())
+                                    .set(objectMap)
+                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            objectDialog.dismiss();
+                                            Toast.makeText(RegisterActivity.this,"User is registered",Toast.LENGTH_SHORT).show();
+                                            if(objectFirebaseAuth.getCurrentUser()!=null)
+                                            {
+                                                objectFirebaseAuth.signOut();
+                                            }
+                                            startActivity(new Intent(RegisterActivity.this,LoginPage.class));
+                                        }
+                                    }).addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            objectDialog.dismiss();
+                                            Toast.makeText(RegisterActivity.this,"Failed to create user and upload data:"+e.getMessage(),Toast.LENGTH_SHORT).show();
+
+                                        }
+                                    });
+
+                        }
+                        else if(!task.isSuccessful())
+                        {
+                            Toast.makeText(RegisterActivity.this,"Error:"+task.getException().toString(),Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+
             }
         }
         catch(Exception e)

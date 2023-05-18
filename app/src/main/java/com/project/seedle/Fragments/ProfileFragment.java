@@ -4,6 +4,10 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.activity.OnBackPressedCallback;
+import androidx.activity.OnBackPressedDispatcher;
+import androidx.activity.OnBackPressedDispatcherOwner;
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -14,11 +18,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.project.seedle.Activities.MainContentPage;
 import com.project.seedle.R;
+
+import java.util.Objects;
 
 
 public class ProfileFragment extends Fragment {
@@ -32,7 +42,9 @@ public class ProfileFragment extends Fragment {
 
     private View parent;
 
-    Dialog objectDialogWait;
+    private Dialog objectDialogWait;
+
+    private String currentLoggedInUser;
 
     private FirebaseFirestore objectFirebaseFirestore;
 
@@ -44,7 +56,7 @@ public class ProfileFragment extends Fragment {
 
     private ImageView gobackBtn,profileimage,backgroundpic;
 
-    private TextView username,useremail,TextStatuscount,imageStatusCount,gender,usercity,usercountry;
+    private TextView username,useremail,TextStatuscount,imageStatusCount,gender,usercity,usercountry,bio;
     private Button bioBtn;
 
 
@@ -60,6 +72,7 @@ public class ProfileFragment extends Fragment {
         objectDialogWait.setContentView(R.layout.please_wait_dialogue);
 
         initializeobjects();
+        loadUserData();
         return parent;
     }
 
@@ -69,7 +82,53 @@ public class ProfileFragment extends Fragment {
         try {
             if(objectFirebaseAuth!=null)
             {
-                obj
+                objectDialogWait.show();
+                currentLoggedInUser = Objects.requireNonNull(objectFirebaseAuth.getCurrentUser()).getEmail();
+
+                objectDocumentReference = objectFirebaseFirestore.collection("UserProfileData").document(currentLoggedInUser);
+                objectDocumentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+
+                        try {
+                            String linkofprofileurl = documentSnapshot.getString("profileimageurl");
+                            Glide.with(getContext()).load(linkofprofileurl).into(profileimage);
+                            String Username = documentSnapshot.getString("username");
+                            username.setText(Username);
+                            useremail.setText(currentLoggedInUser);
+                            long ntextstatus = documentSnapshot.getLong("noftextstatus");
+                            long nimagestatus = documentSnapshot.getLong("noofimagestatus");
+
+                            TextStatuscount.setText(String.valueOf(ntextstatus));
+                            imageStatusCount.setText(String.valueOf(nimagestatus));
+
+                            gender.setText(documentSnapshot.getString("gender"));
+                            usercity.setText(documentSnapshot.getString("usercity"));
+                            usercountry.setText(documentSnapshot.getString("usercountry"));
+                            bio.setText(documentSnapshot.getString("userbio"));
+                            objectDialogWait.dismiss();
+
+                        }
+                        catch (Exception e)
+                        {
+                            Toast.makeText(getContext(), "Failed to load profile info", Toast.LENGTH_SHORT).show();
+
+                        }
+
+
+
+
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+
+                        Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+
+                    }
+                });
+
 
             }
             else {
@@ -91,7 +150,8 @@ public class ProfileFragment extends Fragment {
             objectFirebaseAuth = FirebaseAuth.getInstance();
             objectFirebaseFirestore = FirebaseFirestore.getInstance();
             profileimage = parent.findViewById(R.id.profile_image);
-            backgroundpic = parent.findViewById(R.id.cover_photo);
+
+            bio = parent.findViewById(R.id.bio);
 
             username =parent.findViewById(R.id.profile_name);
             useremail = parent.findViewById(R.id.mailid);
@@ -105,9 +165,12 @@ public class ProfileFragment extends Fragment {
             gobackBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    startActivity(new Intent(getContext(), MainContentPage.class));
+                    requireActivity().finish();
                 }
             });
+
+
+
 
 
         }
@@ -116,5 +179,7 @@ public class ProfileFragment extends Fragment {
             Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
 
         }
+
+
     }
 }

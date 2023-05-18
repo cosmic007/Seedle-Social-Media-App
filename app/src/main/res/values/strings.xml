@@ -4,7 +4,7 @@
     <string name="getstarted">Get Started</string>
     <string name="email_hint">  Email</string>
     <string name="password_hint">  Password  (min 6 characters)</string>
-    <string name="Login_String">Sign In</string>
+    <string name="Login_String">Log In</string>
     <string name="no_account">Do not have an account?</string>
     <string name="Register">Sign Up</string>
     <string name="text_thoughts">Thoughts</string>

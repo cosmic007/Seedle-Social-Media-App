@@ -9,7 +9,6 @@
     tools:context=".Activities.MainContentPage">
 
 
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -24,7 +23,6 @@
             android:minHeight="?attr/actionBarSize"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
             />
-
 
 
         <TextView
@@ -55,8 +53,6 @@
 
 
 
-
-
         <include layout="@layout/frame_for_fragments"
             android:layout_below="@id/toolBar"
             android:layout_width="match_parent"
@@ -77,9 +73,6 @@
             app:itemIconTint="@drawable/selector_bottombar_item"
             app:labelVisibilityMode="unlabeled"
             app:menu="@menu/bottom_nav_menu" />
-
-
-
 
 
 

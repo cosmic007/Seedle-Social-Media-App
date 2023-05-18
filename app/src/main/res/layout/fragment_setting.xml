@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Fragments.SettingFragment">
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -14,7 +15,7 @@
 
 
             <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/Registerpage_userprofile"
+                android:id="@+id/USERPROFILE"
                 android:layout_width="132dp"
                 android:layout_height="132dp"
                 android:layout_alignParentTop="true"
@@ -22,161 +23,116 @@
                 android:layout_marginTop="40dp"
                 android:padding="2dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/userprofile" />
+                android:src="@drawable/defaultprofilepic" />
+
             <TextView
+                android:id="@+id/selectpic"
                 android:layout_width="200dp"
                 android:layout_height="35dp"
-                android:layout_below="@+id/Registerpage_userprofile"
-                android:text="Select your picture"
+                android:layout_below="@id/USERPROFILE"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="10dp"
-                android:textAlignment="center"
-                />
+                android:textColor="@color/white"
+                android:text="Select your picture"
+                android:textAlignment="center" />
+
             <EditText
-                android:id="@+id/Resgisterpage_username"
+                android:id="@+id/setusername"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/USERPROFILE"
+                android:layout_marginLeft="30dp"
                 android:layout_marginTop="50dp"
-                android:layout_below="@id/Registerpage_userprofile"
-                android:hint="Username"
-                android:textSize="15dp"
-                android:maxLength="35"
-                android:textColor="@color/black"
-                android:drawableTint="@color/black"
-                android:drawablePadding="10dp"
-                android:elevation="10dp"
-                android:paddingStart="8dp"
-                android:layout_marginLeft="30dp"
                 android:layout_marginRight="30dp"
+                android:background="@drawable/edit_bg2"
                 android:drawableLeft="@drawable/user"
-                android:background="@drawable/edit_bg2"
+                android:drawablePadding="10dp"
+                android:drawableTint="@color/black"
+                android:elevation="10dp"
                 android:gravity="center|left"
-                android:padding="10dp"
                 android:hapticFeedbackEnabled="true"
-                android:outlineSpotShadowColor="@color/design_default_color_primary"
+                android:hint="Username"
+                android:maxLength="35"
                 android:outlineAmbientShadowColor="@color/design_default_color_primary"
-                />
+                android:outlineSpotShadowColor="@color/design_default_color_primary"
+                android:padding="10dp"
+                android:paddingStart="8dp"
+                android:textColor="@color/black"
+                android:textSize="15dp" />
 
             <EditText
-                android:id="@+id/Resgisterpage_emailid"
+                android:id="@+id/setbio"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="13dp"
-                android:layout_below="@id/Resgisterpage_username"
-                android:hint="Mail ID"
-                android:inputType="textEmailAddress"
-                android:textSize="15dp"
-                android:background="@drawable/edit_bg2"
-                android:elevation="10dp"
-                android:paddingStart="8dp"
-                android:drawableTint="@color/black"
-                android:maxLength="35"
-                android:textColor="@color/black"
+                android:layout_below="@id/setusername"
                 android:layout_marginLeft="30dp"
+
+                android:layout_marginTop="13dp"
                 android:layout_marginRight="30dp"
-                android:drawableLeft="@drawable/email"
+                android:background="@drawable/edit_bg2"
                 android:drawablePadding="10dp"
-                android:gravity="center|left"
-                android:padding="10dp"
+                android:drawableTint="@color/black"
+                android:elevation="10dp"
+                android:gravity="top|left"
                 android:hapticFeedbackEnabled="true"
-                android:outlineSpotShadowColor="@color/design_default_color_primary"
+                android:hint="Bio"
+                android:minHeight="120dp"
                 android:outlineAmbientShadowColor="@color/design_default_color_primary"
-                />
+                android:outlineSpotShadowColor="@color/design_default_color_primary"
+                android:padding="10dp"
+                android:paddingStart="8dp"
+                android:textColor="@color/black"
+                android:textSize="15dp" />
 
             <EditText
-                android:id="@+id/Resgisterpage_mobile"
+                android:id="@+id/setcity"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="13dp"
-                android:layout_below="@id/Resgisterpage_emailid"
-                android:hint="Phone No"
-                android:inputType="phone"
-                android:textSize="15dp"
-                android:background="@drawable/edit_bg2"
-                android:elevation="10dp"
-                android:paddingStart="8dp"
-                android:drawableTint="@color/black"
-                android:maxLength="35"
-                android:textColor="@color/black"
+                android:layout_below="@id/setbio"
                 android:layout_marginLeft="30dp"
+                android:layout_marginTop="13dp"
                 android:layout_marginRight="30dp"
-                android:drawableLeft="@drawable/icon_phone"
+                android:background="@drawable/edit_bg2"
                 android:drawablePadding="10dp"
+                android:drawableTint="@color/black"
+                android:elevation="10dp"
                 android:gravity="center|left"
-                android:padding="10dp"
                 android:hapticFeedbackEnabled="true"
-                android:outlineSpotShadowColor="@color/design_default_color_primary"
+                android:hint="City"
+                android:maxLength="35"
+
                 android:outlineAmbientShadowColor="@color/design_default_color_primary"
-                />
-
-            <TextView
-                android:id="@+id/Resgisterpage_dob"
-                android:layout_width="match_parent"
-                android:textSize="15dp"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/Resgisterpage_mobile"
-                android:layout_marginLeft="30dp"
-                android:layout_marginTop="13dp"
-                android:layout_marginRight="30dp"
-                android:drawableLeft="@drawable/dob"
-                android:background="@drawable/edit_bg2"
-                android:elevation="10dp"
-                android:drawablePadding="10dp"
-                android:hint="Date of Birth"
+                android:outlineSpotShadowColor="@color/design_default_color_primary"
+                android:padding="10dp"
                 android:paddingStart="8dp"
-                android:gravity="center|left"
-                android:drawableTint="@color/black"
                 android:textColor="@color/black"
-                android:padding="10dp" />
+                android:textSize="15dp" />
 
 
-            <RadioGroup
-                android:layout_width="wrap_content"
+            <EditText
+                android:id="@+id/setcountry"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/RegisterPage_Radiogroup"
-                android:orientation="horizontal"
-                android:layout_below="@id/Resgisterpage_dob"
-                android:layout_marginTop="30dp"
-                android:layout_centerInParent="true">
-
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/male_radio"
-                    android:text="Male"
-                    android:textColor="@color/black"
-                    android:buttonTint="@color/black"
-                    android:checked="true"
-                    android:paddingLeft="2dp"
-                    />
-
-                <RadioButton
-                    android:id="@+id/female_radio"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:buttonTint="@color/black"
-                    android:checked="true"
-                    android:layout_marginLeft="15dp"
-                    android:paddingLeft="2dp"
-                    android:text="Female"
-                    android:textColor="@color/black" />
-                <RadioButton
-                    android:id="@+id/others_radio"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:buttonTint="@color/black"
-                    android:checked="true"
-                    android:layout_marginLeft="15dp"
-                    android:paddingLeft="2dp"
-                    android:text="Others"
-                    android:textColor="@color/black" />
-            </RadioGroup>
+                android:layout_below="@id/setcity"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginRight="30dp"
+                android:background="@drawable/edit_bg2"
+                android:drawablePadding="10dp"
+                android:drawableTint="@color/black"
+                android:elevation="10dp"
+                android:gravity="center|left"
+                android:hint="Country"
+                android:padding="10dp"
+                android:paddingStart="8dp"
+                android:textColor="@color/black"
+                android:textSize="15dp" />
 
             <Button
                 android:id="@+id/Savebtn"
                 android:layout_width="168dp"
                 android:layout_height="50dp"
-                android:layout_below="@id/RegisterPage_Radiogroup"
+                android:layout_below="@id/setcountry"
                 android:layout_centerInParent="true"
                 android:layout_marginTop="15dp"
                 android:background="@drawable/round_btnbg"
@@ -187,8 +143,6 @@
         </RelativeLayout>
 
     </ScrollView>
-
-
 
 
 </RelativeLayout>

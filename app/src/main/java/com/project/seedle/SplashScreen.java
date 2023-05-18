@@ -21,7 +21,7 @@ public class SplashScreen extends AppCompatActivity {
 
     private TextView Tag;
 
-    private static final int SPLASH_TIMEOUT = 5000;
+    private static final int SPLASH_TIMEOUT = 3000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

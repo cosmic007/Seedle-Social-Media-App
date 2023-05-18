@@ -62,8 +62,8 @@
             android:minHeight="50dp"
             android:paddingLeft="60dp"
             android:paddingRight="15dp"
-            android:textColor="@color/black"
-            android:textColorHint="@color/black"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white"
             android:textSize="15sp" />
 
         <TextView
@@ -100,6 +100,7 @@
             android:id="@+id/Frag_addImageThoughtBtn"
             android:layout_width="40dp"
             android:layout_height="40dp"
+            android:tint="@color/white"
             android:layout_below="@id/Frag_addImageThoughtIV"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
